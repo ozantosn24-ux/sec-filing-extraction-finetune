@@ -41,6 +41,9 @@ def main() -> int:
     ap.add_argument("-o", "--out", type=Path)
     ap.add_argument("--limit", type=int, help="yalniz ilk N kayit (smoke test)")
     ap.add_argument("--max-new-tokens", type=int, default=MAX_NEW_TOKENS)
+    ap.add_argument("--4bit", dest="four_bit", action="store_true",
+                    help="taban modeli NF4 4-bit yukle. 7B sinifi 'prompted buyuk model' "
+                         "yarismacisini 16 GB'lik T4'te kosturmak icin gerekir.")
     args = ap.parse_args()
 
     import torch
@@ -58,14 +61,20 @@ def main() -> int:
     if cuda:
         dtype = torch.bfloat16 if torch.cuda.get_device_capability()[0] >= 8 else torch.float16
 
+    # Egitimle AYNI yapilandirma — compute_dtype'in hassasiyet secimiyle
+    # ayrismasi yalnizca T4'te ortaya cikardi.
+    from train_lora import quant_config
+    quant = quant_config(args.four_bit, dtype)
+
     tok = AutoTokenizer.from_pretrained(args.model)
     model = AutoModelForCausalLM.from_pretrained(args.model, dtype=dtype,
+                                                 quantization_config=quant,
                                                  device_map="auto" if cuda else None)
-    etiket = args.model
+    etiket = args.model + ("[4bit]" if args.four_bit else "")
     if args.adapter:
         from peft import PeftModel
         model = PeftModel.from_pretrained(model, str(args.adapter))
-        etiket = f"{args.model}+{args.adapter.name}"
+        etiket = f"{etiket}+{args.adapter.name}"
     model.eval()
     print(f"model: {etiket}  | dtype {dtype} | {'cuda' if cuda else 'cpu'} | {len(rows)} kayit")
 

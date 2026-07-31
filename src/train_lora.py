@@ -52,6 +52,68 @@ TOKEN_REPORT = PROCESSED / "token_report.json"
 # borunun ucundan suyun gectigini gormek.
 SMOKE_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
 
+# CPU'da egitilmesine izin verilen ust sinir. Bunun uzeri yavas degil, PRATIKTE
+# IMKANSIZ — ve makineyi saatlerce kullanilamaz hale getirir.
+CPU_PARAM_LIMIT = 500_000_000
+
+
+def parametre_sayisi(model_id: str) -> int | None:
+    """Agirliklari INDIRMEDEN parametre sayisi. Bilemezse None."""
+    try:
+        from huggingface_hub import get_safetensors_metadata
+        return sum(get_safetensors_metadata(model_id).parameter_count.values())
+    except Exception:
+        return None
+
+
+def cpu_korumasi(model_id: str, force: bool, smoke: bool) -> None:
+    """CUDA yokken buyuk model egitimini ENGELLE.
+
+    Neden koruma: bu depoda torch CPU-only kurulu ve makine 16 GB. 1,5B model
+    fp32'de tek basina ~6 GB agirlik; uzerine aktivasyon ve optimizer binince
+    Windows takasa girer ve bilgisayar saatlerce kullanilamaz. Isletim sistemi
+    cokmez, sadece is yapilamaz — ve bu, fark edilmesi en gec olan ariza turu.
+
+    Hiz tarafi (olculdu 2026-07-31): 135M model, batch 1, ~2.300 token dizi,
+    bu CPU'da (i5-9400) **32 sn/adim**. 1,5B kabaca 11 kat buyuk. Yani gercek
+    kosu saat degil GUN mertebesine cikar.
+
+    ⇒ Dogru yer kiralik ya da ucretsiz bir GPU (Colab T4 dahil). Bkz. COLAB.md.
+    """
+    import torch
+
+    if torch.cuda.is_available() or smoke:
+        return
+
+    n = parametre_sayisi(model_id)
+    if force:
+        print(f"⚠️ --force-cpu: CUDA yok, yine de devam ediliyor"
+              f"{f' ({n/1e9:.1f}B parametre)' if n else ''}. Makine yavaslar.")
+        return
+
+    try:
+        import psutil
+        bos = f"{psutil.virtual_memory().available / 2**30:.1f} GB bos RAM"
+    except Exception:
+        bos = "RAM olculemedi"
+
+    if n is None:
+        raise SystemExit(
+            f"CUDA yok ve '{model_id}' boyutu DOGRULANAMADI (ag yok?).\n"
+            f"CPU'da egitim bu depoda pratikte imkansiz. Colab/GPU kullanin "
+            f"(COLAB.md) ya da bilerek --force-cpu verin."
+        )
+    if n > CPU_PARAM_LIMIT:
+        raise SystemExit(
+            f"DURDURULDU: CUDA yok ve model {n/1e9:.2f}B parametre "
+            f"(CPU siniri {CPU_PARAM_LIMIT/1e9:.1f}B).\n"
+            f"  fp32 agirlik tek basina ~{n*4/2**30:.1f} GB; su an {bos}.\n"
+            f"  Olculen hiz: 135M modelde 32 sn/adim -> bu boyutta gun mertebesi.\n"
+            f"  Makine takasa girer ve saatlerce kullanilamaz hale gelir.\n"
+            f"⇒ Ucretsiz yol: Colab T4. Adim adim: COLAB.md\n"
+            f"⇒ Yine de israr ediyorsaniz: --force-cpu"
+        )
+
 
 def olculen_max_length() -> int | None:
     """measure_tokens.py'nin raporundaki kesmesiz taban."""
@@ -80,6 +142,22 @@ def hassasiyet_sec(istek: str) -> tuple[bool, bool, str]:
         return True, False, f"{ad} CC {major}.{minor} — bf16"
     return (True, False, f"{ad} CC {major}.{minor} (Ampere+) — bf16") if ampere else \
            (False, True, f"{ad} CC {major}.{minor} (Turing) — bf16 YOK, fp16'ya dusuldu")
+
+
+def quant_config(four_bit: bool, dtype):
+    """NF4 4-bit yapilandirmasi. `predict.py` de BURADAN alir.
+
+    Paylasilmasinin sebebi `compute_dtype`: hassasiyet secimiyle AYNI kalmali.
+    Iki yerde ayri yazilsaydi biri bf16'da kalir ve T4'te (Turing, bf16 YOK)
+    yalnizca Colab'de patlardi — yani hatanin en pahali yerde ortaya ciktigi
+    durum. Burada test edilebiliyor, orada edilemiyor.
+    """
+    if not four_bit:
+        return None
+    from transformers import BitsAndBytesConfig
+    return BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                              bnb_4bit_compute_dtype=dtype,
+                              bnb_4bit_use_double_quant=True)
 
 
 def veri_yukle(split: str, n: int | None = None):
@@ -113,6 +191,8 @@ def main() -> int:
                     help="QLoRA: taban modeli NF4 4-bit yukle (dar VRAM icin)")
     ap.add_argument("--smoke", action="store_true",
                     help="kucuk model + 2 adim: ogrenme degil, BORU HATTI dogrulamasi")
+    ap.add_argument("--force-cpu", action="store_true",
+                    help="CUDA yokken buyuk model egitimini ZORLA (makine kullanilamaz hale gelir)")
     args = ap.parse_args()
 
     import torch
@@ -120,6 +200,7 @@ def main() -> int:
     from trl import SFTConfig, SFTTrainer
 
     model_id = SMOKE_MODEL if args.smoke else args.model
+    cpu_korumasi(model_id, args.force_cpu, args.smoke)
     olculen = olculen_max_length()
 
     # 🔴 Kesme sessiz bir veri kaybidir: once DURDUR, sonra egit.
@@ -140,12 +221,7 @@ def main() -> int:
     train = veri_yukle("train", n=4 if args.smoke else None)
     print(f"egitim ornegi: {len(train)}")
 
-    quant = None
-    if args.four_bit:
-        from transformers import BitsAndBytesConfig
-        quant = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
-                                   bnb_4bit_compute_dtype=dtype,
-                                   bnb_4bit_use_double_quant=True)
+    quant = quant_config(args.four_bit, dtype)
 
     cfg = SFTConfig(
         output_dir=str(args.out),

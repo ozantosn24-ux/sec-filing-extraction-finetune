@@ -83,6 +83,57 @@ def test_CUDA_yoksa_ikisi_de_KAPALI(gpu):
     assert train_lora.hassasiyet_sec("auto") == (False, False, "CUDA yok — fp32/CPU")
 
 
+# --- CPU korumasi: makineyi kullanilamaz hale getiren kosu -------------------
+
+
+def test_CPU_buyuk_model_DURDURULUR(gpu, monkeypatch):
+    """CUDA yok + 1,5B model = fp32'de ~6 GB agirlik, 16 GB makinede takas.
+    Olculdu: 135M bu CPU'da 32 sn/adim; 1,5B gun mertebesi. Kosmamali."""
+    gpu(None)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 1_543_714_304)
+    with pytest.raises(SystemExit) as exc:
+        train_lora.cpu_korumasi("Qwen/Qwen2.5-1.5B-Instruct", force=False, smoke=False)
+    assert "DURDURULDU" in str(exc.value)
+    assert "COLAB.md" in str(exc.value)  # ne yapacagini soylemeden durdurma
+
+
+def test_CPU_kucuk_model_GECER(gpu, monkeypatch):
+    """Sinirin altindaki model CPU'da kosabilmeli; koruma her seyi engellemez."""
+    gpu(None)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 135_000_000)
+    train_lora.cpu_korumasi("kucuk", force=False, smoke=False)  # exception YOK
+
+
+def test_smoke_korumadan_MUAF(gpu, monkeypatch):
+    """--smoke bilerek CPU'da kosar; boru hattini pod acmadan once kanitlar."""
+    gpu(None)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 7_000_000_000)
+    train_lora.cpu_korumasi("dev-model", force=False, smoke=True)
+
+
+def test_force_cpu_gecer_ama_UYARIR(gpu, monkeypatch, capsys):
+    gpu(None)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 1_543_714_304)
+    train_lora.cpu_korumasi("buyuk", force=True, smoke=False)
+    assert "yavaslar" in capsys.readouterr().out
+
+
+def test_GPU_varsa_koruma_KARISMAZ(gpu, monkeypatch):
+    gpu((7, 5), "Tesla T4")
+    monkeypatch.setattr(train_lora, "parametre_sayisi",
+                        lambda m: pytest.fail("GPU varken boyut sorulmamali"))
+    train_lora.cpu_korumasi("Qwen/Qwen2.5-1.5B-Instruct", force=False, smoke=False)
+
+
+def test_boyut_DOGRULANAMAZSA_durur(gpu, monkeypatch):
+    """Ag yoksa "bilmiyorum" sessizce "devam et"e cevrilmemeli."""
+    gpu(None)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: None)
+    with pytest.raises(SystemExit) as exc:
+        train_lora.cpu_korumasi("bilinmeyen", force=False, smoke=False)
+    assert "DOGRULANAMADI" in str(exc.value)
+
+
 # --- dizi uzunlugu: sessiz veri kaybi ----------------------------------------
 
 
@@ -120,3 +171,28 @@ def test_veri_sohbet_bicimli_prompt_completion():
     assert ornek["completion"][0]["role"] == "assistant"
     # Hedef gercekten JSON, serbest metin degil
     assert json.loads(ornek["completion"][0]["content"])
+
+
+# --- 4-bit: yalniz Colab'de kosar, ama BURADA test edilebilir ----------------
+
+
+def test_4bit_kapaliyken_None():
+    assert train_lora.quant_config(False, None) is None
+
+
+def test_4bit_NF4_ve_cift_kuantizasyon():
+    import torch
+
+    c = train_lora.quant_config(True, torch.float16)
+    assert c.load_in_4bit is True
+    assert c.bnb_4bit_quant_type == "nf4"
+    assert c.bnb_4bit_use_double_quant is True
+
+
+def test_4bit_compute_dtype_HASSASIYETI_izler():
+    """T4'te fp16 secilip compute_dtype bf16 kalsaydi hata YALNIZ Colab'de
+    ortaya cikardi. Egitim ve uretim ayni fonksiyondan aliyor."""
+    import torch
+
+    assert train_lora.quant_config(True, torch.float16).bnb_4bit_compute_dtype == torch.float16
+    assert train_lora.quant_config(True, torch.bfloat16).bnb_4bit_compute_dtype == torch.bfloat16

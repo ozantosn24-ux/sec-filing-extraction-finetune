@@ -173,6 +173,16 @@ written from recall, and two of them fail *silently*:
 
 Versions are pinned in `requirements-train.txt` for exactly this reason.
 
+### Running it locally is blocked, on purpose
+
+`torch` here is a CPU-only build and the machine has 16 GB. A 1.5B model is ~6 GB of fp32
+weights before a single activation, and the measured CPU rate is **32 s/step for a 135M
+model** — an order of magnitude larger puts the real run in the day range while the machine
+swaps and becomes unusable. So `train_lora.py` checks the parameter count (read from the
+Hub's safetensors metadata, no weights downloaded) and **refuses to train anything over
+0.5B without CUDA** unless `--force-cpu` is passed. It names the free alternative rather
+than just failing: see `COLAB.md`.
+
 ### The CPU smoke test earns its keep
 
 ```
@@ -202,7 +212,7 @@ truncated example looks like a model failure in the metrics; it never saw the te
 ## Tests
 
 ```
-pytest -q     # 74 tests
+pytest -q     # 83 tests
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -258,8 +268,9 @@ src/extract_rules.py    rule-based contestant, developed on train only
 src/evaluate.py         the measurement harness — written before any model ran
 src/train_lora.py       LoRA SFT — API verified against current docs, CPU smoke-tested
 src/predict.py          generation -> raw model output for the harness
+COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
-tests/                  74 tests over real filing excerpts
+tests/                  83 tests over real filing excerpts
 data/exclusions.json    tracked exclusion list with reasons
 data/company_keys_extra.json  tracked company keys for 3 records absent from the manifest
 ```
