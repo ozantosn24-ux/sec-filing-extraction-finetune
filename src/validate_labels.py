@@ -16,10 +16,15 @@ SPAN_DIR = ROOT / "data" / "interim" / "spans"
 FLAG_FILE = ROOT / "data" / "interim" / "label_flags.json"
 
 FIELDS = [
-    "issuer_name", "series", "coupon_rate_pct", "liquidation_preference_usd",
-    "par_value_usd", "cumulative", "redeemable", "convertible", "perpetual",
-    "shares_offered", "dividend_frequency", "is_preliminary",
+    "issuer_name", "series", "coupon_rate_pct", "offered_unit", "depositary_ratio",
+    "liquidation_preference_usd", "par_value_usd", "cumulative", "redeemable",
+    "convertible", "perpetual", "shares_offered", "dividend_frequency", "is_preliminary",
 ]
+
+# Gercek imtiyazli ihraclarin buyuklugu bu araliktadir. Disina cikan carpim
+# neredeyse her zaman BIRIM KARISIKLIGIdir (depositary hisse x alttaki tercih).
+MIN_OFFERING_USD = 10_000_000
+MAX_OFFERING_USD = 5_000_000_000
 
 
 def load() -> list[tuple[str, str, dict]]:
@@ -74,6 +79,21 @@ def main() -> int:
                   if d.get("liquidation_preference_usd") is not None)
     print(f"  liquidation_preference dagilimi : "
           f"{', '.join(f'{v}={n}' for v, n in sorted(liq.items())[:8])}")
+
+    # 3b) BIRIM ESLESTIRMESI — en pahali hata. shares x liq_pref makul mu?
+    unit_bad = []
+    for _, a, d in rows:
+        sh, lq = d.get("shares_offered"), d.get("liquidation_preference_usd")
+        if sh is None or lq is None:
+            continue
+        total = float(sh) * float(lq)
+        if not (MIN_OFFERING_USD <= total <= MAX_OFFERING_USD):
+            unit_bad.append((a, sh, lq, total))
+    print(f"  BIRIM KARISIKLIGI (shares x liq)  : {len(unit_bad)}  <- carpim makul ihrac disi")
+    for a, sh, lq, total in unit_bad[:5]:
+        print(f"     {a} {sh:,} x {lq:,.0f} = ${total:,.0f}")
+    for a, sh, lq, total in unit_bad:
+        flag(a, f"birim karisikligi: {sh:,} x {lq:,.0f} = ${total:,.0f}")
 
     # 4) issuer_name yok -> pencere sirket adini kacirmis
     no_issuer = [a for _, a, d in rows if not d.get("issuer_name")]

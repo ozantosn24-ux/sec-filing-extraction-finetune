@@ -11,11 +11,13 @@ konumlandırılmış kapak penceresi (~6.000 karakter).
   "issuer_name": "NexPoint Real Estate Finance, Inc.",
   "series": "B",
   "coupon_rate_pct": 9.00,
+  "offered_unit": "share",
+  "depositary_ratio": null,
   "liquidation_preference_usd": 25.00,
   "par_value_usd": 0.01,
   "cumulative": true,
   "redeemable": true,
-  "convertible": false,
+  "convertible": null,
   "perpetual": true,
   "shares_offered": 3482858,
   "dividend_frequency": "quarterly",
@@ -76,6 +78,52 @@ Fiyatlama öncesi belgelerde rakamlar boş bırakılır:
 Bu durumda `is_preliminary: true` ve `coupon_rate_pct: null`, `shares_offered: null`.
 Ama `series`, `cumulative`, `perpetual` gibi **metinde açıkça yazan** alanlar yine doldurulur.
 Bu kayıtlar veri setinin **abstention** dilimidir; doğru cevap `null`'dır.
+
+### 🔴 F) DEPOSITARY YAPI — BİRİM EŞLEŞTİRMESİ (en pahalı hata)
+
+Ölçüldü: ilk etiketleme turunda **24/27 depositary kaydı bozuktu**. Örnek:
+`12.000.000 depositary share × $25.000 = 300 milyar dolar`. AGNC 300 **milyon** topladı.
+Sebep: `shares_offered` depositary hisseden, `liquidation_preference_usd` alttaki
+imtiyazlı hisseden alınmıştı. **Birimler karışınca 1000 kat sapma.**
+
+**Kural: `shares_offered` ve `liquidation_preference_usd` AYNI birime ait olmalı.**
+
+Kapak sayfası neyi satıyorsa o birim esastır:
+
+> `24,000,000 Depositary Shares, each representing a 1/1,000th interest in a share of
+> 7.375% Fixed-Rate Reset Non-Cumulative Preferred Stock, Series K`
+
+- `offered_unit`: `"depositary_share"`
+- `depositary_ratio`: `1000` (bir imtiyazlı hisse = 1000 depositary share)
+- `shares_offered`: `24000000` (depositary hisse adedi)
+- `liquidation_preference_usd`: **`25.00`** (depositary hisse başına) — `25000` DEĞİL
+
+Depositary yapı yoksa: `offered_unit: "share"`, `depositary_ratio: null`.
+
+**Kendi kendini kontrol et:** `shares_offered × liquidation_preference_usd` ihracın
+toplam büyüklüğünü vermeli ve bu **10 milyon – 5 milyar dolar** aralığında olmalı.
+Milyar üstü çıkıyorsa birimleri karıştırmışsındır.
+
+### 🔴 G) BOOL ALANLAR — sessizlikten `false` ÇIKARMA
+
+Ölçüldü: `cumulative` 43 kez `false` etiketlendi çünkü başlıkta açıkça **"Non-Cumulative"**
+yazıyor. `convertible` ise 87 belgenin yalnız **1'inde** açıkça olumsuzlanıyor.
+
+**Kural: bir bool yalnızca metin AÇIKÇA olumsuzluyorsa `false` olur. Sessizlik → `null`.**
+
+- `Non-Cumulative` yazıyor → `cumulative: false` ✅
+- `convertible` kelimesi hiç geçmiyor → `convertible: null` ✅ (`false` DEĞİL)
+
+Sebep: etiket, modele verilen **metinde ne olduğunu** tanımlar, menkul kıymetin gerçeğini
+değil. Sessizlikten `false` üretirsek modele "girdide olmayan şeyi tahmin et" öğretmiş
+oluruz — tam da engellemeye çalıştığımız davranış.
+
+### H) `no par value`
+
+Metin *"no par value"* / *"without par value"* diyorsa `par_value_usd: null`.
+Bu bilinçli karardır: alan bir **dolar tutarı**dır, "par değeri yok" o tutarın
+var olmaması demektir. `0.00` yazma — o, "par değeri sıfır dolar" anlamına gelir ve
+farklı bir iddiadır. (Ölçüm: 8/87 belge, tüm etiketçiler bağımsız olarak `null` seçti.)
 
 ### E) Terimlerin okunuşu
 
