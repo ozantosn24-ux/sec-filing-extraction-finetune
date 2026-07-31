@@ -101,7 +101,7 @@ def main() -> int:
 
     print(f"OKSUZ SPAN: {len(orphans)} tasindi (cikarilmis kayitlarin yeniden uretilmis span'leri)")
     if unexpected:
-        print(f"  ⚠️ BEKLENMEYEN oksuz span: {len(unexpected)} — etiketi YOK ve cikarilmamis, ELLE bak:")
+        print(f"  UYARI: BEKLENMEYEN oksuz span: {len(unexpected)} — etiketi YOK ve cikarilmamis, ELLE bak:")
         for o in unexpected:
             print(f"     {o}")
     print(f"\n'{DROP_FIELD}' alani {kept} etiketten kaldirildi (metadata olarak manifest'te kaliyor)")

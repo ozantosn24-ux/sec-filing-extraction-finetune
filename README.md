@@ -16,7 +16,7 @@ recover them reliably. This repository builds the dataset and the measurement.
 
 | stage | state |
 |---|---|
-| 1. Dataset | **done** — 160 labelled records, 148 clean / 12 flagged |
+| 1. Dataset | **done** — 160 labelled records, 148 clean / 12 flagged; split train 99 / dev 25 / test 36 |
 | 2. LoRA fine-tune (PyTorch) | training set built, script written and **smoke-tested on CPU**; not yet trained (needs a GPU) |
 | 3. Evaluation | harness **written**, rule-based contestant **measured**; two contestants outstanding |
 
@@ -37,16 +37,32 @@ what the fine-tune has to beat.
 | `par_value` ↔ `liquidation_preference` slice | 81.6% |
 | single-instance `unit` generalization | hit |
 
-Rules were developed against **train only** and run against test once. Train scores 40.3%
+Rules were developed against **train only** and run against test once. Train scores 33.3%
 whole-record versus 27.8% on test; that gap is the cost of having tuned on train and is
-reported rather than hidden.
+reported rather than hidden. (The dev slice, also seen during rule development, scores
+68.0% — a reminder that a 25-record slice is a noisy ruler and that absolute numbers
+across splits are not comparable.)
 
 ## Dataset
 
 | split | documents | companies | preliminary (abstention) | par↔liq hard case |
 |---|---|---|---|---|
-| train | 124 | 62 | 47 | 77 |
+| train | 99 | 47 | 37 | 56 |
+| dev | 25 | 15 | 10 | 21 |
 | test | 36 | 22 | 12 | 19 |
+
+**`dev` is carved out of train, company-wise, and exists so that model selection has
+somewhere to happen that is not the test set.** Epoch count, learning rate and which
+checkpoint to keep are all chosen by looking at something; if that something is the
+test set, then "it beat the rule-based baseline" means "it was tuned on the test set".
+The repo already refuses that for the rule-based contestant — rules were developed on
+train and test was run once. The fine-tune gets held to the same standard.
+
+⚠️ **Dev is not a comparison surface.** The rule-based rules were tuned on all 124
+train records back when dev was still part of train, so regex has seen dev: it scores
+**68.0%** whole-record there versus **27.8%** on test. Dev is clean for the *model*
+(which trains on 99 records and never sees it) and is used only to compare fine-tuned
+checkpoints against each other. All three contestants meet on **test**, once.
 
 **Company-wise split, zero company overlap.** Some issuers file repeatedly — Southern
 California Edison appeared 10 times, State Street 9. A random document-level split would
@@ -123,7 +139,7 @@ python src/split.py                                   # company-wise, determinis
 python src/normalize_labels.py                        # fix the label key set (see below)
 python src/clean_dataset.py                           # applies data/exclusions.json, sweeps orphan spans
 python src/validate_labels.py                         # consistency checks
-python src/build_sft.py                               # -> data/processed/sft_{train,test}.jsonl
+python src/build_sft.py                               # -> data/processed/sft_{train,dev,test}.jsonl
 python src/measure_tokens.py                          # seq_len decision, measured not guessed
 python src/extract_rules.py --split test              # rule-based contestant
 python src/evaluate.py data/processed/preds_regex_test.jsonl
@@ -131,10 +147,24 @@ pytest -q
 
 # fine-tune (GPU) — see requirements-train.txt for pinned versions
 python src/train_lora.py --smoke                      # CPU: proves the pipeline first
+python src/train_lora.py --probe                      # GPU: peak VRAM on the LONGEST sequences
 python src/train_lora.py                              # real run
-python src/predict.py --adapter models/lora-qwen2.5-1.5b
-python src/evaluate.py data/processed/preds_regex_test.jsonl data/processed/preds_ft_test.jsonl
+
+# pick the checkpoint on dev — NOT on test
+python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-N --split dev \
+  -o data/processed/preds_ft_dev_N.jsonl
+python src/evaluate.py data/processed/preds_ft_dev_*.jsonl --split dev
+
+# then test, once, with the chosen checkpoint
+python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-CHOSEN
+python src/predict.py -o data/processed/preds_base1.5b_test.jsonl   # same model, no adapter
+python src/evaluate.py data/processed/preds_regex_test.jsonl \
+  data/processed/preds_base1.5b_test.jsonl data/processed/preds_ft_test.jsonl
 ```
+
+The no-adapter run is not optional. A fine-tuned score on its own cannot separate
+"the LoRA taught it this" from "the base model already knew this" — the adapter has to
+be measured against the same weights without it.
 
 Order matters. `normalize_labels.py`, `clean_dataset.py` and `validate_labels.py` operate on
 **labels**, so they run after labelling, not before. `split.py` only needs the collected
@@ -207,12 +237,12 @@ truncated example looks like a model failure in the metrics; it never saw the te
 | longest full sequence | 2,626 tokens |
 | `seq_len` with zero truncation | **3072** |
 | the instruction itself | 700 tokens, repeated in every example — 32% of all training tokens |
-| training set total | 271,570 tokens |
+| training set total | 217,169 tokens |
 
 ## Tests
 
 ```
-pytest -q     # 83 tests
+pytest -q     # 89 tests
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -270,8 +300,9 @@ src/train_lora.py       LoRA SFT — API verified against current docs, CPU smok
 src/predict.py          generation -> raw model output for the harness
 COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
-tests/                  83 tests over real filing excerpts
+tests/                  89 tests over real filing excerpts
 data/exclusions.json    tracked exclusion list with reasons
+data/dev_split.json     tracked dev carve (companies + accessions) — selection must be reproducible
 data/company_keys_extra.json  tracked company keys for 3 records absent from the manifest
 ```
 
