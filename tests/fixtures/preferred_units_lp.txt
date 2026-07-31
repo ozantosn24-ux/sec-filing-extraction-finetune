@@ -1,0 +1,20 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001193125-21-180192
+# Energy Transfer LP  (ET, ET-PI)  2021-06-03
+# https://www.sec.gov/Archives/edgar/data/1276187/000119312521180192/d184831d424b5.htm
+# --- gercek belge parcasi: ORTAKLIK (LP) — hisse degil "Preferred Units" ---
+ed June 1, 2021) 
+
+ 900,000 6.500% Series H Fixed-Rate Reset 
+
+ Cumulative Redeemable Perpetual Preferred Units 
+
+ (Liquidation Preference $1,000 per Series H Preferred Unit) 
+
+ Energy Transfer LP 
+
+ We are offering
+900,000 of our 6.500% Series H Fixed-Rate Reset Cumulative Redeemable Perpetual Preferred Units, liquidation preference $1,000 per unit (the “Series H Preferred Units”). 
+
+ Distributions on the Series H Preferred Units are cumulative from and including the date of original issue and will be payable semi-annually in
+arrears on the 15 th day of May and November of each year, commencing on November 15, 2021, in each case when, as, and if declared by our general partner. A
+ pro-rated

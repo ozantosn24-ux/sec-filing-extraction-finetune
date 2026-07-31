@@ -1,0 +1,12 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001104659-25-108173
+# Alpine Income Property Trust, Inc.  (PINE)  2025-11-07
+# https://www.sec.gov/Archives/edgar/data/1786117/000110465925108173/tm2530436d1_424b5.htm
+# --- gercek belge parcasi: "depositary" YALNIZ ADR kalibinda gecer, ihrac birimi DEGIL ---
+t of which, except for
+limited circumstances described herein, neither our common stock, par value $0.01 per share (“common stock”), nor the common
+securities of the acquiring or surviving entity (or American Depositary Receipts (“ADRs”) representing such securities) are
+listed on the New York Stock Exchange (the “NYSE”), the NYSE American, LLC (the “NYSE American”) or the Nasdaq
+Stock Market (“Nasdaq”) or listed or quoted on a successor exchange or quotation system, we may, at our option, redeem the
+Series A Preferred Stock, in whole or in part within 120 days after the first date on which such Change of Control occurred, by paying
+$25.00 per share, plus any accrued and unpaid dividends up to, but excluding, the date of redemption. If we exercise any of our redemption
+rights relating to the Series A Preferred Stock, the holders of Series A Preferred Stock will not have the conversion ri

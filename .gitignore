@@ -2,6 +2,10 @@
 # Versiyonlanan sey veri degil, VERIYI URETEN KOD.
 data/raw/
 data/interim/
+# Egitim seti de TURETILMIS veri: build_sft.py labels/ + spans/'dan yeniden uretir.
+data/processed/
+# Egitilmis adaptor agirliklari — kod degil cikti.
+models/
 
 # Python
 __pycache__/
