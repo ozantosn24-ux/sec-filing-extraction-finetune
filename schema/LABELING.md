@@ -106,6 +106,12 @@ Kapak sayfası neyi satıyorsa o birim esastır:
 
 Depositary yapı yoksa: `offered_unit: "share"`, `depositary_ratio: null`.
 
+`offered_unit` değerleri: `"share"` · `"depositary_share"` · `"note"`.
+`"note"` gözlemlenen bir kenar durumdur, uydurma değil: Banco Santander AT1 ihraçları
+imtiyazlı-benzeri (süresiz, birikimsiz, sermaye benzeri) ama yapısal olarak **tahvil** —
+*"a liquidation preference of $200,000 per Note"*. Kapsam dışı sayılmadılar çünkü
+etiketleri metinle doğrulanabiliyor; ama `shares_offered` bunlarda anlamsızdır → `null`.
+
 **Kendi kendini kontrol et:** `shares_offered × liquidation_preference_usd` ihracın
 toplam büyüklüğünü vermeli ve bu **10 milyon – 10 milyar dolar** aralığında olmalı.
 Bu aralığın 100 katı çıkıyorsa birimleri karıştırmışsındır.

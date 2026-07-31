@@ -16,14 +16,14 @@ SPAN_DIR = ROOT / "data" / "interim" / "spans"
 FLAG_FILE = ROOT / "data" / "interim" / "label_flags.json"
 
 FIELDS = [
-    "issuer_name", "series", "coupon_rate_pct", "offered_unit", "depositary_ratio",
+    "series", "coupon_rate_pct", "offered_unit", "depositary_ratio",
     "liquidation_preference_usd", "par_value_usd", "cumulative", "redeemable",
     "convertible", "perpetual", "shares_offered", "dividend_frequency", "is_preliminary",
 ]
 
 # Gercek imtiyazli ihraclarin buyuklugu bu araliktadir. Disina cikan carpim
 # neredeyse her zaman BIRIM KARISIKLIGIdir (depositary hisse x alttaki tercih).
-MIN_OFFERING_USD = 10_000_000
+MIN_OFFERING_USD = 5_000_000
 MAX_OFFERING_USD = 10_000_000_000
 
 
@@ -95,11 +95,9 @@ def main() -> int:
     for a, sh, lq, total in unit_bad:
         flag(a, f"birim karisikligi: {sh:,} x {lq:,.0f} = ${total:,.0f}")
 
-    # 4) issuer_name yok -> pencere sirket adini kacirmis
-    no_issuer = [a for _, a, d in rows if not d.get("issuer_name")]
-    print(f"  issuer_name YOK                 : {len(no_issuer)}")
-    for a in no_issuer:
-        flag(a, "issuer_name yok (pencere sirket adini kacirmis)")
+    # issuer_name kontrolu KALDIRILDI: alan cikarim semasindan dustu.
+    # Span'lerin %26'sinda ad yok, oldugunda da tuzak var (Gladstone span'inde
+    # gecen ad ihracci degil, EXTERNAL ADVISER). Ad EDGAR metadata'sinda kesin.
 
     # 5) on prospektus tutarliligi: is_preliminary=true ama kupon dolu
     prelim_with_coupon = [a for _, a, d in rows
