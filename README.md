@@ -16,24 +16,43 @@ recover them reliably. This repository builds the dataset and the measurement.
 
 | stage | state |
 |---|---|
-| 1. Dataset | **done** — 161 labelled records, 149 clean / 12 flagged |
-| 2. LoRA fine-tune (PyTorch) | not started |
-| 3. Evaluation vs prompted baseline | not started |
+| 1. Dataset | **done** — 160 labelled records, 148 clean / 12 flagged |
+| 2. LoRA fine-tune (PyTorch) | training set built, script written and **smoke-tested on CPU**; not yet trained (needs a GPU) |
+| 3. Evaluation | harness **written**, rule-based contestant **measured**; two contestants outstanding |
 
-Nothing here claims a result yet. The dataset is the part that exists.
+No model has been fine-tuned for this task. A 135M model was run for two steps on CPU to
+prove the training pipeline; its weights and output were discarded and are not reported.
+The only measured contestant is the rule-based extractor, which is the *baseline* — it is
+what the fine-tune has to beat.
+
+### Baseline on the held-out test set (36 records)
+
+| metric | rule-based regex |
+|---|---|
+| schema validity | 100.0% (valid by construction — not an achievement) |
+| whole record exact (13/13) | 27.8% |
+| correct abstention | 90.2% |
+| **hallucination** (gold null → value emitted) | 9.8% |
+| miss (gold filled → null emitted) | 4.1% |
+| `par_value` ↔ `liquidation_preference` slice | 81.6% |
+| single-instance `unit` generalization | hit |
+
+Rules were developed against **train only** and run against test once. Train scores 40.3%
+whole-record versus 27.8% on test; that gap is the cost of having tuned on train and is
+reported rather than hidden.
 
 ## Dataset
 
-| split | documents | companies | abstention cases |
-|---|---|---|---|
-| train | 123 | 63 | 35 |
-| test | 35 | 22 | 10 |
+| split | documents | companies | preliminary (abstention) | par↔liq hard case |
+|---|---|---|---|---|
+| train | 124 | 62 | 47 | 77 |
+| test | 36 | 22 | 12 | 19 |
 
 **Company-wise split, zero company overlap.** Some issuers file repeatedly — Southern
 California Edison appeared 10 times, State Street 9. A random document-level split would
 put the same issuer's boilerplate on both sides and inflate the score.
 
-**Abstention slice (45 records).** Preliminary prospectuses are filed before pricing, so
+**Abstention slice (59 records).** Preliminary prospectuses are filed before pricing, so
 the coupon is literally blank: `a share of our % Fixed Rate Reset ... Preferred Stock`.
 The correct label is `null`. A model only learns "say nothing when the text says nothing"
 if the data contains cases where nothing is the answer.
@@ -101,23 +120,89 @@ export SEC_EDGAR_UA="Your Name your@email.com"   # SEC requires a self-identifyi
 python src/collect.py --per-query 10 --max-docs 250   # fetch + locate spans
 python src/split.py                                   # company-wise, deterministic
 #   ... labelling step: spans -> data/interim/labels/<split>/<accession>.json
-python src/clean_dataset.py                           # applies data/exclusions.json
+python src/normalize_labels.py                        # fix the label key set (see below)
+python src/clean_dataset.py                           # applies data/exclusions.json, sweeps orphan spans
 python src/validate_labels.py                         # consistency checks
+python src/build_sft.py                               # -> data/processed/sft_{train,test}.jsonl
+python src/measure_tokens.py                          # seq_len decision, measured not guessed
+python src/extract_rules.py --split test              # rule-based contestant
+python src/evaluate.py data/processed/preds_regex_test.jsonl
 pytest -q
+
+# fine-tune (GPU) — see requirements-train.txt for pinned versions
+python src/train_lora.py --smoke                      # CPU: proves the pipeline first
+python src/train_lora.py                              # real run
+python src/predict.py --adapter models/lora-qwen2.5-1.5b
+python src/evaluate.py data/processed/preds_regex_test.jsonl data/processed/preds_ft_test.jsonl
 ```
 
-Order matters: `clean_dataset.py` and `validate_labels.py` operate on **labels**, so they run
-after labelling, not before. `split.py` only needs the collected documents.
+Order matters. `normalize_labels.py`, `clean_dataset.py` and `validate_labels.py` operate on
+**labels**, so they run after labelling, not before. `split.py` only needs the collected
+documents. Normalisation runs *before* cleaning: cleaning drops records with too few filled
+fields, and a record missing the `offered_unit` key would be counted one field short.
 
-`data/exclusions.json` is tracked and lists 11 accessions that `collect.py` retrieves but
+`normalize_labels.py` exists because 42 of the wave-1 labels had no `offered_unit` key at all
+(absent, not null) and 44 had no `depositary_ratio`. A target JSON whose key set varies from
+record to record teaches an inconsistent output shape and makes "schema validity" undefined
+as a metric. The script derives the missing values from the text and **refuses to guess**:
+where the evidence does not decide, it stops and reports rather than filling something in.
+
+`data/exclusions.json` is tracked and lists 12 accessions that `collect.py` retrieves but
 which are not preferred-stock offerings (base prospectuses, common-stock ATM programmes,
-resale registrations), each with a reason. Without it the pipeline is not reproducible —
-a fresh clone would produce 172 documents where 161 belong in the dataset.
+resale registrations, one senior-notes offering), each with a reason. `data/company_keys_extra.json`
+is tracked for the same reason: three wave-2 accessions were labelled without being written to
+the manifest, and `data/interim/` is not versioned, so without that file the company-wise split
+cannot be verified at all. Without both, the pipeline is not reproducible — a fresh clone
+would produce 172 documents where 160 belong in the dataset.
+
+## The training script, and what the library docs actually say
+
+`src/train_lora.py` was written against the TRL and PEFT documentation as of 2026-07-31
+(TRL 1.9.2, transformers 5.14.1), not from memory. Three things would have been wrong if
+written from recall, and two of them fail *silently*:
+
+- The field is **`max_length`, not `max_seq_length`** — the old name is simply ignored — and
+  its default is **1024**. A script using the old name trains on truncated data and reports
+  nothing unusual.
+- **`bf16` defaults to `True`** when `fp16` is unset. On Turing (T4 included) there is no
+  bf16. So the copy-paste script dies exactly where G13 predicted. The script now picks
+  precision from the card's compute capability, and refuses an explicit `--precision bf16`
+  on Turing rather than silently downgrading it.
+- When the model is passed as a string, **dtype defaults to float32** — 1.5B parameters in
+  fp32 is ~6 GB of weights before a single activation.
+
+Versions are pinned in `requirements-train.txt` for exactly this reason.
+
+### The CPU smoke test earns its keep
+
+```
+python src/train_lora.py --smoke     # 135M model, 2 steps, no GPU
+```
+
+It runs the real pipeline end to end and prints the one number that matters before renting
+anything: **loss is computed on 108 of 2,294 tokens (4.7%)**. That is the JSON target and
+nothing else — confirming `completion_only_loss` masks the 700-token instruction. Without
+that check, training would run happily while learning to reproduce the prompt, and the
+failure would only surface after the GPU bill.
+
+## Sequence length is measured, not assumed
+
+`seq_len=2048` is the value most LoRA guides use. Measured with the Qwen2.5 tokenizer over
+the actual chat-templated sequences, it **truncates 123 of 124 training records and all 36
+test records**. What gets cut is the end of the cover page — where the fields are. A
+truncated example looks like a model failure in the metrics; it never saw the text.
+
+| | |
+|---|---|
+| longest full sequence | 2,626 tokens |
+| `seq_len` with zero truncation | **3072** |
+| the instruction itself | 700 tokens, repeated in every example — 32% of all training tokens |
+| training set total | 271,570 tokens |
 
 ## Tests
 
 ```
-pytest -q     # 17 tests
+pytest -q     # 74 tests
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -126,9 +211,24 @@ from real documents, not from imagined ones. The tests were mutation-checked —
 the whitespace normaliser, the coupon range validation or the search bound each turns a
 test red.
 
+The mutation audit is not decorative: it deleted code. An ADR/ADS pre-strip in
+`normalize_labels.py` survived every mutation, which exposed it as unreachable on real data —
+and on inspection it was harmful, since an American Depositary Share genuinely *is* a
+depositary-like unit and should stop the deriver rather than be scrubbed out of the text.
+The pre-strip was removed and replaced with a test pinning the conservative behaviour.
+
+The audit also drove four fixtures into existence. Mutations that survived showed the tests
+were passing for the wrong reason: a hand-written "without par value" sentence did not
+actually exercise the no-par rule, because no competing `par value $0.01` appeared nearby.
+The real Albemarle filing carries both, 894 characters apart. Same for the coupon range
+(FAT Brands' "55.5% of the combined voting power of our Class A Common Stock" is anchored to
+a security word but is not a coupon) and for depositary priority (Merchants Bancorp's
+"$1,000 per share (equivalent to $25 per depositary share)", where a *different* series'
+"liquidation preference $1,000" sits in the same window as bait).
+
 ## Known limitations
 
-- 161 records is modest. Enough for a narrow LoRA fine-tune, not enough for broad claims.
+- 160 records is modest. Enough for a narrow LoRA fine-tune, not enough for broad claims.
 - Some issuers appear as preliminary/final pairs of the same offering (Allstate, Bank of
   Hawaii, Boeing, Strategy). Not leakage — both sides of a pair sit in the same split — but
   those offerings carry double weight in the metric.
@@ -146,14 +246,28 @@ test red.
 ```
 src/edgar.py            EDGAR access — self-identifying UA, 0.25s throttle
 src/collect.py          collection, anchor location, offering dedup, loss audit
-src/clean_dataset.py    applies data/exclusions.json
+src/clean_dataset.py    applies data/exclusions.json, sweeps orphan spans
 src/split.py            company-wise deterministic split
+src/normalize_labels.py fixes the label key set; refuses to guess
 src/validate_labels.py  consistency checks
 src/review_test.py      human-review table + evidence dump
+src/prompt.py           the extraction instruction — ONE source for training and eval
+src/build_sft.py        builds data/processed/sft_{train,test}.jsonl
+src/measure_tokens.py   token distribution and the seq_len decision
+src/extract_rules.py    rule-based contestant, developed on train only
+src/evaluate.py         the measurement harness — written before any model ran
+src/train_lora.py       LoRA SFT — API verified against current docs, CPU smoke-tested
+src/predict.py          generation -> raw model output for the harness
 schema/                 extraction schema and labelling spec
-tests/                  17 tests over real filing excerpts
+tests/                  74 tests over real filing excerpts
 data/exclusions.json    tracked exclusion list with reasons
+data/company_keys_extra.json  tracked company keys for 3 records absent from the manifest
 ```
+
+`src/prompt.py` is deliberately a single module. Step 3 pits a fine-tuned small model against
+a prompted large model and a rule-based regex extractor; if each kept its own copy of the
+instruction, one would drift and the comparison would quietly measure prompt quality instead
+of model quality.
 
 ## Data and licensing
 
