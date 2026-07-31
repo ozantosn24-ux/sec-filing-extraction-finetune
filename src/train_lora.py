@@ -211,6 +211,15 @@ def main() -> int:
             f"(truncation_mode='keep_start'), yani cikarilacak alanlar.\n"
             f"`python src/measure_tokens.py` raporuna bakin veya --max-length {olculen} verin."
         )
+    if olculen is None and not args.smoke:
+        # Rapor yoksa yukaridaki kontrol SESSIZCE devre disi kalir. Colab'de tam
+        # bu oldu (olculdu: izole ortamda --max-length 2048 durdurulmadi), yani
+        # koruma en cok gerektigi yerde yoktu. Susmak yerine soyle.
+        print("⚠️ token_report.json YOK -> KESME KORUMASI KAPALI.\n"
+              "   max_length'i dogrulayacak olcum elde degil; dusuk bir deger verirseniz\n"
+              "   ornekler sessizce kesilir. Colab'de calisiyorsaniz\n"
+              "   data/processed/token_report.json dosyasini da yukleyin\n"
+              "   (ya da once `python src/measure_tokens.py` kosun).")
 
     bf16, fp16, gerekce = hassasiyet_sec(args.precision)
     dtype = torch.bfloat16 if bf16 else (torch.float16 if fp16 else torch.float32)

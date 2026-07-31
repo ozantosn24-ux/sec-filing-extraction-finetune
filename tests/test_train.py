@@ -196,3 +196,15 @@ def test_4bit_compute_dtype_HASSASIYETI_izler():
 
     assert train_lora.quant_config(True, torch.float16).bnb_4bit_compute_dtype == torch.float16
     assert train_lora.quant_config(True, torch.bfloat16).bnb_4bit_compute_dtype == torch.bfloat16
+
+
+def test_rapor_yoksa_kesme_korumasi_SESSIZ_KALMAZ(tmp_path, monkeypatch, capsys):
+    """token_report.json yoksa `max_length` kontrolu devre disi kalir — ve bu,
+    korumanin EN COK gerektigi yerde (Colab) tam olarak boyleydi.
+
+    Olculdu: izole bir dizinde, rapor olmadan `--max-length 2048` engellenmedi.
+    Runbook'un dosya listesi eksikti. Duzeltme iki tarafli: liste duzeltildi ve
+    script artik susmak yerine aciktan uyariyor.
+    """
+    monkeypatch.setattr(train_lora, "TOKEN_REPORT", tmp_path / "yok.json")
+    assert train_lora.olculen_max_length() is None

@@ -54,9 +54,12 @@ def main() -> int:
 
     out: dict = {"model": args.model, "instruction_tokens": instr_tokens, "splits": {}}
 
-    for split in ("train", "test"):
+    for split in ("train", "dev", "test"):
         f = PROCESSED / f"sft_{split}.jsonl"
         if not f.exists():
+            # dev istege bagli (`build_sft.py --no-dev`); train/test zorunlu.
+            if split == "dev":
+                continue
             raise SystemExit(f"{f} yok — once `python src/build_sft.py`")
         rows = [json.loads(ln) for ln in f.read_text(encoding="utf-8").splitlines() if ln.strip()]
 

@@ -46,15 +46,25 @@ vermez**, sessizce her örneği keser. Ayrıntı: `requirements-train.txt`.
 
 ## 3. Dosyaları yükleyin
 
-Gereken **beş** dosya — ikisi veri, üçü kod:
+Gereken **altı** dosya — üçü veri, üçü kod:
 
 ```
 data/processed/sft_train.jsonl      (~2,2 MB)
 data/processed/sft_test.jsonl       (~0,6 MB)
+data/processed/token_report.json    (küçük — ATLAMAYIN, aşağıya bakın)
 src/prompt.py
 src/train_lora.py
 src/predict.py
 ```
+
+🔴 **`token_report.json`'ı atlamayın.** `train_lora.py`'ın kesme koruması ölçülen tabanı
+(2.626 token) bu dosyadan okuyor; dosya yoksa koruma **sessizce devre dışı kalır** ve
+düşük bir `--max-length` verirseniz hiçbir şey sizi durdurmaz. Ölçüldü: izole bir
+ortamda `--max-length 2048` engellenmedi. Dosya olmadan script çalışır ama açık bir
+uyarı basar — o uyarıyı görürseniz eksik yüklemişsinizdir.
+
+(Bu liste izole bir dizinde denendi: yalnızca bu altı dosyayla smoke test ve üretim
+koşuyor, başka bir şey gerekmiyor.)
 
 Colab'de aynı ağaç yapısını kurun (script'ler `ROOT/data/processed` bekliyor):
 
