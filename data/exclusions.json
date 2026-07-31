@@ -1,0 +1,71 @@
+{
+  "note": "collect.py bu accessionlari toplar ama imtiyazli hisse IHRACI degildirler. clean_dataset.py bunlari data/interim/dropped/ altina tasir. Karar operatorde alinmistir (2026-07-31).",
+  "excluded": [
+    {
+      "accession": "0001104659-24-078542",
+      "company": "Canoo Inc.  (GOEV, GOEVW)",
+      "filed_date": "2024-07-09",
+      "reason": "yeniden satis kaydi — onceden ozel islemle satilmis tercihli hisseden donusen adi hisse"
+    },
+    {
+      "accession": "0001104659-25-059349",
+      "company": "NEW YORK MORTGAGE TRUST, INC.  (NYMT, NYMTG, NYMTI, NYMTL, NYMTM, NYMTN, NYMTZ)",
+      "filed_date": "2025-06-13",
+      "reason": "ATM programi, cekirdek ihrac ekonomisi yok (kupon/tercih/adet hepsi bos)"
+    },
+    {
+      "accession": "0001104659-25-079260",
+      "company": "MFA FINANCIAL, INC.  (MFA, MFAN, MFAO, MFA-PB, MFA-PC)",
+      "filed_date": "2025-08-15",
+      "reason": "ATM programi, iki seri birlikte sunuluyor; tek-degerli semaya oturmuyor"
+    },
+    {
+      "accession": "0001193125-24-077618",
+      "company": "GLADSTONE COMMERCIAL CORP  (GOOD, GOODN, GOODO)",
+      "filed_date": "2024-03-26",
+      "reason": "adi hisse ATM ihraci; metinde gecen imtiyazli seriler ONCEDEN VAR OLAN"
+    },
+    {
+      "accession": "0001104659-24-067151",
+      "company": "Fortress Biotech, Inc.  (FBIO, FBIOP)",
+      "filed_date": "2024-05-31",
+      "reason": "base/shelf prospektus, belirli bir ihrac degil"
+    },
+    {
+      "accession": "0001140361-24-038948",
+      "company": "Cherry Hill Mortgage Investment Corp  (CHMI, CHMI-PA, CHMI-PB)",
+      "filed_date": "2024-08-28",
+      "reason": "imtiyazli ihrac degil"
+    },
+    {
+      "accession": "0001193125-24-042046",
+      "company": "NISOURCE INC.  (NI)",
+      "filed_date": "2024-02-22",
+      "reason": "adi hisse ihraci; depositary yapi yalnizca referansla anilan onceden var olan seri"
+    },
+    {
+      "accession": "0001193125-25-230383",
+      "company": "XOMA Royalty Corp  (XOMA, XOMAO, XOMAP)",
+      "filed_date": "2025-10-03",
+      "reason": "adi hisse seyreltme bolumu, ihrac kapagi degil"
+    },
+    {
+      "accession": "0001398344-24-006765",
+      "company": "RIVERNORTH OPPORTUNITIES FUND, INC.  (RIV, RIV-PA)",
+      "filed_date": "2024-04-02",
+      "reason": "imtiyazli ihrac degil"
+    },
+    {
+      "accession": "0001193125-23-233316",
+      "company": "BANCO BILBAO VIZCAYA ARGENTARIA, S.A.  (BBVA, BBVXF)",
+      "filed_date": "2023-09-12",
+      "reason": "pencere kupon/tercih/par rakamlarini icermiyor — kapak yakalanamamis"
+    },
+    {
+      "accession": "0001193125-25-263719",
+      "company": "Strategy Inc  (MSTR, STRC, STRD, STRF, STRK)",
+      "filed_date": "2025-11-04",
+      "reason": "STRC eki (orta-metin), kapak sayfasi degil; ihracci-takdirli degisken oran mekanigi"
+    }
+  ]
+}

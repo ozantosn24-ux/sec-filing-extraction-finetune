@@ -29,6 +29,10 @@ DROPPED = INTERIM / "dropped"
 
 DROP_FIELD = "issuer_name"
 
+# Git'te TAKIP EDILEN dislama listesi. Elle silme tekrar-uretilebilir degildi:
+# repoyu klonlayip collect.py kosan biri 87 kayit alirdi, 76 degil.
+EXCLUSIONS = ROOT / "data" / "exclusions.json"
+
 # Cikarim hedefi olan alanlar (is_preliminary bir bayrak, sayilmaz).
 CONTENT_FIELDS = [
     "series", "coupon_rate_pct", "offered_unit", "depositary_ratio",
@@ -38,16 +42,25 @@ CONTENT_FIELDS = [
 MIN_FILLED = 3
 
 
+def load_exclusions() -> dict[str, str]:
+    if not EXCLUSIONS.exists():
+        return {}
+    data = json.loads(EXCLUSIONS.read_text(encoding="utf-8"))
+    return {e["accession"]: e["reason"] for e in data.get("excluded", [])}
+
+
 def main() -> int:
     dropped: list[tuple[str, str, int]] = []
     kept = 0
+    excluded = load_exclusions()
+    print(f"dislama listesi: {len(excluded)} accession (data/exclusions.json)")
 
     for split in ("train", "test"):
         for p in sorted((LABEL_DIR / split).glob("*.json")):
             d = json.loads(p.read_text(encoding="utf-8"))
 
             filled = sum(1 for f in CONTENT_FIELDS if d.get(f) is not None)
-            if filled < MIN_FILLED:
+            if p.stem in excluded or filled < MIN_FILLED:
                 (DROPPED / split).mkdir(parents=True, exist_ok=True)
                 shutil.move(str(p), DROPPED / split / p.name)
                 span = SPAN_DIR / split / f"{p.stem}.txt"
