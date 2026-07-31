@@ -1,0 +1,13 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001193125-25-263759
+# Strategy Inc  (MSTR, STRC, STRD, STRF, STRK)  2025-11-04
+# https://www.sec.gov/Archives/edgar/data/1050446/000119312525263759/d921571d424b5.htm
+# --- gercek belge parcasi, elle yazilmadi ---
+SPECTUS SUPPLEMENT 
+ (To Prospectus Supplement Dated
+November 4, 2025 and Prospectus Dated January 27, 2025) 
+ SERIES A PERPETUAL STRIDE PREFERRED STOCK ANNEX 
+
+ 10.00% Series A Perpetual Stride Preferred Stock 
+
+ We have entered into an Omnibus Sales Agreement (the “Sales Agreement”) with TD Securities (USA) LLC, Barclays Capital Inc., The Benchmark
+Company, LLC, BTIG, LLC, Canaccord Genuity LLC, Cantor Fitzgerald & Co., Clear Street LLC, Compass Point Research & Trading, LLC, H.C. Wainwright &

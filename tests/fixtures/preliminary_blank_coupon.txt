@@ -1,0 +1,13 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001193125-24-131520
+# M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)  2024-05-06
+# https://www.sec.gov/Archives/edgar/data/36270/000119312524131520/d794425d424b5.htm
+# --- gercek belge parcasi: FIYATLAMA ONCESI, kupon BOS ---
+rospectus dated September 22, 2023) 
+
+ Depositary Shares Each Representing a 1/400th Interest 
+
+ in a Share of Perpetual % Non-Cumulative Preferred Stock, Series J 
+
+ We are offering depositary shares, each representing a 1/400th ownership interest in a share of our Perpetual
+ % Non-Cumulative Preferred Stock, Series J, par value $1.00 per share, with a $10,000 liquidation preference per share (equivalent to $25 per depositary share) (the “Preferred
+Stock”). As a holder of depositary shares, you

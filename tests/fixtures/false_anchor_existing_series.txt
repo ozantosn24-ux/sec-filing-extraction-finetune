@@ -1,0 +1,4 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001193125-23-212430
+# Imperial Petroleum Inc./Marshall Islands  (IMPP, IMPPP)  2023-08-14
+# --- TUZAK: imtiyazli seri geciyor ama ONCEDEN VAR OLAN, bu belgenin ihraci degil ---
+ow). On December 3, 2021, StealthGas distributed all of our outstanding shares of common stock, par value $0.01 per share (“common stock”), and 8.75% Series A Cumulative Redeemable Perpetual Preferred Stock, par value $0.01 per share, liquidation preference $25.00 per share (“Series A Preferred Stock”), to its stockholders, which completed our separation from StealthGas (the “Spin-Off”). Unless 
