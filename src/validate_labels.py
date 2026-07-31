@@ -99,6 +99,43 @@ def main() -> int:
     # Span'lerin %26'sinda ad yok, oldugunda da tuzak var (Gladstone span'inde
     # gecen ad ihracci degil, EXTERNAL ADVISER). Ad EDGAR metadata'sinda kesin.
 
+    # 4b) KANIT DOGRULAMASI — alinti gercekten kendi span'inde geciyor mu?
+    # Iki isi birden yapar:
+    #   (a) TUM alintilari dusen kayit = dosya-accession ESLEME HATASI (kritik).
+    #       Etiketleme turunda dort alt-ajan da paralel Read'in icerikleri yanlis
+    #       yollara esledigini bagimsiz bildirdi; bu kontrol onun veriye sizip
+    #       sizmadigini olcer.
+    #   (b) BAZI alintilari dusen = turetilmis/yeniden yazilmis kanit — spec
+    #       birebir alinti istiyor, turetilen deger "cikarim degil okuma" sinirini asar.
+    import re as _re
+
+    def _norm(s: str) -> str:
+        return _re.sub(r"\s+", " ", s).strip().lower()
+
+    mismap, derived = [], []
+    for split, a, d in rows:
+        sp = SPAN_DIR / split / f"{a}.txt"
+        if not sp.exists():
+            continue
+        span = _norm(sp.read_text(encoding="utf-8"))
+        ev = {k: v for k, v in (d.get("evidence") or {}).items()
+              if isinstance(v, str) and len(v.strip()) > 12}
+        if not ev:
+            continue
+        ok = [k for k, v in ev.items() if _norm(v)[:60] in span]
+        no = [k for k, v in ev.items() if _norm(v)[:60] not in span]
+        if no and not ok:
+            mismap.append((a, no))
+        elif no:
+            derived.append((a, no))
+
+    print(f"  KANIT: tum alintilari dusen    : {len(mismap)}  <- dosya-accession esleme HATASI")
+    for a, no in mismap:
+        flag(a, f"TUM kanit alintilari span'inde yok — esleme hatasi suphesi: {no}")
+    print(f"  KANIT: bazi alintilari dusen   : {len(derived)}  <- turetilmis kanit")
+    for a, no in derived:
+        flag(a, f"kanit birebir degil (turetilmis): {no}")
+
     # 5) on prospektus tutarliligi: is_preliminary=true ama kupon dolu
     prelim_with_coupon = [a for _, a, d in rows
                           if d.get("is_preliminary") and d.get("coupon_rate_pct") is not None]
