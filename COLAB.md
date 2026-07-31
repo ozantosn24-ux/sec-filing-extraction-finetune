@@ -46,16 +46,23 @@ vermez**, sessizce her örneği keser. Ayrıntı: `requirements-train.txt`.
 
 ## 3. Dosyaları yükleyin
 
-Gereken **altı** dosya — üçü veri, üçü kod:
+Gereken **yedi** dosya — dördü veri, üçü kod:
 
 ```
-data/processed/sft_train.jsonl      (~2,2 MB)
+data/processed/sft_train.jsonl      (~1,8 MB)
+data/processed/sft_dev.jsonl        (~0,5 MB — SEÇİM seti, aşağıya bakın)
 data/processed/sft_test.jsonl       (~0,6 MB)
 data/processed/token_report.json    (küçük — ATLAMAYIN, aşağıya bakın)
 src/prompt.py
 src/train_lora.py
 src/predict.py
 ```
+
+🔴 **`sft_dev.jsonl`'i atlamayın.** Bu, train'den şirket bazında oyulmuş 25 kayıtlık
+**seçim** setidir; `train_lora.py` her epoch sonunda üzerinde `eval_loss` ölçer.
+Yoksa script çalışır ama açık bir uyarı basar ve "kaçıncı epoch daha iyi" sorusunu
+cevaplayacak tek temiz sinyal kaybolur — geriye yalnız test'e bakmak kalır, o da
+karşılaştırmayı kirletir.
 
 🔴 **`token_report.json`'ı atlamayın.** `train_lora.py`'ın kesme koruması ölçülen tabanı
 (2.626 token) bu dosyadan okuyor; dosya yoksa koruma **sessizce devre dışı kalır** ve

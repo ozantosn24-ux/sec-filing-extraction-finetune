@@ -37,7 +37,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="Qwen/Qwen2.5-1.5B-Instruct")
     ap.add_argument("--adapter", type=Path, help="LoRA adaptor dizini (yoksa duz prompted)")
-    ap.add_argument("--split", default="test", choices=("train", "test"))
+    # dev = MODEL SECIMI (epoch/lr/checkpoint). test BIR KEZ bakilir; secim
+    # test'te yapilirsa dondurulmus baseline sayisi anlamini kaybeder.
+    ap.add_argument("--split", default="test", choices=("train", "dev", "test"))
     ap.add_argument("-o", "--out", type=Path)
     ap.add_argument("--limit", type=int, help="yalniz ilk N kayit (smoke test)")
     ap.add_argument("--max-new-tokens", type=int, default=MAX_NEW_TOKENS)
