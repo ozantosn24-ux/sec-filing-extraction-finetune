@@ -1,0 +1,15 @@
+# Ham EDGAR belgeleri versiyonlanmaz — fetch script'i yeniden uretir.
+# Versiyonlanan sey veri degil, VERIYI URETEN KOD.
+data/raw/
+data/interim/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Sirlar (SEC_EDGAR_UA dahil ortam degiskenleri)
+.env
+.env.*
