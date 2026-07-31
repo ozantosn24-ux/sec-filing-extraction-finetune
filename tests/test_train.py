@@ -198,6 +198,58 @@ def test_4bit_compute_dtype_HASSASIYETI_izler():
     assert train_lora.quant_config(True, torch.bfloat16).bnb_4bit_compute_dtype == torch.bfloat16
 
 
+# --- VRAM probu: tepe, EN UZUN dizide olusur ---------------------------------
+
+
+class SahteTokenizer:
+    """Token sayisi = karakter sayisi. Amac siralamayi test etmek, tokenizer'i degil."""
+
+    def apply_chat_template(self, messages, tokenize=False):
+        return "".join(m["content"] for m in messages)
+
+    def __call__(self, text, add_special_tokens=False):
+        return {"input_ids": list(range(len(text)))}
+
+
+@pytest.fixture
+def sahte_tokenizer(monkeypatch):
+    import transformers
+
+    monkeypatch.setattr(transformers.AutoTokenizer, "from_pretrained",
+                        classmethod(lambda cls, *a, **k: SahteTokenizer()))
+
+
+def _satir(acc: str, uzunluk: int) -> dict:
+    return {"accession": acc,
+            "messages": [{"role": "user", "content": "x" * uzunluk},
+                         {"role": "assistant", "content": ""}]}
+
+
+def test_prob_EN_UZUN_diziyi_basa_alir(sahte_tokenizer):
+    """🔴 Tepe VRAM en uzun diziyle olusur. Kayitlar accession'a gore sirali,
+    yani ilk adimlar rastgele uzunlukta: prob GECER, gercek kosu ilerideki
+    uzun ornekte OOM verir — kiralik saatin ortasinda.
+    """
+    rows = [_satir("a", 100), _satir("b", 900), _satir("c", 400)]
+    assert [r["accession"] for r in train_lora.en_uzun_once(rows, "sahte")] == ["b", "c", "a"]
+
+
+def test_prob_sirasi_dosya_sirasindan_FARKLI(sahte_tokenizer):
+    """Siralama gercekten bir sey degistiriyor mu? Degistirmiyorsa prob, eski
+    `--epochs 0.05` yaklasimindan farksizdir ve fazladan guven verir."""
+    rows = [_satir("a", 100), _satir("b", 900), _satir("c", 400)]
+    assert [r["accession"] for r in train_lora.en_uzun_once(rows, "sahte")] \
+        != [r["accession"] for r in rows]
+
+
+def test_ham_satirlar_veri_yoksa_DURUR(monkeypatch, tmp_path):
+    """Eksik veriyle egitim sessizce baslamamali."""
+    monkeypatch.setattr(train_lora, "PROCESSED", tmp_path)
+    with pytest.raises(SystemExit) as exc:
+        train_lora.ham_satirlar("train")
+    assert "build_sft" in str(exc.value)
+
+
 def test_rapor_yoksa_kesme_korumasi_SESSIZ_KALMAZ(tmp_path, monkeypatch, capsys):
     """token_report.json yoksa `max_length` kontrolu devre disi kalir — ve bu,
     korumanin EN COK gerektigi yerde (Colab) tam olarak boyleydi.

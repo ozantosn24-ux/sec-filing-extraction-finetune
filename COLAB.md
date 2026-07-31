@@ -99,16 +99,28 @@ kayip maskesi: 2294 token'in 108'sinde kayip hesaplaniyor (%4.7)
 700 token'lik talimat maskeleniyor. Oran yarıdan büyük çıkarsa `completion_only_loss`
 çalışmıyordur ve model **talimatı üretmeyi** öğrenir; 3 saat sonra değil, şimdi durun.
 
-Sonra gerçek modelle VRAM'i ölçün (bir epoch'un ilk adımları yeter, sonra durdurun):
+Sonra gerçek modelle VRAM'i ölçün:
 
 ```python
-!python src/train_lora.py --epochs 0.05
+!python src/train_lora.py --probe
 ```
 
-Çıktının sonundaki `tepe VRAM: X.XX GB` sayısı, asıl koşunun sığıp sığmayacağını
-söyler. **OOM'u 3 saatin 10. dakikasında değil burada görün.** Sığmazsa sırayla:
-`--batch 1` (zaten öyle) → `--max-length 3072` sabit kalsın, **düşürmeyin** (kesme
-veriyi bozar) → `--rank 8` → `--4bit`.
+`--probe`, veriyi **token uzunluğuna göre sıralayıp en uzun dizilerle** iki adım koşar
+ve adaptörü kaydetmez. Sıralama şart: kayıtlar accession'a göre dizili, yani ilk
+adımlar rastgele uzunlukta. Ölçüldü — dosya sırasındaki ilk üç kayıt en uzun üçü
+**değil**; en uzun dizi 2.626 token ve listenin başında değil. Uzunluğa bakmayan bir
+prob (eski hâli: `--epochs 0.05`) rahatlıkla geçer, asıl koşu ilerideki uzun örnekte
+OOM verir — yani kiralık saatin ortasında.
+
+Çıktının sonundaki `tepe VRAM: X.XX GB / 15.4 GB (%N)` bir **tavandır**. **%85'in
+altındaysa** asıl koşu rahat sığar; üstündeyse sırayla: `--rank 8` → `--4bit`.
+`--max-length 3072` sabit kalsın, **düşürmeyin** — kesme veriyi bozar ve metrikte
+"model bulamadı" diye görünür.
+
+Gradient checkpointing **açık** (varsayılan). Qwen2.5'in kelime dağarcığı 151.936;
+3.072 uzunlukta logit tensörü tek başına fp16'da ~0,9 GB, kayıp için fp32'ye çıkınca
+~1,9 GB, bir de gradyanı. Aktivasyonları yeniden hesaplamak ~%30 yavaşlatır — 37
+adımlık bir koşuda bu dakikalar demek, OOM ise kiralık saatin tamamı demek.
 
 ## 5. Gerçek koşu
 
@@ -118,6 +130,18 @@ veriyi bozar) → `--rank 8` → `--4bit`.
 
 Varsayılanlar: Qwen2.5-1.5B-Instruct, LoRA r=16, 3 epoch, lr 1e-4, `max_length=3072`
 (ölçülen taban 2.626; script bunun altına düşerseniz durur).
+
+Koşu başında basılan iki satıra bakın:
+
+```
+dev ornegi   : 25  (SECIM seti — sonuc buradan raporlanmaz)
+optimizer adimi: ~36  (99 ornek / etkin yigin 8 x 3 epoch)
+```
+
+🔴 **Optimizer adımı 36** — örnek sayısı değil, LoRA'nın gerçekten kaç kez
+güncellendiği. Bu az. Epoch sonlarındaki `eval_loss` **düşmeye devam ediyorsa** koşu
+erken bitmiş demektir; `--epochs 5` ya da `--grad-accum 4` (etkin yığın 4 → ~74 adım)
+deneyin. Bu kararı **dev'e bakarak** verin, test'e değil.
 
 **Oturum kopması:** adaptör her epoch sonunda kaydediliyor (`save_strategy="epoch"`),
 yani kopmada baştan başlamazsınız. Kaydı **Drive'a** almak isterseniz:
@@ -131,17 +155,45 @@ from google.colab import drive; drive.mount('/content/drive')
 değil. T4'te bf16 yok, o yüzden çare `--lr 5e-5` gibi daha düşük bir öğrenme oranı
 ya da Ampere+ bir kart. Veriyi kurcalamadan önce bunu deneyin.
 
-## 6. Üç yarışmacının çıktısını üretin
+## 6a. Önce SEÇİM — hangi epoch? (dev üzerinde, test'e DOKUNMADAN)
+
+`save_strategy="epoch"` her epoch'un adaptörünü `checkpoint-*/` altında bırakıyor.
+Hangisinin alınacağı **dev'de** ölçülerek seçilir:
 
 ```python
-# 1) fine-tuned küçük model
-!python src/predict.py --adapter models/lora-qwen2.5-1.5b
+import glob, subprocess
+for ck in sorted(glob.glob("models/lora-qwen2.5-1.5b/checkpoint-*")):
+    ad = ck.split("-")[-1]
+    subprocess.run(["python","src/predict.py","--adapter",ck,"--split","dev",
+                    "-o",f"data/processed/preds_ft_dev_{ad}.jsonl"], check=True)
+```
+
+Sonra yerelde (ya da burada) `python src/evaluate.py data/processed/preds_ft_dev_*.jsonl --split dev`
+ve **tam kayıt** en yüksek olanı seçin. `eval_loss` düşük varyanslı ama vekil bir
+sinyal; tam kayıt asıl önem verdiğimiz metrik, 25 kayıtta gürültülü (std hata ~%9).
+İkisi çelişirse tam kaydı seçin ve farkı rapora yazın.
+
+⛔ **Dev skorunu sonuç diye raporlamayın.** Regex bu 25 kaydı kendi geliştirme
+verisinde gördü (ölçüldü: dev'de %68,0, test'te %27,8) — dev'de regex ile
+fine-tuned modeli yan yana koymak yanlış karşılaştırmadır. Dev yalnızca
+**fine-tuned checkpoint'leri birbiriyle** kıyaslamak içindir.
+
+## 6b. Üç yarışmacının çıktısını üretin (SEÇİLEN checkpoint ile)
+
+```python
+# 1) fine-tuned küçük model — 6a'da secilen checkpoint
+!python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-SECILEN
 
 # 2) prompted BÜYÜK model — aynı T4'te, 4-bit
 !python src/predict.py --model Qwen/Qwen2.5-7B-Instruct --4bit -o data/processed/preds_prompted7b_test.jsonl
+
+# 3) AYNI küçük modelin ADAPTÖRSÜZ hali — LoRA'nin gercekten fark yaratip
+#    yaratmadigi ancak bu olcumle bilinir. Adaptorlu skor tek basina, modelin
+#    zaten bilip bilmedigini AYIRT ETMEZ.
+!python src/predict.py -o data/processed/preds_base1.5b_test.jsonl
 ```
 
-Üçüncüsü (kural-tabanlı regex) **yerelde zaten ölçüldü**, GPU istemiyor.
+Dördüncüsü (kural-tabanlı regex) **yerelde zaten ölçüldü**, GPU istemiyor.
 
 7B'nin NF4'te ~4 GB ağırlığı var, 16 GB'a sığmalı — **ölçülmedi**, ilk koşuda
 görülecek. Sığmazsa `Qwen2.5-3B-Instruct`'a düşün ve raporda öyle yazın.

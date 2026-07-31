@@ -240,6 +240,16 @@ def rapor(ad: str, s: dict) -> None:
     print(f"  dogru abstention      {oran(s['abstention'])}   <- altin null iken null")
     print(f"  UYDURMA               {oran(s['uydurma'])}   <- altin null iken deger uretti")
     print(f"  kacirma               {oran(s['kacirma'])}   <- altin dolu iken null dedi")
+    # Ayrisamayan cikti TUM alanlari None yapar; bu da abstention'i SERBEST puan
+    # haline getirir. Olculdu: adaptorsuz 135M model duz nesir uretti, sema
+    # gecerliligi %0 — ve "dogru abstention" %100 cikti. Tek basina alintilanirsa
+    # bozuk bir modeli iyi gosterir, o yuzden sayinin YANINDA soyleniyor.
+    ayrisamayan = s["ihlaller"].get("JSON ayrisamadi", 0)
+    if ayrisamayan:
+        print(f"      UYARI: {ayrisamayan} kayit AYRISAMADI -> o kayitlarda tum alanlar "
+              f"null sayildi.\n"
+              f"         Abstention'i bu haliyle basari diye okumayin: yukaridaki "
+              f"kacirma oranina bakin.")
     print(f"  ZOR VAKA (par<->liq)  {oran(s['zor_vaka'])}")
     print(f"  tek-ornek 'unit'      {s['unit_vakasi']}")
     if s["gecikme_med"] is not None:
@@ -278,7 +288,7 @@ def main() -> int:
         rapor(p.stem, s)
         eksik = len(gold) - s["kayit"]
         if eksik:
-            print(f"  ⚠️ {eksik} test kaydi icin tahmin YOK — kapsam eksik, "
+            print(f"  UYARI: {eksik} test kaydi icin tahmin YOK — kapsam eksik, "
                   f"skorlar bu haliyle karsilastirilamaz")
 
     if len(hepsi) > 1:

@@ -87,7 +87,7 @@ def cpu_korumasi(model_id: str, force: bool, smoke: bool) -> None:
 
     n = parametre_sayisi(model_id)
     if force:
-        print(f"⚠️ --force-cpu: CUDA yok, yine de devam ediliyor"
+        print(f"UYARI: --force-cpu: CUDA yok, yine de devam ediliyor"
               f"{f' ({n/1e9:.1f}B parametre)' if n else ''}. Makine yavaslar.")
         return
 
@@ -110,8 +110,8 @@ def cpu_korumasi(model_id: str, force: bool, smoke: bool) -> None:
             f"  fp32 agirlik tek basina ~{n*4/2**30:.1f} GB; su an {bos}.\n"
             f"  Olculen hiz: 135M modelde 32 sn/adim -> bu boyutta gun mertebesi.\n"
             f"  Makine takasa girer ve saatlerce kullanilamaz hale gelir.\n"
-            f"⇒ Ucretsiz yol: Colab T4. Adim adim: COLAB.md\n"
-            f"⇒ Yine de israr ediyorsaniz: --force-cpu"
+            f"=> Ucretsiz yol: Colab T4. Adim adim: COLAB.md\n"
+            f"=> Yine de israr ediyorsaniz: --force-cpu"
         )
 
 
@@ -160,19 +160,47 @@ def quant_config(four_bit: bool, dtype):
                               bnb_4bit_use_double_quant=True)
 
 
-def veri_yukle(split: str, n: int | None = None):
-    from datasets import Dataset
-
+def ham_satirlar(split: str) -> list[dict]:
     f = PROCESSED / f"sft_{split}.jsonl"
     if not f.exists():
         raise SystemExit(f"{f} yok — once `python src/build_sft.py`")
-    rows = [json.loads(ln) for ln in f.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    return [json.loads(ln) for ln in f.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
+def veri_yukle(split: str, n: int | None = None, rows: list[dict] | None = None):
+    from datasets import Dataset
+
+    if rows is None:
+        rows = ham_satirlar(split)
     if n:
         rows = rows[:n]
     # YALNIZ iki sutun: TRL bicimi sutunlardan cikariyor, fazlasi belirsizlik yaratir.
     return Dataset.from_list([
         {"prompt": [r["messages"][0]], "completion": [r["messages"][1]]} for r in rows
     ])
+
+
+def en_uzun_once(rows: list[dict], model_id: str) -> list[dict]:
+    """Kayitlari GERCEK token uzunluguna gore azalan sirala — VRAM probu icin.
+
+    🔴 Neden karakter degil token: prob'un tek isi tepe VRAM'i gormek ve tepe,
+    en uzun diziyle olusur. Kayitlar accession'a gore siralanmis durumda, yani
+    ilk birkac adim rastgele uzunlukta — prob GECER, gercek kosu 40. adimda
+    OOM verir. Karakter sayisi iyi bir vekil ama kesin degil; 99 kaydi
+    tokenize etmek saniyeler suruyor, tahmine gerek yok.
+    """
+    from transformers import AutoTokenizer
+
+    tok = AutoTokenizer.from_pretrained(model_id)
+    olculu = []
+    for r in rows:
+        n = len(tok(tok.apply_chat_template(r["messages"], tokenize=False),
+                    add_special_tokens=False)["input_ids"])
+        olculu.append((n, r))
+    olculu.sort(key=lambda x: -x[0])
+    print(f"prob: en uzun {min(3, len(olculu))} dizi = "
+          f"{[n for n, _ in olculu[:3]]} token (tepe VRAM burada olusur)")
+    return [r for _, r in olculu]
 
 
 def main() -> int:
@@ -191,6 +219,13 @@ def main() -> int:
                     help="QLoRA: taban modeli NF4 4-bit yukle (dar VRAM icin)")
     ap.add_argument("--smoke", action="store_true",
                     help="kucuk model + 2 adim: ogrenme degil, BORU HATTI dogrulamasi")
+    ap.add_argument("--probe", action="store_true",
+                    help="VRAM probu: EN UZUN dizilerle birkac adim, kaydetmeden. "
+                         "Gercek modelle kosar — amaci OOM'u 3. saatte degil 2. dakikada gormek.")
+    ap.add_argument("--no-eval", action="store_true",
+                    help="dev uzerinde degerlendirmeyi kapat (dev yoksa zaten kapali)")
+    ap.add_argument("--no-grad-checkpoint", action="store_true",
+                    help="gradient checkpointing'i kapat: ~%%30 hizli, cok daha fazla VRAM")
     ap.add_argument("--force-cpu", action="store_true",
                     help="CUDA yokken buyuk model egitimini ZORLA (makine kullanilamaz hale gelir)")
     args = ap.parse_args()
@@ -215,7 +250,7 @@ def main() -> int:
         # Rapor yoksa yukaridaki kontrol SESSIZCE devre disi kalir. Colab'de tam
         # bu oldu (olculdu: izole ortamda --max-length 2048 durdurulmadi), yani
         # koruma en cok gerektigi yerde yoktu. Susmak yerine soyle.
-        print("⚠️ token_report.json YOK -> KESME KORUMASI KAPALI.\n"
+        print("UYARI: token_report.json YOK -> KESME KORUMASI KAPALI.\n"
               "   max_length'i dogrulayacak olcum elde degil; dusuk bir deger verirseniz\n"
               "   ornekler sessizce kesilir. Colab'de calisiyorsaniz\n"
               "   data/processed/token_report.json dosyasini da yukleyin\n"
@@ -227,8 +262,35 @@ def main() -> int:
     print(f"hassasiyet : {gerekce}")
     print(f"max_length : {args.max_length}" + (f"  (olculen taban {olculen})" if olculen else ""))
 
-    train = veri_yukle("train", n=4 if args.smoke else None)
+    egitim_satirlari = ham_satirlar("train")
+    if args.probe:
+        egitim_satirlari = en_uzun_once(egitim_satirlari, model_id)
+    train = veri_yukle("train", n=4 if args.smoke else None, rows=egitim_satirlari)
     print(f"egitim ornegi: {len(train)}")
+
+    # Dev SECIM icindir, sonuc icin degil. Epoch basina eval_loss, "kacinci
+    # epoch'ta duracagiz" sorusunu test'e DOKUNMADAN cevaplayan tek sinyal.
+    # Not: 25 kayitta tam-eslesme orani gurultulu (std hata ~%9); dusuk varyansli
+    # oldugu icin birincil secim sinyali eval_loss, tam-eslesme dogrulama.
+    dev = None
+    if not (args.smoke or args.probe or args.no_eval):
+        dev_dosya = PROCESSED / "sft_dev.jsonl"
+        if dev_dosya.exists():
+            dev = veri_yukle("dev")
+            print(f"dev ornegi   : {len(dev)}  (SECIM seti — sonuc buradan raporlanmaz)")
+        else:
+            print("UYARI: sft_dev.jsonl YOK -> epoch secimi icin sinyal yok.\n"
+                  "   Bu haliyle checkpoint secimi ancak test'e bakarak yapilir ve\n"
+                  "   karsilastirma kirlenir. `python src/build_sft.py` kosun.")
+
+    # Optimizer ADIMI, ornek sayisi degil: LoRA'nin gercekten kac kez guncellendigi.
+    # 99 ornek / (1x8) x 3 epoch = 37 adim — az. Sayiyi ONCEDEN gormek, "egitim
+    # kostu ama model ogrenmedi" durumunu kosudan sonra kesfetmeye yegdir.
+    if not (args.smoke or args.probe):
+        etkin = args.batch * args.grad_accum
+        adim = max(1, len(train) // etkin) * args.epochs
+        print(f"optimizer adimi: ~{adim:.0f}  ({len(train)} ornek / etkin yigin {etkin} "
+              f"x {args.epochs:g} epoch)")
 
     quant = quant_config(args.four_bit, dtype)
 
@@ -237,12 +299,24 @@ def main() -> int:
         # 🔴 `max_length` — `max_seq_length` DEGIL. Varsayilani 1024.
         max_length=args.max_length,
         num_train_epochs=2 if args.smoke else args.epochs,
-        max_steps=2 if args.smoke else -1,
+        max_steps=2 if (args.smoke or args.probe) else -1,
         per_device_train_batch_size=args.batch,
-        gradient_accumulation_steps=1 if args.smoke else args.grad_accum,
+        gradient_accumulation_steps=1 if (args.smoke or args.probe) else args.grad_accum,
         learning_rate=args.lr,
         bf16=bf16,
         fp16=fp16,
+        # 🔴 VRAM'in tek en buyuk kaldiraci. Qwen2.5'in kelime dagarcigi 151.936:
+        # 3.072 uzunlukta logit tensoru tek basina fp16'da ~0,9 GB, kayip icin
+        # fp32'ye cikinca ~1,9 GB, bir de gradyani. Ustune 28 katmanin
+        # aktivasyonlari binince 16 GB'lik T4 kenardan doner.
+        # Aktivasyonlari yeniden hesaplamak ~%30 yavaslatir; 37 adimlik bir
+        # kosuda bu dakikalar demek, OOM ise kiralik saatin tamami demek.
+        # TRL, PEFT + checkpointing'de `enable_input_require_grads()`'i kendisi
+        # cagiriyor (sft_trainer.py:1120) — dogrulandi, elle yapmaya gerek yok.
+        gradient_checkpointing=not args.no_grad_checkpoint,
+        # ACIKTAN: TRL yalniz transformers<5.0.0'da varsayilani False'a cekiyor,
+        # bizim yigin 5.14.1 — yani o dal CALISMIYOR ve deger yukariya kalirdi.
+        gradient_checkpointing_kwargs={"use_reentrant": False},
         # Model string olarak veriliyor -> dtype AKTARILMAZSA fp32 olur.
         model_init_kwargs={"dtype": dtype},
         # prompt-completion veri setinde varsayilani zaten True; ACIKTAN yaziliyor
@@ -250,8 +324,15 @@ def main() -> int:
         # JSON hedefinde, 700 token'lik talimatta DEGIL.
         completion_only_loss=True,
         packing=False,  # paketleme ornekleri birbirine karistirir; burada her belge ayri
-        logging_steps=1 if args.smoke else 5,
-        save_strategy="no" if args.smoke else "epoch",
+        logging_steps=1 if (args.smoke or args.probe) else 5,
+        save_strategy="no" if (args.smoke or args.probe) else "epoch",
+        # Her epoch'un adaptoru DURUYOR. En iyisini `load_best_model_at_end` ile
+        # eval_loss'a gore otomatik secmiyoruz bilerek: onem verdigimiz metrik
+        # TAM KAYIT eslesmesi ve o, kayiptan farkli bir epoch'ta tepe yapabilir.
+        # Secim dev uzerinde ACIKTAN olculerek yapilir (predict.py + evaluate.py).
+        save_total_limit=None,
+        eval_strategy="epoch" if dev is not None else "no",
+        per_device_eval_batch_size=1,
         report_to=[],
         seed=42,
         use_cpu=args.smoke and not torch.cuda.is_available(),
@@ -273,6 +354,7 @@ def main() -> int:
         model=model_id,
         args=cfg,
         train_dataset=train,
+        eval_dataset=dev,
         peft_config=peft_cfg,
         quantization_config=quant,
     )
@@ -287,16 +369,29 @@ def main() -> int:
         print(f"kayip maskesi: {toplam} token'in {etiketli}'sinde kayip hesaplaniyor "
               f"(%{100*etiketli/toplam:.1f})")
         if etiketli > toplam * 0.5:
-            print("  ⚠️ token'larin YARISINDAN fazlasinda kayip var — completion_only "
+            print("  UYARI: token'larin YARISINDAN fazlasinda kayip var — completion_only "
                   "maskesi beklendigi gibi calismiyor olabilir, kontrol edin")
 
     trainer.train()
 
-    if not args.smoke:
+    if not (args.smoke or args.probe):
         trainer.save_model(str(args.out))
         print(f"\nadaptor -> {args.out}")
     if torch.cuda.is_available():
-        print(f"tepe VRAM: {torch.cuda.max_memory_allocated()/2**30:.2f} GB")
+        tepe = torch.cuda.max_memory_allocated() / 2**30
+        toplam = torch.cuda.get_device_properties(0).total_memory / 2**30
+        print(f"tepe VRAM: {tepe:.2f} GB / {toplam:.1f} GB  (%{100*tepe/toplam:.0f})")
+        if args.probe:
+            # Prob EN UZUN dizilerle kostu, yani bu sayi tavan — gercek kosu
+            # bunun uzerine cikmamali. Pay birakmadan "siger" demek, epoch
+            # sonundaki degerlendirme ve kayit anlarinda patlamak demek.
+            print("\nProb bitti (adaptor KAYDEDILMEDI). Yukaridaki sayi en uzun\n"
+                  "dizilerle olusan TAVAN. %85'in altindaysa gercek kosu rahat siger;\n"
+                  "ustundeyse sirasiyla: --rank 8 -> --4bit. --max-length'i DUSURMEYIN,\n"
+                  "kesme veriyi bozar ve metrikte 'model bulamadi' diye gorunur.")
+    elif args.probe:
+        print("\nProb CPU'da kostu — VRAM sayisi YOK, yani bu prob amacina "
+              "ulasmadi. GPU'lu ortamda tekrarlayin.")
     return 0
 
 
