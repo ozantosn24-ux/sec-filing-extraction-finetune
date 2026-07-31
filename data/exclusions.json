@@ -66,6 +66,12 @@
       "company": "Strategy Inc  (MSTR, STRC, STRD, STRF, STRK)",
       "filed_date": "2025-11-04",
       "reason": "STRC eki (orta-metin), kapak sayfasi degil; ihracci-takdirli degisken oran mekanigi"
+    },
+    {
+      "accession": "0001193125-24-138994",
+      "company": "CHIMERA INVESTMENT CORP  (CIM, CIMN, CIMO, CIM-PA, CIM-PB, CIM-PC, CIM-PD)",
+      "filed_date": "2024-05-15",
+      "reason": "Senior Notes due 2029 ihraci — imtiyazli hisse degil. Metinde gecen A/B/C/D serileri ONCEDEN VAR OLAN, listelenmis seriler. Etiketi ucunu (redeemable/perpetual/dividend_frequency) KANITSIZ tasiyordu: senior notes belgesinden 'quarterly' cikarmak tam da veri setinin bastirmak istedigi sessizlikten-cikarim davranisi."
     }
   ]
 }

@@ -106,11 +106,23 @@ Kapak sayfası neyi satıyorsa o birim esastır:
 
 Depositary yapı yoksa: `offered_unit: "share"`, `depositary_ratio: null`.
 
-`offered_unit` değerleri: `"share"` · `"depositary_share"` · `"note"`.
-`"note"` gözlemlenen bir kenar durumdur, uydurma değil: Banco Santander AT1 ihraçları
-imtiyazlı-benzeri (süresiz, birikimsiz, sermaye benzeri) ama yapısal olarak **tahvil** —
-*"a liquidation preference of $200,000 per Note"*. Kapsam dışı sayılmadılar çünkü
-etiketleri metinle doğrulanabiliyor; ama `shares_offered` bunlarda anlamsızdır → `null`.
+`offered_unit` değerleri: `"share"` · `"depositary_share"` · `"note"` · `"unit"`.
+
+`"note"` ve `"unit"` **gözlemlenmiş** kenar durumlardır, uydurma değil — şemaya değer
+ancak gerçek belgede görüldüğünde eklenir:
+
+- `"note"` — Banco Santander AT1 ihraçları imtiyazlı-benzeri (süresiz, birikimsiz,
+  sermaye benzeri) ama yapısal olarak **tahvil**: *"a liquidation preference of
+  $200,000 per Note"*. Kapsam dışı sayılmadılar çünkü etiketleri metinle
+  doğrulanabiliyor; ama `shares_offered` bunlarda anlamsızdır → `null`.
+- `"unit"` — **ortaklık (LP)** ihraçları hisse değil **birim** satar: Energy Transfer LP
+  `0001193125-21-180192`, *"900,000 of our 6.500% Series H ... Perpetual Preferred Units,
+  liquidation preference $1,000 per unit"*. Temettü değil **dağıtım** öder ve genel
+  ortağın takdirindedir. `"share"` yazmak bu ayrımı siler.
+  ⚠️ Korpusta **1 belge** ve o belge **test** kümesinde — yani eğitimde hiç geçmeyen bir
+  enum değeri. Bu bir etiket hatası değil, bilinçli durum: şemayı prompt'tan **okuyan**
+  model bunu üretebilir, yalnızca eğitim dağılımını ezberleyen üretemez. Adım ③ eval'i
+  bunu **tek-örnek genelleme vakası** olarak ayrı raporlamalı, sıradan bir ıska gibi saymamalı.
 
 **Kendi kendini kontrol et:** `shares_offered × liquidation_preference_usd` ihracın
 toplam büyüklüğünü vermeli ve bu **10 milyon – 10 milyar dolar** aralığında olmalı.

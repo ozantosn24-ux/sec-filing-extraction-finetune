@@ -1,0 +1,24 @@
+{
+  "note": "manifest.json ve documents.jsonl 172 belgeyi kapsiyor; 2. dalga etiketlemesinde bu UC accession manifest'e islenmeden etiketlendi. data/interim/ git'te olmadigi icin kaynak geri getirilemedi. Sirket, span metnindeki BORSA SEMBOLUNDEN saptandi (kanit asagida) ve bolme dogrulandi: ucu de sirketlerinin zaten bulundugu bolmede. company_key degerleri manifest'teki yazimla birebir ayni olmali, yoksa ortusme kontrolu iki ayri sirket sanir.",
+  "keys": [
+    {
+      "accession": "0001437749-25-007770",
+      "company_key": "nexpoint real estate finance, inc.",
+      "split": "train",
+      "kanit": "span: symbol “NREF” and “NREF-PRA,” respectively",
+      "dikkat": "test kumesindeki 'nexpoint diversified real estate trust' AYRI bir tuzeldir; ad benzerligine bakip birlestirme."
+    },
+    {
+      "accession": "0001493152-24-028536",
+      "company_key": "fat brands, inc",
+      "split": "train",
+      "kanit": "span: symbol “FAT” ... Series B Preferred Stock ... symbol “FATBP”"
+    },
+    {
+      "accession": "0001437749-24-027768",
+      "company_key": "atlanticus holdings corp",
+      "split": "test",
+      "kanit": "span: symbol “ATLCP” (7.625% Series B Cumulative Perpetual Preferred)"
+    }
+  ]
+}

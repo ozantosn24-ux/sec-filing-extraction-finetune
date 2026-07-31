@@ -80,6 +80,30 @@ def main() -> int:
     print(f"CIKARILAN: {len(dropped)}  -> data/interim/dropped/ (silinmedi, tasindi)")
     for split, acc, n in dropped:
         print(f"   {split}/{acc}  ({n} alan dolu)")
+
+    # OKSUZ SPAN SUPURGESI. Cikarma bir kez yapilir ama span uretimi yeniden
+    # kosulabilir; kosulunca cikarilmis accession'larin span'i geri gelir ve
+    # spans/ ile labels/ birbirini tutmaz. Olculdu: 10 oksuz span.
+    # Etiket kaynak-i hakikat oldugu icin bunlar egitim setine SIZMAZ; yine de
+    # sessiz tutarsizlik birakmamak icin supuruluyor.
+    orphans, unexpected = [], []
+    for split in ("train", "test"):
+        for sp in sorted((SPAN_DIR / split).glob("*.txt")):
+            if (LABEL_DIR / split / f"{sp.stem}.json").exists():
+                continue
+            known = sp.stem in excluded or (DROPPED / split / f"{sp.stem}.json").exists()
+            if known:
+                (DROPPED / split).mkdir(parents=True, exist_ok=True)
+                shutil.move(str(sp), DROPPED / split / sp.name)
+                orphans.append(f"{split}/{sp.stem}")
+            else:
+                unexpected.append(f"{split}/{sp.stem}")
+
+    print(f"OKSUZ SPAN: {len(orphans)} tasindi (cikarilmis kayitlarin yeniden uretilmis span'leri)")
+    if unexpected:
+        print(f"  ⚠️ BEKLENMEYEN oksuz span: {len(unexpected)} — etiketi YOK ve cikarilmamis, ELLE bak:")
+        for o in unexpected:
+            print(f"     {o}")
     print(f"\n'{DROP_FIELD}' alani {kept} etiketten kaldirildi (metadata olarak manifest'te kaliyor)")
     return 0
 
