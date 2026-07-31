@@ -1,0 +1,9 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001104659-21-036750
+# Merchants Bancorp  (MBIN, MBINM, MBINN, MBINO)  2021-03-16
+# https://www.sec.gov/Archives/edgar/data/1629019/000110465921036750/tm219652-1_424b5.htm
+# --- gercek belge parcasi: $1,000 per share (equivalent to $25 per depositary share) — dogru cevap 25, BASKA bir serinin "liquidation preference $1,000" ifadesi tuzak ---
+ such Series C preferred stock. 
+
+ We may redeem the Series C preferred stock at our option, subject to regulatory approval, at a redemption price equal to $1,000 per share (equivalent to $25 per depositary share), plus any declared and unpaid dividends (without regard to any undeclared dividends) to, but excluding, the redemption date, (i) in whole or in part, from time to time, on any Dividend Payment Date (as defined herein) on or after April 1, 2026 or (ii) in whole, but not in part, at any time within 90 days following a Regulatory Capital Treatment Event (as defined herein). If we redeem the Series C preferred stock, the depository shall redeem a proportionate number of depositary shares. 
+
+ The Series C preferred stock will rank (i) senior to our common stock, (ii) equally with our 8% Non-Cumulative, Perpetual Preferred Stock, without par value, liquidation preference $1,000 per share (the “8% Preferred”), our 7.00% Fixed-to Floating Rate Series A Non-Cumulative Perpetual Prefer

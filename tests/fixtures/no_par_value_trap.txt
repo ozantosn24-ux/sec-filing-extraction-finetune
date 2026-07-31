@@ -1,0 +1,15 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001193125-24-057936
+# ALBEMARLE CORP  (ALB, ALB-PA)  2024-03-04
+# https://www.sec.gov/Archives/edgar/data/915913/000119312524057936/d792055d424b5.htm
+# --- gercek belge parcasi: IMTIYAZLI 'without par value' ama ADI HISSE 'par value $0.01' — dogru cevap null ---
+e Preferred Stock 
+
+ We are offering 35,000,000
+depositary shares (“Depositary Shares”), each of which represents a 1/20th interest in a share of our % Series A Mandatory Convertible Preferred Stock, without par value (“Mandatory Convertible Preferred
+Stock”). The shares of Mandatory Convertible Preferred Stock will be deposited with Equiniti Trust Company, LLC, as bank depositary, pursuant to a deposit agreement. Holders of the Depositary Shares will be entitled to a proportional fractional
+interest in the rights and preferences of the Mandatory Convertible Preferred Stock, including conversion, dividend, liquidation and voting rights, subject to the provisions of such deposit agreement. 
+
+ Dividends on our Mandatory Convertible Preferred Stock will be payable on a cumulative basis when, as and if declared by our board of directors, or an
+authorized committee of our board of directors, at an annual rate of % on the liquidation preference of $1,000 per share. We may pay declared dividends in cash or, subject to certain limitations, in shares of our common
+stock, par value $0.01 per share, or in any combination of cash and common stock on March 1, June 1, September 1 and December 1 of each year, commencing on, and including, June 1, 2024 and ending on, and including,
+March 1

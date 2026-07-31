@@ -1,0 +1,16 @@
+# kaynak: SEC EDGAR 424B5 · accession 0001493152-22-031578
+# Fat Brands, Inc  (FAT, FATBB, FATBP, FATBW)  2022-11-14
+# https://www.sec.gov/Archives/edgar/data/1705012/000149315222031578/form424b5.htm
+# --- gercek belge parcasi: "55.5% of ... Class A Common Stock" — kupon DEGIL, oy gucu; menkul kiymet kelimesine demirli ama aralik disi ---
+referred
+Stock is listed for trading on the Nasdaq Capital Market under the symbol “FATBP”. 
+
+ Fog
+Cutter Holdings, LLC controls approximately 55.5% of the combined voting power of our Class A Common Stock and Class B Common
+Stock (which we refer to together as our “Common Stock”), and we are therefore a “controlled company” as defined
+under the Nasdaq Marketplace Rules. However, we do not currently rely on the controlled company exemptions provided under the
+Nasdaq Marketplace Rules. 
+
+ On
+March 23, 2022, the date we filed our Annual Report on Form 10-K for the fiscal year ended December 26, 2021, we became subject to General
+Instruction I.B.6 of Form S-3 (which we refer to as “General Inst
