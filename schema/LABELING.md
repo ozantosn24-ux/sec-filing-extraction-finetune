@@ -141,6 +141,23 @@ Sebep: etiket, modele verilen **metinde ne olduğunu** tanımlar, menkul kıymet
 değil. Sessizlikten `false` üretirsek modele "girdide olmayan şeyi tahmin et" öğretmiş
 oluruz — tam da engellemeye çalıştığımız davranış.
 
+### I) `series` TEK BAŞINA menkul kıymeti tanımlamaz
+
+Ölçüldü (test kümesi): Strategy Inc'in **dört ayrı imtiyazlısı da "Series A"** adını taşıyor,
+ayrım isimde:
+
+| başlık | kısaltma | kümülatif |
+|---|---|---|
+| `10.00% Series A Perpetual **Strife**` | STRF | evet |
+| `10.00% Series A Perpetual **Stride**` | STRD | **hayır** |
+| `8.00% Series A Perpetual **Strike**` | STRK | · |
+
+Yani aynı ihraççıda aynı seri harfi, farklı kupon ve farklı kümülatiflik. Etiketler doğruydu;
+ilk bakışta "çelişki" sanılan şey gerçek bir ayrımdı.
+
+📌 **Bilinen sınır:** ayırt edici ad (`Perpetual Strife`) şu an hiçbir alana yazılmıyor.
+Veri setini menkul-kıymet düzeyinde eşleştirmek gerekirse `series` yetmez, başlık metni gerekir.
+
 ### H) `no par value`
 
 Metin *"no par value"* / *"without par value"* diyorsa `par_value_usd: null`.
