@@ -104,7 +104,15 @@ def test_rapor_yoksa_None(tmp_path, monkeypatch):
 
 def test_veri_sohbet_bicimli_prompt_completion():
     """TRL bicimi SUTUNLARDAN cikariyor. Fazla sutun birakmak belirsizlik olurdu;
-    `prompt`/`completion` cifti ise `completion_only_loss`'u varsayilan yapar."""
+    `prompt`/`completion` cifti ise `completion_only_loss`'u varsayilan yapar.
+
+    Veri uretilmemisse ATLANIR — `veri_yukle` uretim yolunda bilerek SystemExit
+    atiyor (egitim, eksik veriyle sessizce baslamamali), ama testin bunu bir
+    BASARISIZLIK gibi gostermesi yanlis: depoyu klonlayan biri kirmizi bir test
+    gorurdu. test_sft.py'daki veri testleriyle ayni davranis.
+    """
+    if not (train_lora.PROCESSED / "sft_test.jsonl").exists():
+        pytest.skip("data/processed/sft_test.jsonl yok — once `python src/build_sft.py`")
     ds = train_lora.veri_yukle("test", n=2)
     assert set(ds.column_names) == {"prompt", "completion"}
     ornek = ds[0]
