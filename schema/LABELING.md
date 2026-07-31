@@ -75,9 +75,15 @@ Fiyatlama öncesi belgelerde rakamlar boş bırakılır:
 > `Shares  % Series A Cumulative Redeemable Preferred Stock`
 > `a share of our  % Fixed Rate Reset Non-Cumulative Perpetual Preferred Stock, Series B`
 
-Bu durumda `is_preliminary: true` ve `coupon_rate_pct: null`, `shares_offered: null`.
+Bu durumda `is_preliminary: true` ve boş bırakılan alanlar `null`.
 Ama `series`, `cumulative`, `perpetual` gibi **metinde açıkça yazan** alanlar yine doldurulur.
-Bu kayıtlar veri setinin **abstention** dilimidir; doğru cevap `null`'dır.
+Bu kayıtlar veri setinin **abstention** dilimidir; boş bırakılanların doğru cevabı `null`'dır.
+
+⚠️ **"Ön prospektüs ⇒ her şey null" DEĞİL.** Ölçüldü: Albemarle (`0001193125-24-057936`)
+ön prospektüs olmasına rağmen kapakta `35,000,000 depositary shares` açıkça yazıyor;
+Microchip'te de `27,000,000` var. **Alan alan metne bak** — yalnız gerçekten boş
+bırakılmış olanı `null` yap. Fiyatlamaya bağlı olmayan yapısal alanlar
+(`liquidation_preference_usd`, `par_value_usd`, adet) ön prospektüste de dolu olabilir.
 
 ### 🔴 F) DEPOSITARY YAPI — BİRİM EŞLEŞTİRMESİ (en pahalı hata)
 
@@ -101,8 +107,19 @@ Kapak sayfası neyi satıyorsa o birim esastır:
 Depositary yapı yoksa: `offered_unit: "share"`, `depositary_ratio: null`.
 
 **Kendi kendini kontrol et:** `shares_offered × liquidation_preference_usd` ihracın
-toplam büyüklüğünü vermeli ve bu **10 milyon – 5 milyar dolar** aralığında olmalı.
-Milyar üstü çıkıyorsa birimleri karıştırmışsındır.
+toplam büyüklüğünü vermeli ve bu **10 milyon – 10 milyar dolar** aralığında olmalı.
+Bu aralığın 100 katı çıkıyorsa birimleri karıştırmışsındır.
+
+*(Tavan önce 5 milyardı; iki ajan bağımsız olarak Alphabet'i işaretledi:
+`167.500.000 × $50 = 8,375 milyar` ve bu rakam ilanın kendi fiyatlama tablosundaki
+`Total $8,375,000,000` ile birebir eşleşiyor. Yani etiket doğru, **tavan yanlıştı** —
+mega-cap ihraçlarını hesaba katmıyordu. Aralığı zorlamak için etiketi bozma;
+metin ve tablo doğruluyorsa metne uy.)*
+
+📌 **Hatanın gerçek şekli:** ilk turda etiketçiler "ilk gördüğü sayıyı" almadı,
+**sistematik olarak BÜYÜK dolar rakamına yöneldi** — metin `$25 per depositary share
+(equivalent to $1,000 per share)` diye ters sırada yazsa bile 1.000'i seçti.
+Büyük sayı daha "önemli" görünüyor; kural bunu bilerek karşılamalı.
 
 ### 🔴 G) BOOL ALANLAR — sessizlikten `false` ÇIKARMA
 
@@ -131,9 +148,9 @@ farklı bir iddiadır. (Ölçüm: 8/87 belge, tüm etiketçiler bağımsız olar
 - `Redeemable` → `redeemable: true`
 - `Perpetual` → `perpetual: true` (vade yok). Vade tarihi yazıyorsa `false`.
 - `Convertible` ya da `issuable upon conversion` → `convertible: true`
-- Depositary share yapısı (`1/1000th interest in a share of ...`): `liquidation_preference_usd`
-  **temel imtiyazlı hissenin** tercihidir (ör. $25.000), depositary share'in değil ($25).
-  Hangisini yazdığını `evidence` ile göster.
+- Depositary share yapısı → **§F'ye bak.** `liquidation_preference_usd` her zaman
+  **teklif edilen birim başına**dır ($25), alttaki imtiyazlı hissenin değeri ($25.000) değil.
+  *(Bu madde önce tersini söylüyordu ve §F ile çelişiyordu; 2026-07-31'de düzeltildi.)*
 
 ## Kalite
 

@@ -25,7 +25,12 @@ def strip_html(html: str) -> str:
     text = re.sub(r"<[^>]+>", " ", text)
     # Elle entity listesi EKSIK kaliyordu (&#147; &#146; &#160; gecti) — stdlib kullan.
     text = _html.unescape(text)
-    text = re.sub(r"[ \t\xa0]+", " ", text)
+    # OLCULDU: SEC belgelerinde Unicode bosluklar bol — U+2003 em-space 524x,
+    # U+2007 figure-space 353x, U+2009 thin-space 45x, U+200A 26x, U+2002 16x.
+    # `[ \t\xa0]+` bunlari KACIRIYORDU: 'par value' aramasi 0 eslesme donuyor,
+    # metinde acikca yazmasina ragmen. Kural-tabanli baseline'i sessizce sakat
+    # birakir -> fine-tuned model haksiz yere "kazanir", karsilastirma yalan olur.
+    text = re.sub(r"[^\S\n]+", " ", text)
     text = re.sub(r"\n\s*\n\s*\n+", "\n\n", text)
     return text.strip()
 

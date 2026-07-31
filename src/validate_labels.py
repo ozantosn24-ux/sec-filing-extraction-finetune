@@ -24,7 +24,7 @@ FIELDS = [
 # Gercek imtiyazli ihraclarin buyuklugu bu araliktadir. Disina cikan carpim
 # neredeyse her zaman BIRIM KARISIKLIGIdir (depositary hisse x alttaki tercih).
 MIN_OFFERING_USD = 10_000_000
-MAX_OFFERING_USD = 5_000_000_000
+MAX_OFFERING_USD = 10_000_000_000
 
 
 def load() -> list[tuple[str, str, dict]]:
