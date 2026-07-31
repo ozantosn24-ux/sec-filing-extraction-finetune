@@ -143,20 +143,31 @@ def _rows(split: str) -> list[dict]:
     return [json.loads(ln) for ln in f.read_text(encoding="utf-8").splitlines() if ln.strip()]
 
 
+# dev istege bagli (`build_sft.py --no-dev`); varsa TUM degismezler onu da kapsar.
+SPLITS = ("train", "dev", "test") if (PROCESSED / "sft_dev.jsonl").exists() else ("train", "test")
+
+
 def test_veri_tek_anahtar_sekli():
     """Model TEK bir cikti sekli ogrenmeli. Olculdu: 42 kayitta `offered_unit`
     anahtari HIC yoktu (null degil, yok) — normalize_labels.py bunu kapatti."""
     shapes = {tuple(json.loads(r["completion"]).keys())
-              for split in ("train", "test") for r in _rows(split)}
+              for split in SPLITS for r in _rows(split)}
     assert len(shapes) == 1
     assert list(shapes.pop()) == FIELD_ORDER
 
 
 def test_sirket_ortusmesi_YOK():
-    """Bolmenin cekirdek iddiasi. Belge degil SIRKET bazinda ayrilir."""
-    tr = {r["company_key"] for r in _rows("train")}
-    te = {r["company_key"] for r in _rows("test")}
-    assert not (tr & te), f"SIZINTI: {tr & te}"
+    """Bolmenin cekirdek iddiasi. Belge degil SIRKET bazinda ayrilir.
+
+    UC cift de kontrol edilir. train<->dev'i atlamak, dev'i bir secim araci
+    olmaktan cikarip ikinci bir egitim setine cevirirdi: ayni ihraccinin kalip
+    metni hem egitimde hem secimde gorunurse dev skoru siser ve "hangi epoch
+    daha iyi" sorusunun cevabi ezberi olcer.
+    """
+    sirket = {s: {r["company_key"] for r in _rows(s)} for s in SPLITS}
+    for a, b in (("train", "test"), ("train", "dev"), ("dev", "test")):
+        if a in sirket and b in sirket:
+            assert not (sirket[a] & sirket[b]), f"SIZINTI {a}<->{b}: {sirket[a] & sirket[b]}"
 
 
 def test_her_etiketin_SIRKETI_BILINIYOR():
@@ -170,6 +181,8 @@ def test_her_etiketin_SIRKETI_BILINIYOR():
     from build_sft import LABEL_DIR, company_keys
 
     keys = company_keys()
+    # Etiket DIZINLERI ikidir (train/, test/); dev onlarin uzerinde bir gorunum,
+    # dolayisiyla burada kaynak dizinler taranir.
     eksik = [f"{split}/{p.stem}" for split in ("train", "test")
              for p in sorted((LABEL_DIR / split).glob("*.json")) if p.stem not in keys]
     assert not eksik, f"sirketi bilinmeyen kayit: {eksik}"
@@ -178,21 +191,44 @@ def test_her_etiketin_SIRKETI_BILINIYOR():
 def test_sirket_anahtari_MASKELENMEMIS():
     """'?' gibi bir yer-tutucu iki bolmede birden gorunup ortusme kontrolunu
     hem sahte-pozitif hem sahte-negatif yapabiliyordu (ilk surumde oldu)."""
-    for split in ("train", "test"):
+    for split in SPLITS:
         for r in _rows(split):
             assert r["company_key"] and r["company_key"] != "?"
 
 
 def test_accession_ortusmesi_YOK():
-    tr = {r["accession"] for r in _rows("train")}
-    te = {r["accession"] for r in _rows("test")}
-    assert not (tr & te)
+    acc = {s: {r["accession"] for r in _rows(s)} for s in SPLITS}
+    for a, b in (("train", "test"), ("train", "dev"), ("dev", "test")):
+        if a in acc and b in acc:
+            assert not (acc[a] & acc[b]), f"{a}<->{b}: {acc[a] & acc[b]}"
+
+
+def test_dev_dosyasi_veriyle_AYNI_seyi_soyluyor():
+    """`data/dev_split.json` git'te takip ediliyor, `sft_dev.jsonl` degil.
+
+    Bayatlarsa "secim hangi kayitlarda yapildi" sorusu sonradan cevaplanamaz ve
+    olcum tekrar-uretilemez hale gelir — company_keys_extra.json ile ayni gerekce.
+    """
+    if "dev" not in SPLITS:
+        pytest.skip("dev bolmesi yok (--no-dev)")
+    kayit = json.loads((ROOT / "data" / "dev_split.json").read_text(encoding="utf-8"))
+    rows = _rows("dev")
+    assert set(kayit["accessions"]) == {r["accession"] for r in rows}
+    assert set(kayit["companies"]) == {r["company_key"] for r in rows}
+
+
+def test_dev_train_uzerinde_bir_GORUNUM():
+    """Dev'in kaynak dosyalari tasinmadi; tasinsaydi manifest ve tekrar-uretim
+    bozulurdu. Kayitlar bunu `source_split` ile tasir."""
+    if "dev" not in SPLITS:
+        pytest.skip("dev bolmesi yok (--no-dev)")
+    assert all(r["source_split"] == "train" for r in _rows("dev"))
 
 
 def test_abstention_dilimi_HER_IKI_BOLMEDE_var():
     """G13: abstention ornekleri cikarilirsa model "bulamayinca uydur" ogrenir.
     Bu setin en ayirt edici parcasi bunlar — sessizce sifira dusmemeli."""
-    for split in ("train", "test"):
+    for split in SPLITS:
         n = sum(1 for r in _rows(split) if r["meta"]["abstention"])
         assert n > 0, f"{split}: abstention ornegi kalmamis"
 
@@ -200,19 +236,19 @@ def test_abstention_dilimi_HER_IKI_BOLMEDE_var():
 def test_zor_vaka_dilimi_var():
     """par_value ↔ liquidation_preference ayrimi projenin var olus sebebi;
     adim ③ bunu ayri raporlayacak, dilim bos olamaz."""
-    for split in ("train", "test"):
+    for split in SPLITS:
         assert any(r["meta"]["hard_case_par_vs_liq"] for r in _rows(split))
 
 
 def test_her_hedef_gecerli_JSON():
-    for split in ("train", "test"):
+    for split in SPLITS:
         for r in _rows(split):
             obj = json.loads(r["completion"])
             assert len(obj) == 13
 
 
 def test_promptta_gorunmez_karakter_YOK():
-    for split in ("train", "test"):
+    for split in SPLITS:
         for r in _rows(split):
             assert "​" not in r["prompt"]
 
@@ -220,14 +256,19 @@ def test_promptta_gorunmez_karakter_YOK():
 def test_prompt_ve_messages_AYNI_metni_tasir():
     """Iki bicim birlikte yaziliyor (TRL surum farki icin); ayrismalari
     sessiz bir egitim/eval uyusmazligi olurdu."""
-    for split in ("train", "test"):
+    for split in SPLITS:
         for r in _rows(split):
             assert r["messages"][0]["content"] == r["prompt"]
             assert r["messages"][1]["content"] == r["completion"]
 
 
 def test_her_kaydin_span_dosyasi_VAR():
-    """Etiket kaynak-i hakikat; oksuz span sete sizmamali (olculdu: 10 oksuz span)."""
-    for split in ("train", "test"):
+    """Etiket kaynak-i hakikat; oksuz span sete sizmamali (olculdu: 10 oksuz span).
+
+    Dosya yolu `source_split`'ten okunur, `split`'ten DEGIL: dev bir dizin degil,
+    train uzerinde bir gorunum — span'leri `spans/train/` altinda durur.
+    """
+    for split in SPLITS:
         for r in _rows(split):
-            assert (ROOT / "data" / "interim" / "spans" / split / f"{r['accession']}.txt").exists()
+            src = r.get("source_split", split)
+            assert (ROOT / "data" / "interim" / "spans" / src / f"{r['accession']}.txt").exists()

@@ -48,6 +48,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LABEL_DIR = ROOT / "data" / "interim" / "labels"
+DEV_FILE = ROOT / "data" / "dev_split.json"
 
 FIELD_ORDER = [
     "series", "coupon_rate_pct", "offered_unit", "depositary_ratio",
@@ -126,9 +127,29 @@ def esit(field: str, gold, pred) -> bool:
     return gold == pred
 
 
+def dev_accessions() -> set[str]:
+    if not DEV_FILE.exists():
+        raise SystemExit(f"{DEV_FILE} yok — once `python src/build_sft.py`")
+    return set(json.loads(DEV_FILE.read_text(encoding="utf-8"))["accessions"])
+
+
 def load_gold(split: str = "test") -> dict[str, dict]:
-    return {p.stem: json.loads(p.read_text(encoding="utf-8"))
-            for p in sorted((LABEL_DIR / split).glob("*.json"))}
+    """Altin etiketler. `dev` bir DOSYA DIZINI DEGIL, train uzerinde bir gorunum.
+
+    Dev train'den sirket bazinda oyuldu ama span/etiket dosyalari yerinde kaldi.
+    Bu yuzden dev'in altini train/ altindan accession listesiyle suzuluyor ve
+    ayni sebeple `train` de dev'i DISLIYOR: ikisi ayni kaydi sayarsa "egitimde
+    gormedigi veri" iddiasi coker.
+    """
+    src = "train" if split == "dev" else split
+    gold = {p.stem: json.loads(p.read_text(encoding="utf-8"))
+            for p in sorted((LABEL_DIR / src).glob("*.json"))}
+    if split == "dev":
+        return {k: v for k, v in gold.items() if k in dev_accessions()}
+    if split == "train" and DEV_FILE.exists():
+        dev = dev_accessions()
+        return {k: v for k, v in gold.items() if k not in dev}
+    return gold
 
 
 def score(preds: list[dict], gold: dict[str, dict]) -> dict:
@@ -232,18 +253,21 @@ def rapor(ad: str, s: dict) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("preds", nargs="+", help="tahmin JSONL dosyalari")
-    ap.add_argument("--split", default="test", choices=("train", "test"),
-                    help="altin etiket bolmesi. train = kural GELISTIRME; "
+    ap.add_argument("--split", default="test", choices=("train", "dev", "test"),
+                    help="altin etiket bolmesi. train = kural GELISTIRME, "
+                         "dev = MODEL SECIMI (epoch/lr/checkpoint); "
                          "nihai karsilastirma HER ZAMAN test.")
     ap.add_argument("--json-out", type=Path, help="karsilastirmayi JSON olarak yaz")
     args = ap.parse_args()
 
     gold = load_gold(args.split)
     if not gold:
-        raise SystemExit(f"altin etiket yok: {LABEL_DIR / args.split}")
-    print(f"altin: {len(gold)} {args.split} kaydi"
-          + ("   ⚠️ GELISTIRME kosusu — bu sayilar sonuc DEGILDIR"
-             if args.split == "train" else ""))
+        raise SystemExit(f"altin etiket yok: {args.split}")
+    uyari = {
+        "train": "   UYARI: GELISTIRME kosusu — bu sayilar sonuc DEGILDIR",
+        "dev": "   UYARI: SECIM kosusu — burada ayar yapilir, sonuc BURADAN raporlanmaz",
+    }
+    print(f"altin: {len(gold)} {args.split} kaydi" + uyari.get(args.split, ""))
 
     hepsi = {}
     for f in args.preds:

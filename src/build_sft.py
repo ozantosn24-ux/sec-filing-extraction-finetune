@@ -31,6 +31,14 @@ Oyma SIRKET bazinda — belge bazinda oyulsa ayni ihraccinin kalip metni hem
 egitimde hem secimde gorunur ve dev skoru siser. `split.py` ile AYNI mantik,
 ayri tohum.
 
+🔴 **Kural-tabanli yarismaci icin dev KIRLI.** `extract_rules.py`'in kurallari,
+dev oyulmadan ONCE 124 kayitlik train'in TAMAMI uzerinde ayarlandi; dev'in 25
+kaydi o 124'un icindeydi. Yani regex'in dev skoru (olculdu: tam kayit %68,0)
+kendi ayar verisi uzerindeki skorudur ve fine-tuned modelin dev skoruyla
+KARSILASTIRILAMAZ. Dev, MODEL secimi (epoch/lr/checkpoint) icin temizdir —
+model 99 kayitla egitilir, dev'i gormez. Uc yarismacinin karsilastirildigi
+tek yer TEST'tir ve orada regex %27,8'dir.
+
 Kullanim:
     python src/build_sft.py [--exclude-flagged]
 """

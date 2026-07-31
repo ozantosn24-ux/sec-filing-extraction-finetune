@@ -178,12 +178,28 @@ def extract(span: str) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--split", default="test", choices=("train", "test"))
+    ap.add_argument("--split", default="test", choices=("train", "dev", "test"))
     ap.add_argument("-o", "--out", type=Path)
     args = ap.parse_args()
 
+    # `dev` train'den SIRKET bazinda oyuldu ama span dosyalari train/ altinda
+    # kaldi; bolme bir dosya dizini degil accession listesi. Ayni sebeple
+    # `train` dev'i disliyor — iki bolme ayni kaydi sayarsa karsilastirma bozulur.
+    dev_file = ROOT / "data" / "dev_split.json"
+    dev_acc: set[str] = set()
+    if dev_file.exists():
+        dev_acc = set(json.loads(dev_file.read_text(encoding="utf-8"))["accessions"])
+    elif args.split == "dev":
+        raise SystemExit(f"{dev_file} yok — once `python src/build_sft.py`")
+
+    span_dir = SPAN_DIR / ("train" if args.split == "dev" else args.split)
+
     rows = []
-    for p in sorted((SPAN_DIR / args.split).glob("*.txt")):
+    for p in sorted(span_dir.glob("*.txt")):
+        if args.split == "dev" and p.stem not in dev_acc:
+            continue
+        if args.split == "train" and p.stem in dev_acc:
+            continue
         span = p.read_text(encoding="utf-8")
         t0 = time.perf_counter()
         obj = extract(span)

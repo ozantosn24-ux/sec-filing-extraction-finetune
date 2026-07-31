@@ -93,8 +93,11 @@ def main() -> int:
         }
         print()
 
+    # Taban TUM bolmelerin en uzunundan cikar. Yalniz train'e bakmak, dev/test'te
+    # daha uzun bir dizi varsa OLCUM sirasinda sessiz kesme demektir — ve kesilmis
+    # bir test ornegi metrikte "model bulamadi" diye gorunur.
     both = out["splits"]
-    need = max(both["train"]["full_templated"]["max"], both["test"]["full_templated"]["max"])
+    need = max(s["full_templated"]["max"] for s in both.values())
     fits = next((c for c in CANDIDATES if c >= need), None)
     out["min_seq_len_no_truncation"] = need
     out["recommended_seq_len"] = fits
