@@ -16,7 +16,7 @@ recover them reliably. This repository builds the dataset and the measurement.
 
 | stage | state |
 |---|---|
-| 1. Dataset | **done** — 76 labelled records, all consistency checks pass |
+| 1. Dataset | **done** — 161 labelled records, 149 clean / 12 flagged |
 | 2. LoRA fine-tune (PyTorch) | not started |
 | 3. Evaluation vs prompted baseline | not started |
 
@@ -26,14 +26,14 @@ Nothing here claims a result yet. The dataset is the part that exists.
 
 | split | documents | companies | abstention cases |
 |---|---|---|---|
-| train | 62 | 34 | 21 |
-| test | 14 | 10 | 4 |
+| train | 123 | 63 | 35 |
+| test | 35 | 22 | 10 |
 
 **Company-wise split, zero company overlap.** Some issuers file repeatedly — Southern
 California Edison appeared 10 times, State Street 9. A random document-level split would
 put the same issuer's boilerplate on both sides and inflate the score.
 
-**Abstention slice (25 records).** Preliminary prospectuses are filed before pricing, so
+**Abstention slice (45 records).** Preliminary prospectuses are filed before pricing, so
 the coupon is literally blank: `a share of our % Fixed Rate Reset ... Preferred Stock`.
 The correct label is `null`. A model only learns "say nothing when the text says nothing"
 if the data contains cases where nothing is the answer.
@@ -57,9 +57,10 @@ the coupon into a plausible range.
 records paired the depositary share count with the underlying preferred's liquidation
 preference: `12,000,000 × $25,000 = $300 billion`. The actual raise was $300 million.
 Both quantities must refer to the same unit; `shares × liquidation_preference` is now a
-consistency check. The distribution before and after says it plainly:
+consistency check. The distribution before and after the fix (first labelling pass) says it
+plainly:
 
-| liquidation preference | before | after |
+| liquidation preference | before fix | after fix |
 |---|---|---|
 | $25 (retail, NYSE-traded) | 16 | **49** |
 | $50 (mandatory convertibles) | – | 7 |
@@ -97,17 +98,21 @@ reported separately in the evaluation.
 
 ```bash
 export SEC_EDGAR_UA="Your Name your@email.com"   # SEC requires a self-identifying UA
-python src/collect.py --per-query 10 --max-docs 250
-python src/clean_dataset.py     # applies data/exclusions.json
-python src/split.py             # company-wise, deterministic
-python src/validate_labels.py   # consistency checks
+python src/collect.py --per-query 10 --max-docs 250   # fetch + locate spans
+python src/split.py                                   # company-wise, deterministic
+#   ... labelling step: spans -> data/interim/labels/<split>/<accession>.json
+python src/clean_dataset.py                           # applies data/exclusions.json
+python src/validate_labels.py                         # consistency checks
 pytest -q
 ```
+
+Order matters: `clean_dataset.py` and `validate_labels.py` operate on **labels**, so they run
+after labelling, not before. `split.py` only needs the collected documents.
 
 `data/exclusions.json` is tracked and lists 11 accessions that `collect.py` retrieves but
 which are not preferred-stock offerings (base prospectuses, common-stock ATM programmes,
 resale registrations), each with a reason. Without it the pipeline is not reproducible —
-a fresh clone would produce 87 records instead of 76.
+a fresh clone would produce 172 documents where 161 belong in the dataset.
 
 ## Tests
 
@@ -123,10 +128,10 @@ test red.
 
 ## Known limitations
 
-- 76 records is small. Enough for a narrow LoRA fine-tune, not enough for broad claims.
-- Test set is 14 documents but roughly 10 distinct offerings — Allstate, Bank of Hawaii,
-  Boeing and Strategy each appear as a preliminary/final pair. Not leakage (both sides of a
-  pair sit in test), but those offerings carry double weight in the metric.
+- 161 records is modest. Enough for a narrow LoRA fine-tune, not enough for broad claims.
+- Some issuers appear as preliminary/final pairs of the same offering (Allstate, Bank of
+  Hawaii, Boeing, Strategy). Not leakage — both sides of a pair sit in the same split — but
+  those offerings carry double weight in the metric.
 - Labels were drafted by an LLM and reviewed by a human against the filing text. They are
   not audited line by line.
 - `issuer_name` was deliberately removed from the extraction schema. It is absent from 26%
