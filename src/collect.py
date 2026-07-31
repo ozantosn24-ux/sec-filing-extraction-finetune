@@ -124,11 +124,21 @@ QUERIES = [
     '"Fixed-to-Floating Rate"',
     '"Liquidation Preference"',
     '"Preferred Stock, par value"',
+    # 2. dalga (07-31): 62 egitim ornegi LoRA icin ince — kalip cesitliligini artir.
+    '"Fixed Rate Reset"',
+    '"Non-Cumulative Preferred"',
+    '"Perpetual Preferred Stock"',
+    '"Series B Cumulative"',
+    '"Redeemable Preferred Shares"',
 ]
 
 # Tarih pencereleri — tek pencere ust siniri doldurup eskiye kayiyor.
 WINDOWS = [
-    ("2023-01-01", "2023-12-31"),
+    ("2021-01-01", "2021-12-31"),
+    ("2022-01-01", "2022-06-30"),
+    ("2022-07-01", "2022-12-31"),
+    ("2023-01-01", "2023-06-30"),
+    ("2023-07-01", "2023-12-31"),
     ("2024-01-01", "2024-06-30"),
     ("2024-07-01", "2024-12-31"),
     ("2025-01-01", "2025-06-30"),
