@@ -64,6 +64,12 @@ sonuçtur; README'deki "3 epoch optimum değil, bu canlı bir uç" cümlesi bu d
 - Diğer her hiperparametre **aynı** kalır (`--rank 16`, `--lr 1e-4`, `--batch 1`,
   `--grad-accum 8`, `--max-length 3072`, `seed=42`). Tek değişen epoch sayısıdır; iki şeyi
   aynı anda değiştirmek hangisinin etki ettiğini ölçülemez yapar.
+- 🔴 **TEK GPU'ya sabitlenir: `CUDA_VISIBLE_DEVICES=0`.** Kaggle'ın ücretsiz seçeneği
+  **T4 ×2**; iki kart görünürse `transformers` Trainer `n_gpu > 1` görüp modeli
+  `nn.DataParallel`'e sarar. O zaman etkin yığın 8 değil **16** olur, epoch başına
+  optimizer adımı 13'ten ~7'ye düşer ve karşılaştırma sessizce bozulur — epoch sayısının
+  yanında yığın boyutu da değişmiş olur. Kartın kendisi baz koşuyla aynı kalsın diye
+  P100 yerine T4 seçilir, ikinci kart ise gizlenir.
 - Seçim `dev` üzerinde yapılır. Bu koşu sırasında `test` bölmesine **hiçbir tahmin
   üretilmez**.
 
