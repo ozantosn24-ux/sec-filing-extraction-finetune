@@ -23,3 +23,28 @@ accelerate==1.14.0
 
 # QLoRA (--4bit) icin; yalnizca dar VRAM'de gerekir, CPU'da kurulmaz.
 # bitsandbytes>=0.43
+
+# ---------------------------------------------------------------------------
+# 🔴 TORCHAO — kurmak degil, KALDIRMAK gerekir (olculdu 2026-08-01, Colab T4)
+#
+# Bu liste torchao ICERMEZ ve gerekmiyor. Ama ONCEDEN KURULU bir torchao,
+# peft 0.20.0'in LoRA dispatcher'inda kosuyu OLDURUYOR:
+#
+#   peft/tuners/lora/model.py  -> dispatch_torchao()
+#   peft/import_utils.py       -> is_torchao_available()
+#   ImportError: Found an incompatible version of torchao.
+#                Found version 0.10.0, but only versions above 0.16.0 are supported
+#
+# Kritik ayrinti: `is_torchao_available()` eski surumde False DONMUYOR,
+# ImportError ATIYOR. Yani "torchao kullanmiyoruz" korumuyor — dispatcher
+# her LoRA katmani icin cagiriyor ve SFTTrainer kurulurken patliyor.
+#
+# Neden yerelde gorunmedi: bu makinede torchao HIC kurulu degil, o yuzden
+# find_spec None donuyor ve fonksiyon temiz sekilde False veriyor. CPU smoke
+# testi bu yuzden gecti. Colab imajinda torchao 0.10.0 HAZIR geliyor.
+# ⇒ Ortam farki, kod farki degil: "yerelde gecti" bunu YAKALAMAZ.
+#
+# Cozum (Colab/pod'da kurulumdan SONRA):
+#   pip uninstall -y torchao        # kullanmiyoruz, en dar duzeltme
+#   # ya da: pip install -U "torchao>0.16"   (daha buyuk indirme, torch'u
+#   #        zorlayabilir — gerekmedikce tercih etmeyin)

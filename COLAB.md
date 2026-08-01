@@ -36,7 +36,30 @@ yapmıyorsunuz. Ama rehberlerden kopyaladığınız başka bir script `bf16=True
 
 ```python
 !pip install -q transformers==5.14.1 trl==1.9.2 peft==0.20.0 datasets==5.0.1 accelerate==1.14.0 bitsandbytes
+!pip uninstall -y -q torchao        # <- ATLAMAYIN, aşağıya bakın
 ```
+
+🔴 **`torchao`'yu kaldırın — kurmayı değil, KALDIRMAYI kastediyorum.** Colab imajında
+`torchao 0.10.0` hazır geliyor ve `peft 0.20.0`'ın LoRA dispatcher'ı onu görünce koşuyu
+öldürüyor:
+
+```
+peft/tuners/lora/model.py -> dispatch_torchao()
+peft/import_utils.py      -> is_torchao_available()
+ImportError: Found an incompatible version of torchao.
+             Found version 0.10.0, but only versions above 0.16.0 are supported
+```
+
+Kritik ayrıntı: eski sürümde `is_torchao_available()` **`False` dönmüyor, `ImportError`
+atıyor**. Yani "torchao kullanmıyoruz" sizi korumuyor — dispatcher her LoRA katmanı için
+çağırıyor ve `SFTTrainer` kurulurken patlıyor. Hata *eğitimin içinde* değil, trainer
+daha kurulurken çıkıyor.
+
+**Bu, yerelde ASLA görünmeyen bir arıza.** Bu depoda torchao hiç kurulu değil, `find_spec`
+`None` dönüyor, fonksiyon temizce `False` veriyor — CPU smoke testi bu yüzden geçiyordu.
+Ölçüldü (2026-08-01, Colab T4): aynı script, aynı sürümler, aynı veri; fark yalnız ortam.
+"Yerelde geçti" bu sınıf arızayı yakalamaz — smoke testini **koşacağınız makinede**
+tekrar koşmanızın sebebi tam olarak budur.
 
 Sürümler neden sabit: TRL'in SFT API'si bu proje yazılırken değişti
 (`max_seq_length` → `max_length`, varsayılan 1024). Eski adı veren script **hata
