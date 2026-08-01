@@ -4,11 +4,12 @@ Structured field extraction from SEC 424B5 preferred-stock prospectuses, built t
 measure one question: **on schema-strict extraction, is a small fine-tuned model worth
 more than the alternatives — on accuracy, abstention, latency and format adherence?**
 
-Answer, on a company-disjoint held-out set: **yes against both alternatives it was
-measured against** — 61.1% whole-record versus 27.8% for a hand-tuned rule-based
-extractor and 0.0% for the same base model without the adapter. What was *not* measured
-is a large prompted model (see [Known limitations](#known-limitations)), so this is not
-evidence about GPT/Claude-class models.
+Answer, on a company-disjoint held-out set: **yes against all three alternatives it was
+measured against.** 61.1% whole-record versus 27.8% for a hand-tuned rule-based extractor,
+0.0% for the same base model without the adapter, and 0.0% for a **twice-as-large prompted
+model** (Qwen2.5-3B). The frontier-model comparison was *not* run (see
+[Known limitations](#known-limitations)), so this is not evidence about GPT/Claude-class
+models.
 
 The task is not invented for a demo. A rule-based parser I wrote earlier
 (`prefedge/backend/utils/edgar_parser.py`) gives up on exactly these fields:
@@ -24,37 +25,51 @@ recover them reliably. This repository builds the dataset and the measurement.
 |---|---|
 | 1. Dataset | **done** — 160 labelled records, 148 clean / 12 flagged; split train 99 / dev 25 / test 36 |
 | 2. LoRA fine-tune (PyTorch) | **done** — Qwen2.5-1.5B, LoRA r=16, 3 epochs on a free Colab T4 |
-| 3. Evaluation | **done** — three contestants measured on test, once |
+| 3. Evaluation | **done** — four contestants measured on test, once |
 
 ## Result
 
 Test set, 36 held-out records, 22 companies with zero overlap with training. Measured once,
-after the checkpoint was chosen on `dev`.
+after the checkpoint was chosen on `dev`. Every contestant gets the **same instruction**
+(`src/prompt.py` is a single module for exactly this reason) and the same harness.
 
-| metric | rule-based regex | base 1.5B, no adapter | **fine-tuned LoRA** |
-|---|---|---|---|
-| schema validity | 100.0% | **0.0%** | **100.0%** |
-| whole record exact (13/13) | 27.8% | 0.0% | **61.1%** |
-| correct abstention | 90.2% | 61.0% | **92.7%** |
-| **hallucination** (gold null → value emitted) | 9.8% | 39.0% | **7.3%** |
-| miss (gold filled → null emitted) | 4.1% | 31.9% | **3.5%** |
-| `par_value` ↔ `liquidation_preference` slice | 81.6% | 39.5% | **100.0%** (38/38) |
-| single-instance `unit` generalization | hit | miss (`"preferred stock"`) | hit |
-| median latency | 0.001 s | 6.81 s | 8.93 s |
+| metric | rule-based regex | base 1.5B, no adapter | prompted 3B (4-bit) | **fine-tuned LoRA 1.5B** |
+|---|---|---|---|---|
+| schema validity | 100.0% | 0.0% | 25.0% | **100.0%** |
+| whole record exact (13/13) | 27.8% | 0.0% | 0.0% | **61.1%** |
+| correct abstention | 90.2% | 61.0% | 59.3% | **92.7%** |
+| **hallucination** (gold null → value emitted) | 9.8% | 39.0% | 40.7% | **7.3%** |
+| miss (gold filled → null emitted) | 4.1% | 31.9% | 15.7% | **3.5%** |
+| `par_value` ↔ `liquidation_preference` slice | 81.6% | 39.5% | 73.7% | **100.0%** (38/38) |
+| single-instance `unit` generalization | hit | miss | miss | hit |
+| median latency | 0.001 s | 6.81 s | 10.83 s | 8.93 s |
+
+**A model twice the size, prompted, scores 0.0% whole-record.** Qwen2.5-3B in 4-bit is
+better than the 1.5B base at reading the document — 73.7% on the hard slice versus 39.5% —
+but it cannot hold the output contract: it **omitted a required field in 27 of 36 records**
+(usually `is_preliminary`), put free text in enum fields twice, fenced one answer in
+markdown, and emitted `"shares_offered": 20340632356.64` where an integer was required.
+Schema validity 25.0%. It also hallucinates the most of any contestant (40.7%).
 
 **The fine-tune beats the rule-based baseline 61.1% vs 27.8% on whole-record extraction,
 and it does so without trading accuracy for recklessness** — hallucination went *down*
 (7.3% vs 9.8%) and misses went *down* (3.5% vs 4.1%). On the hard case the project exists
 for, `par_value` ↔ `liquidation_preference`, it is 38/38.
 
-**The no-adapter column is why that claim is safe.** Same weights, same instruction,
-same greedy decoding — only the adapter removed. It scores **0.0% schema validity**: it
-wrapped all 36 outputs in a markdown fence (an explicit instruction violation), emitted
-`is_preliminary: null` 10 times where the schema forbids null, put free text in enum
-fields, and produced one output that is not parseable JSON at all (`"shares_offered":
-2,774,108`). So the fine-tuned score is not the base model already knowing the task; the
-adapter is doing the work. That contrast is the single most informative number here, and
-it only exists because the run was measured.
+**The two prompted columns are what make that claim safe**, and they close two different
+escape hatches:
+
+- *"The base model already knew this."* The no-adapter run is the same weights, same
+  instruction, same greedy decoding — only the adapter removed. It scores **0.0% schema
+  validity**: it wrapped all 36 outputs in a markdown fence (an explicit instruction
+  violation), emitted `is_preliminary: null` 10 times where the schema forbids null, put
+  free text in enum fields, and produced one output that is not parseable JSON at all
+  (`"shares_offered": 2,774,108`). The adapter is doing the work.
+- *"It just needs a bigger model."* Qwen2.5-3B, twice the parameters, also scores **0.0%**
+  whole-record. Scale helped it *read* (73.7% on the hard slice vs 39.5%) but not *comply*.
+
+Neither contrast existed before the run; both are the reason the headline number means
+anything.
 
 The rule-based contestant is not a strawman: it is 100% schema-valid *by construction* and
 81.6% on the hard slice. It loses on whole-record because keyword matching cannot resolve
@@ -62,7 +77,8 @@ which of two dollar figures in the same sentence is the liquidation preference.
 
 **Latency is the honest cost.** The regex extractor is ~7,500× faster and runs on a CPU.
 The fine-tune buys accuracy with a GPU and ~9 s/document. Which is worth more depends on
-whether being wrong on 72% of records is acceptable.
+whether being wrong on 72% of records is acceptable. The 3B is both slower *and*
+unusable here, which is the cleanest argument in the table: size alone bought nothing.
 
 ### How the checkpoint was chosen
 
@@ -122,7 +138,7 @@ train and test was run once. The fine-tune gets held to the same standard.
 train records back when dev was still part of train, so regex has seen dev: it scores
 **68.0%** whole-record there versus **27.8%** on test. Dev is clean for the *model*
 (which trains on 99 records and never sees it) and is used only to compare fine-tuned
-checkpoints against each other. All three contestants meet on **test**, once.
+checkpoints against each other. All four contestants meet on **test**, once.
 
 **Company-wise split, zero company overlap.** Some issuers file repeatedly — Southern
 California Edison appeared 10 times, State Street 9. A random document-level split would
@@ -218,8 +234,9 @@ python src/evaluate.py data/processed/preds_ft_dev_*.jsonl --split dev
 # then test, once, with the chosen checkpoint
 python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-39   # dev picked epoch 3
 python src/predict.py -o data/processed/preds_base1p5b_test.jsonl   # same model, no adapter
+python src/predict.py --model Qwen/Qwen2.5-3B-Instruct --4bit \n  -o data/processed/preds_prompted3b_test.jsonl                     # twice the size, prompted
 python src/evaluate.py data/processed/preds_regex_test.jsonl \
-  data/processed/preds_base1p5b_test.jsonl data/processed/preds_ft_test.jsonl
+  data/processed/preds_base1p5b_test.jsonl data/processed/preds_prompted3b_test.jsonl \n  data/processed/preds_ft_test.jsonl
 ```
 
 The no-adapter run is not optional. A fine-tuned score on its own cannot separate
@@ -328,13 +345,17 @@ a security word but is not a coupon) and for depositary priority (Merchants Banc
 
 ## Known limitations
 
-- **The "large prompted model" contestant was never measured.** It was planned as
-  Qwen2.5-7B in 4-bit, and it killed the Colab session: `--4bit` quantises at *load*, but
-  the fp16 weights still have to be **downloaded first — 15.2 GB**, which exhausted the
-  free-tier session at 32% and took `/content` (adapter and all predictions) with it. The
-  comparison in this README is therefore fine-tune vs rule-based vs *its own base model*,
-  not fine-tune vs a frontier model. Anyone reading a "small model beats big model" claim
-  into these numbers is reading something that was not tested.
+- **The prompted contestant is 3B, not a frontier model.** Qwen2.5-7B was the original
+  plan and it killed the Colab session: `--4bit` quantises at *load*, but the fp16 weights
+  still have to be **downloaded first — 15.2 GB**, which exhausted the free-tier session at
+  32% and took `/content` (adapter and all predictions) with it. 3B (~6 GB) fits and was
+  measured. So the honest claim is **"a small fine-tuned model beats a twice-as-large
+  prompted open model"** — not "beats GPT/Claude". A frontier model with the same
+  instruction would very likely produce valid JSON; that was never tested here.
+- The 3B contestant got **one prompt, greedy decoding, no retries and no repair pass**.
+  A production prompted pipeline would add JSON-mode/constrained decoding and a re-ask
+  loop, which would fix most of its 27 missing-field failures. What is measured is
+  "same instruction, same harness, no scaffolding" — not the ceiling of prompting.
 - 36 test records is a small ruler. 61.1% vs 27.8% is a 12-record gap; the direction is
   not in doubt but the second decimal is meaningless.
 - Both dev signals were still improving at epoch 3, so **3 epochs is not shown to be
