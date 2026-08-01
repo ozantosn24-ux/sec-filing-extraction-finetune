@@ -166,13 +166,20 @@ güncellendiği. Bu az. Epoch sonlarındaki `eval_loss` **düşmeye devam ediyor
 erken bitmiş demektir; `--epochs 5` ya da `--grad-accum 4` (etkin yığın 4 → ~74 adım)
 deneyin. Bu kararı **dev'e bakarak** verin, test'e değil.
 
-**Oturum kopması:** adaptör her epoch sonunda kaydediliyor (`save_strategy="epoch"`),
-yani kopmada baştan başlamazsınız. Kaydı **Drive'a** almak isterseniz:
+🔴 **Drive'a yazın — bu isteğe bağlı DEĞİL.** `save_strategy="epoch"` adaptörü her
+epoch sonunda kaydediyor, ama `/content` **oturumla birlikte silinir**. Ölçüldü
+(2026-08-01): oturum koptu, 18 dakikalık eğitimin adaptörü ve tüm tahmin dosyaları
+gitti — checkpoint'lerin varlığı işe yaramadı, çünkü hepsi `/content` altındaydı.
+"Kopmada baştan başlamazsınız" yalnızca oturum **yaşarken** doğru.
 
 ```python
 from google.colab import drive; drive.mount('/content/drive')
-!python src/train_lora.py --out /content/drive/MyDrive/lora-qwen2.5-1.5b
+!python src/train_lora.py --out /content/drive/MyDrive/edgar-extract/lora-qwen2.5-1.5b
 ```
+
+Tahminleri de aynı yere yazın (`-o /content/drive/MyDrive/edgar-extract/...`). Drive'a
+yazmak epoch başına birkaç saniye ekliyor (ölçüldü: `train_runtime` 1083 sn → 1147 sn,
+%6) — kaybedilen koşunun yanında hiçbir şey.
 
 🔴 **fp16 uyarısı:** loss `nan` olursa **ilk şüpheli fp16'dır**, model ya da veri
 değil. T4'te bf16 yok, o yüzden çare `--lr 5e-5` gibi daha düşük bir öğrenme oranı
@@ -207,8 +214,8 @@ fine-tuned modeli yan yana koymak yanlış karşılaştırmadır. Dev yalnızca
 # 1) fine-tuned küçük model — 6a'da secilen checkpoint
 !python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-SECILEN
 
-# 2) prompted BÜYÜK model — aynı T4'te, 4-bit
-!python src/predict.py --model Qwen/Qwen2.5-7B-Instruct --4bit -o data/processed/preds_prompted7b_test.jsonl
+# 2) prompted ORTA BOY model — aynı T4'te, 4-bit. 7B DEĞİL, aşağıya bakın.
+!python src/predict.py --model Qwen/Qwen2.5-3B-Instruct --4bit -o data/processed/preds_prompted3b_test.jsonl
 
 # 3) AYNI küçük modelin ADAPTÖRSÜZ hali — LoRA'nin gercekten fark yaratip
 #    yaratmadigi ancak bu olcumle bilinir. Adaptorlu skor tek basina, modelin
@@ -218,8 +225,19 @@ fine-tuned modeli yan yana koymak yanlış karşılaştırmadır. Dev yalnızca
 
 Dördüncüsü (kural-tabanlı regex) **yerelde zaten ölçüldü**, GPU istemiyor.
 
-7B'nin NF4'te ~4 GB ağırlığı var, 16 GB'a sığmalı — **ölçülmedi**, ilk koşuda
-görülecek. Sığmazsa `Qwen2.5-3B-Instruct`'a düşün ve raporda öyle yazın.
+🔴 **7B, ücretsiz Colab'de OTURUMU ÖLDÜRÜYOR — ölçüldü (2026-08-01).** Önceki tahmin
+şuydu: "NF4'te ~4 GB ağırlığı var, 16 GB'a sığmalı." VRAM tarafı doğru ama **darboğaz
+VRAM değil**: `--4bit` taban modeli 4-bit *yükler*, ama önce fp16 ağırlıkları
+**indirmek** zorunda — Qwen2.5-7B için **15,2 GB**. İndirme %32'deyken oturum
+kaynaklarını tüketti ve runtime düştü; `/content` ile birlikte adaptör ve o ana kadarki
+tüm tahminler gitti.
+
+Bu yüzden varsayılan `Qwen2.5-3B-Instruct` (~6 GB indirme). Raporda dürüst karşılık:
+yarışmacı "prompted **orta boy** açık model", "büyük model" değil.
+
+⚠️ Sonuç olarak bu kurulumun dürüst sınırı daha da dar: **"küçük fine-tuned model,
+orta boy prompted açık modeli yener"**. Claude/GPT sınıfı bir modelle karşılaştırma
+bu runbook'ta YOK ve öyle sunulmamalı.
 
 ## 7. Sonuçları indirin ve YERELDE ölçün
 
