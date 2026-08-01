@@ -1,8 +1,14 @@
 # edgar-extract
 
 Structured field extraction from SEC 424B5 preferred-stock prospectuses, built to
-measure one question: **can a small fine-tuned model beat a large prompted model on
-schema-strict extraction, on cost, latency and format adherence?**
+measure one question: **on schema-strict extraction, is a small fine-tuned model worth
+more than the alternatives — on accuracy, abstention, latency and format adherence?**
+
+Answer, on a company-disjoint held-out set: **yes against both alternatives it was
+measured against** — 61.1% whole-record versus 27.8% for a hand-tuned rule-based
+extractor and 0.0% for the same base model without the adapter. What was *not* measured
+is a large prompted model (see [Known limitations](#known-limitations)), so this is not
+evidence about GPT/Claude-class models.
 
 The task is not invented for a demo. A rule-based parser I wrote earlier
 (`prefedge/backend/utils/edgar_parser.py`) gives up on exactly these fields:
@@ -17,31 +23,85 @@ recover them reliably. This repository builds the dataset and the measurement.
 | stage | state |
 |---|---|
 | 1. Dataset | **done** — 160 labelled records, 148 clean / 12 flagged; split train 99 / dev 25 / test 36 |
-| 2. LoRA fine-tune (PyTorch) | training set built, script written and **smoke-tested on CPU**; not yet trained (needs a GPU) |
-| 3. Evaluation | harness **written**, rule-based contestant **measured**; two contestants outstanding |
+| 2. LoRA fine-tune (PyTorch) | **done** — Qwen2.5-1.5B, LoRA r=16, 3 epochs on a free Colab T4 |
+| 3. Evaluation | **done** — three contestants measured on test, once |
 
-No model has been fine-tuned for this task. A 135M model was run for two steps on CPU to
-prove the training pipeline; its weights and output were discarded and are not reported.
-The only measured contestant is the rule-based extractor, which is the *baseline* — it is
-what the fine-tune has to beat.
+## Result
 
-### Baseline on the held-out test set (36 records)
+Test set, 36 held-out records, 22 companies with zero overlap with training. Measured once,
+after the checkpoint was chosen on `dev`.
 
-| metric | rule-based regex |
-|---|---|
-| schema validity | 100.0% (valid by construction — not an achievement) |
-| whole record exact (13/13) | 27.8% |
-| correct abstention | 90.2% |
-| **hallucination** (gold null → value emitted) | 9.8% |
-| miss (gold filled → null emitted) | 4.1% |
-| `par_value` ↔ `liquidation_preference` slice | 81.6% |
-| single-instance `unit` generalization | hit |
+| metric | rule-based regex | base 1.5B, no adapter | **fine-tuned LoRA** |
+|---|---|---|---|
+| schema validity | 100.0% | **0.0%** | **100.0%** |
+| whole record exact (13/13) | 27.8% | 0.0% | **61.1%** |
+| correct abstention | 90.2% | 61.0% | **92.7%** |
+| **hallucination** (gold null → value emitted) | 9.8% | 39.0% | **7.3%** |
+| miss (gold filled → null emitted) | 4.1% | 31.9% | **3.5%** |
+| `par_value` ↔ `liquidation_preference` slice | 81.6% | 39.5% | **100.0%** (38/38) |
+| single-instance `unit` generalization | hit | miss (`"preferred stock"`) | hit |
+| median latency | 0.001 s | 6.81 s | 8.93 s |
+
+**The fine-tune beats the rule-based baseline 61.1% vs 27.8% on whole-record extraction,
+and it does so without trading accuracy for recklessness** — hallucination went *down*
+(7.3% vs 9.8%) and misses went *down* (3.5% vs 4.1%). On the hard case the project exists
+for, `par_value` ↔ `liquidation_preference`, it is 38/38.
+
+**The no-adapter column is why that claim is safe.** Same weights, same instruction,
+same greedy decoding — only the adapter removed. It scores **0.0% schema validity**: it
+wrapped all 36 outputs in a markdown fence (an explicit instruction violation), emitted
+`is_preliminary: null` 10 times where the schema forbids null, put free text in enum
+fields, and produced one output that is not parseable JSON at all (`"shares_offered":
+2,774,108`). So the fine-tuned score is not the base model already knowing the task; the
+adapter is doing the work. That contrast is the single most informative number here, and
+it only exists because the run was measured.
+
+The rule-based contestant is not a strawman: it is 100% schema-valid *by construction* and
+81.6% on the hard slice. It loses on whole-record because keyword matching cannot resolve
+which of two dollar figures in the same sentence is the liquidation preference.
+
+**Latency is the honest cost.** The regex extractor is ~7,500× faster and runs on a CPU.
+The fine-tune buys accuracy with a GPU and ~9 s/document. Which is worth more depends on
+whether being wrong on 72% of records is acceptable.
+
+### How the checkpoint was chosen
+
+Selection ran on `dev` (25 records), never on test:
+
+| checkpoint | dev whole record | dev `eval_loss` |
+|---|---|---|
+| 13 (epoch 1) | 48.0% | 0.01938 |
+| 26 (epoch 2) | 60.0% | 0.01551 |
+| **39 (epoch 3)** | **68.0%** | **0.01169** |
+
+Both signals agree, so there was nothing to adjudicate. Both were still improving at
+epoch 3, which means **3 epochs is probably not the optimum** — more epochs might do
+better, and that is a live thread, not a finished one.
+
+### Baseline detail (rule-based)
 
 Rules were developed against **train only** and run against test once. Train scores 33.3%
 whole-record versus 27.8% on test; that gap is the cost of having tuned on train and is
 reported rather than hidden. (The dev slice, also seen during rule development, scores
 68.0% — a reminder that a 25-record slice is a noisy ruler and that absolute numbers
 across splits are not comparable.)
+
+### Training run, measured
+
+| | |
+|---|---|
+| model | Qwen2.5-1.5B-Instruct, LoRA r=16 (q,k,v,o,gate,up,down) |
+| hardware | free Colab **Tesla T4** — Turing, so **fp16**, chosen by the script from compute capability |
+| precision | `Tesla T4 CC 7.5 (Turing) — bf16 YOK, fp16'ya dusuldu` |
+| peak VRAM | **4.82 GB / 14.6 GB (33%)** with gradient checkpointing |
+| optimizer steps | **39** (99 examples / effective batch 8 × 3 epochs) |
+| wall clock | 19 min (`train_runtime` 1147 s) |
+| train loss | 0.277 → 0.0364, no `nan` — fp16 held |
+| cost | **$0** |
+
+The run was executed twice (the first session died before the artifacts were saved). Dev
+`eval_loss` reproduced to three decimal places across both runs — 0.01919/0.01552/0.01147
+then 0.01938/0.01551/0.01169 — which is fp16 nondeterminism, not drift.
 
 ## Dataset
 
@@ -156,10 +216,10 @@ python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-N --split de
 python src/evaluate.py data/processed/preds_ft_dev_*.jsonl --split dev
 
 # then test, once, with the chosen checkpoint
-python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-CHOSEN
-python src/predict.py -o data/processed/preds_base1.5b_test.jsonl   # same model, no adapter
+python src/predict.py --adapter models/lora-qwen2.5-1.5b/checkpoint-39   # dev picked epoch 3
+python src/predict.py -o data/processed/preds_base1p5b_test.jsonl   # same model, no adapter
 python src/evaluate.py data/processed/preds_regex_test.jsonl \
-  data/processed/preds_base1.5b_test.jsonl data/processed/preds_ft_test.jsonl
+  data/processed/preds_base1p5b_test.jsonl data/processed/preds_ft_test.jsonl
 ```
 
 The no-adapter run is not optional. A fine-tuned score on its own cannot separate
@@ -268,6 +328,20 @@ a security word but is not a coupon) and for depositary priority (Merchants Banc
 
 ## Known limitations
 
+- **The "large prompted model" contestant was never measured.** It was planned as
+  Qwen2.5-7B in 4-bit, and it killed the Colab session: `--4bit` quantises at *load*, but
+  the fp16 weights still have to be **downloaded first — 15.2 GB**, which exhausted the
+  free-tier session at 32% and took `/content` (adapter and all predictions) with it. The
+  comparison in this README is therefore fine-tune vs rule-based vs *its own base model*,
+  not fine-tune vs a frontier model. Anyone reading a "small model beats big model" claim
+  into these numbers is reading something that was not tested.
+- 36 test records is a small ruler. 61.1% vs 27.8% is a 12-record gap; the direction is
+  not in doubt but the second decimal is meaningless.
+- Both dev signals were still improving at epoch 3, so **3 epochs is not shown to be
+  optimal** — only that it beats epochs 1 and 2. The hyperparameters were not searched.
+- Latency was measured on a Colab T4 for the models and on a local CPU for the regex.
+  The 0.001 s vs 8.93 s gap is real in magnitude but the two numbers come from different
+  hardware and are not a controlled comparison.
 - 160 records is modest. Enough for a narrow LoRA fine-tune, not enough for broad claims.
 - Some issuers appear as preliminary/final pairs of the same offering (Allstate, Bank of
   Hawaii, Boeing, Strategy). Not leakage — both sides of a pair sit in the same split — but
