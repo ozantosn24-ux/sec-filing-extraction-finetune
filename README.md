@@ -323,9 +323,10 @@ failure would only surface after the GPU bill.
 ## Sequence length is measured, not assumed
 
 `seq_len=2048` is the value most LoRA guides use. Measured with the Qwen2.5 tokenizer over
-the actual chat-templated sequences, it **truncates 123 of 124 training records and all 36
-test records**. What gets cut is the end of the cover page — where the fields are. A
-truncated example looks like a model failure in the metrics; it never saw the text.
+the actual chat-templated sequences, it **truncates every training record (99/99), 24 of 25
+dev records and all 36 test records**. What gets cut is the end of the cover page — where the
+fields are. A truncated example looks like a model failure in the metrics; it never saw the
+text. Re-run `python src/measure_tokens.py` to reproduce these counts.
 
 | | |
 |---|---|
@@ -352,7 +353,7 @@ and on inspection it was harmful, since an American Depositary Share genuinely *
 depositary-like unit and should stop the deriver rather than be scrubbed out of the text.
 The pre-strip was removed and replaced with a test pinning the conservative behaviour.
 
-The audit also drove four fixtures into existence. Mutations that survived showed the tests
+The audit also drove three fixtures into existence. Mutations that survived showed the tests
 were passing for the wrong reason: a hand-written "without par value" sentence did not
 actually exercise the no-par rule, because no competing `par value $0.01` appeared nearby.
 The real Albemarle filing carries both, 894 characters apart. Same for the coupon range
