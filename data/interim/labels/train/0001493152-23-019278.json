@@ -1,0 +1,20 @@
+{
+  "series": null,
+  "coupon_rate_pct": 12.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 15.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": false,
+  "perpetual": true,
+  "shares_offered": 240000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "one share of our 12% Cumulative Redeemable Perpetual Preferred Stock",
+    "liquidation_preference_usd": "stated value $15.00 per share",
+    "shares_offered": "Up to 240,000 Units, Each Unit Consisting of One Share of 12% Cumulative Redeemable Perpetual Preferred Stock"
+  }
+}

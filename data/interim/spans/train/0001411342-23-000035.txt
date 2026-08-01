@@ -1,0 +1,27 @@
+424B5
+ 1
+ efcfinalpreferredstockpros.htm
+ 424B5
+
+ Document 
+
+ Filed Pursuant to Rule 424(b)(5) 
+ Registration No. 333-269386 
+
+ PROSPECTUS SUPPLEMENT 
+ (To prospectus dated January 24, 2023) 
+ 4,000,000 Shares 
+ 
+ Ellington Financial Inc. 
+ 8.625% Series C Fixed-Rate Reset Cumulative Redeemable Preferred Stock 
+ (Liquidation Preference $25.00 Per Share) 
+ We are offering 4,000,000 shares of our 8.625% Series C Fixed-Rate Reset Cumulative Redeemable Preferred Stock, $0.001 par value per share, with a liquidation preference of $25.00 per share (the “Series C Preferred Stock”) by this prospectus supplement and the accompanying prospectus. Holders of the Series C Preferred Stock will be entitled to receive cumulative cash dividends based on the stated liquidation preference of $25.00 per share at a rate equal to (i) from and including the original issue date to, but excluding, April 30, 2028, 8.625% per annum (equivalent to $2.15625 per annum per share) and (ii) from and including April 30, 2028, during each Reset Period (as defined herein), the five-year treasury rate as of the most recent reset dividend determination date (as described elsewhere in this prospectus supplement) plus 5.13% per annum. Dividends will be payable quarterly in arrears on or about the 30th day of January, April, July and October of each year, when and as declared, beginning on April 30, 2023 (short first Dividend Period (as defined herein)). Dividends will accumulate and be cumulative from, and including, the original issue date of the Series C Preferred Stock. 
+ The Series C Preferred Stock is not redeemable by us prior to April 30, 2028, except under circumstances where it is necessary to allow us to qualify and maintain our qualification as a real estate investment trust (“REIT”) for U.S. federal income tax purposes and except as described below upon the occurrence of a Change of Control (as defined herein). On or after April 30, 2028, we may, at our option, subject to certain procedural requirements, redeem the Series C Preferred Stock, in whole or in part, at any time or from time to time, for cash at a redemption price equal to $25.00 per share of the Series C Preferred Stock, plus any accumulated and unpaid dividends thereon (whether or not authorized or declared) to, but excluding, the redemption date, without interest. In addition, upon the occurrence of a Change of Control, we may, at our option, subject to certain procedural requirements, redeem the Series C Preferred Stock, in whole or in part, within 120 days after the first date on which such Change of Control occurred, for cash at a redemption price of $25.00 per share of the Series C Preferred Stock, plus any accumulated and unpaid dividends thereon (whether or not authorized or declared) to, but excluding, the redemption date, without interest. The Series C Preferred Stock has no stated maturity, is not subject to any sinking fund or mandatory redemption, and will remain outstanding indefinitely unless repurchased or redeemed by us or converted into shares of our common stock, par value $0.001 per share (our “common stock”), in connection with a Change of Control by the holders of the Series C Preferred Stock. 
+ Upon the occurrence of a Change of Control, provided that the Common Stock Authorization (as defined herein) has occurred at or prior to such Change of Control, each holder of the Series C Preferred Stock will have the right (subject to our election to redeem the Series C Preferred Stock in whole or in part, as described above, prior to the Change of Control Conversion Date (as defined herein)) to convert some or all of the shares of the Series C Preferred Stock held by such holder on the Change of Control Conversion Date into a number of shares of our common stock per share of the Series C Preferred Stock equal to the lesser of: 
+ • the quotient obtained by dividing (i) the sum of the $25.00 per share liquidation preference of the Series C Preferred Stock plus any accumulated and unpaid dividends thereon (whether or not authorized or declared) to, but excluding, the Change of Control Conversion Date (unless the Change of Control Conversion Date is after a dividend record date (as defined herein) and prior to the corresponding dividend payment date (as defined herein) for the Series C Preferred Stock, in which case no additional amount for such accumulated and unpaid dividends to be paid on such dividend payment date will be included in this sum) by (ii) the Common Stock Price (as defined herein); and 
+ • 3.53607 (the “Share Cap”), subject to certain adjustments as explained herein; 
+ in each case, on the terms and subject to the conditions described in this prospectus supplement, including provisions for the receipt, under specified circumstances, of alternative consideration as described in this prospectus supplement. 
+ If, following a Change of Control, the Common Stock Authorization has not occurred and we have not exercised our option to redeem the Series C Preferred Stock as described above, we will increase the cumulative dividend rate by 300 basis points per annum. 
+
+ Holders of shares of the Series C Preferred Stock will be entitled to receive cumulative cash dividends from, and including, the first date on which the Change of Control has occurred at the increased rate for so long as we have not exercised our option to redeem the Series C Preferred Stock. 
+ No current market exists f

@@ -1,0 +1,1554 @@
+{
+  "train": [
+    {
+      "accession": "0001104659-21-115953",
+      "company": "VORNADO REALTY TRUST  (VNO, VNORP, VNO-PL, VNO-PM, VNO-PN, VNO-PO)",
+      "company_key": "vornado realty trust",
+      "filed_date": "2021-09-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/899689/000110465921115953/tm2127186-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-115953.txt"
+    },
+    {
+      "accession": "0001104659-21-114908",
+      "company": "VORNADO REALTY TRUST  (VNO, VNORP, VNO-PL, VNO-PM, VNO-PN, VNO-PO)",
+      "company_key": "vornado realty trust",
+      "filed_date": "2021-09-13",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/899689/000110465921114908/tm2127186-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-114908.txt"
+    },
+    {
+      "accession": "0001104659-21-092097",
+      "company": "Sunstone Hotel Investors, Inc.  (SHO, SHO-PH, SHO-PI)",
+      "company_key": "sunstone hotel investors, inc.",
+      "filed_date": "2021-07-14",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1295810/000110465921092097/tm2122020-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-092097.txt"
+    },
+    {
+      "accession": "0001104659-21-065396",
+      "company": "Sunstone Hotel Investors, Inc.  (SHO, SHO-PH, SHO-PI)",
+      "company_key": "sunstone hotel investors, inc.",
+      "filed_date": "2021-05-13",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1295810/000110465921065396/tm2115745-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-065396.txt"
+    },
+    {
+      "accession": "0001104659-21-091474",
+      "company": "Sunstone Hotel Investors, Inc.  (SHO, SHO-PH, SHO-PI)",
+      "company_key": "sunstone hotel investors, inc.",
+      "filed_date": "2021-07-13",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1295810/000110465921091474/tm2122020-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-091474.txt"
+    },
+    {
+      "accession": "0001104659-21-064330",
+      "company": "Sunstone Hotel Investors, Inc.  (SHO, SHO-PH, SHO-PI)",
+      "company_key": "sunstone hotel investors, inc.",
+      "filed_date": "2021-05-11",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1295810/000110465921064330/tm2115745-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-064330.txt"
+    },
+    {
+      "accession": "0001193125-21-303774",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2021-10-21",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312521303774/d215814d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-303774.txt"
+    },
+    {
+      "accession": "0001193125-21-014951",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2021-01-25",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312521014951/d112967d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-014951.txt"
+    },
+    {
+      "accession": "0001193125-22-015662",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2022-01-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312522015662/d297497d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-015662.txt"
+    },
+    {
+      "accession": "0001193125-22-021522",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2022-01-28",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312522021522/d278452d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-021522.txt"
+    },
+    {
+      "accession": "0001193125-22-112366",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2022-04-21",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312522112366/d346915d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-112366.txt"
+    },
+    {
+      "accession": "0001193125-25-099915",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2025-04-28",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312525099915/d879217d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-099915.txt"
+    },
+    {
+      "accession": "0001193125-25-163096",
+      "company": "BANK OF AMERICA CORP /DE/  (BAC, BAC-PB, BAC-PE, BAC-PK, BAC-PL, BAC-PM, BAC-PN, BAC-PO, BAC-PP, BML-PG, BML-PH, BML-PJ, BML-PL)",
+      "company_key": "bank of america corp /de/",
+      "filed_date": "2025-07-23",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/70858/000119312525163096/d865798d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-163096.txt"
+    },
+    {
+      "accession": "0001193125-21-243713",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2021-08-12",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312521243713/d205351d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-243713.txt"
+    },
+    {
+      "accession": "0001193125-21-241317",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2021-08-10",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312521241317/d205351d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-241317.txt"
+    },
+    {
+      "accession": "0001193125-24-133536",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2024-05-08",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312524133536/d794425d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-133536.txt"
+    },
+    {
+      "accession": "0001193125-24-131520",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2024-05-06",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312524131520/d794425d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-131520.txt"
+    },
+    {
+      "accession": "0001193125-25-257002",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2025-10-30",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312525257002/d58220d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-257002.txt"
+    },
+    {
+      "accession": "0001193125-25-252463",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2025-10-28",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312525252463/d58220d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-252463.txt"
+    },
+    {
+      "accession": "0001193125-26-307859",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ, MTB-PK)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2026-07-17",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312526307859/d23610d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-307859.txt"
+    },
+    {
+      "accession": "0001193125-26-305481",
+      "company": "M&T BANK CORP  (MTB, MTB-PH, MTB-PJ, MTB-PK)",
+      "company_key": "m&t bank corp",
+      "filed_date": "2026-07-16",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/36270/000119312526305481/d23610d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-305481.txt"
+    },
+    {
+      "accession": "0001104659-21-092813",
+      "company": "Babcock & Wilcox Enterprises, Inc.  (BW, BWNB, BWSN, BW-PA)",
+      "company_key": "babcock & wilcox enterprises, inc.",
+      "filed_date": "2021-07-16",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1630805/000110465921092813/tm2122364d1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-092813.txt"
+    },
+    {
+      "accession": "0001104659-21-069353",
+      "company": "National Storage Affiliates Trust  (NSA, NSA-PA, NSA-PB)",
+      "company_key": "national storage affiliates trust",
+      "filed_date": "2021-05-19",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1618563/000110465921069353/tm2116741-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-069353.txt"
+    },
+    {
+      "accession": "0001373670-21-000047",
+      "company": "Green Brick Partners, Inc.  (GRBK, GRBK-PA)",
+      "company_key": "green brick partners, inc.",
+      "filed_date": "2021-12-20",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1373670/000137367021000047/finalprosupp.htm",
+      "span_file": "data/interim/spans/train/0001373670-21-000047.txt"
+    },
+    {
+      "accession": "0001493152-21-012425",
+      "company": "AMMO, INC.  (POWW, POWWP)",
+      "company_key": "ammo, inc.",
+      "filed_date": "2021-05-21",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1015383/000149315221012425/form424b5.htm",
+      "span_file": "data/interim/spans/train/0001493152-21-012425.txt"
+    },
+    {
+      "accession": "0001558370-21-010990",
+      "company": "Bridgewater Bancshares Inc  (BWB, BWBBP)",
+      "company_key": "bridgewater bancshares inc",
+      "filed_date": "2021-08-09",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1341317/000155837021010990/tmb-20210809x424b5.htm",
+      "span_file": "data/interim/spans/train/0001558370-21-010990.txt"
+    },
+    {
+      "accession": "0001193125-21-215877",
+      "company": "STIFEL FINANCIAL CORP  (SF, SFB, SF-PB, SF-PC, SF-PD)",
+      "company_key": "stifel financial corp",
+      "filed_date": "2021-07-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/720672/000119312521215877/d180866d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-215877.txt"
+    },
+    {
+      "accession": "0001104659-21-103453",
+      "company": "TELEPHONE & DATA SYSTEMS INC /DE/  (TDS, TDS-PU, TDS-PV)",
+      "company_key": "telephone & data systems inc /de/",
+      "filed_date": "2021-08-11",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1051512/000110465921103453/tm2124218-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-103453.txt"
+    },
+    {
+      "accession": "0001104659-21-027908",
+      "company": "TELEPHONE & DATA SYSTEMS INC /DE/  (TDS, TDS-PU, TDS-PV)",
+      "company_key": "telephone & data systems inc /de/",
+      "filed_date": "2021-02-25",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1051512/000110465921027908/tm217459-3_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-027908.txt"
+    },
+    {
+      "accession": "0001104659-21-026507",
+      "company": "TELEPHONE & DATA SYSTEMS INC /DE/  (TDS, TDS-PU, TDS-PV)",
+      "company_key": "telephone & data systems inc /de/",
+      "filed_date": "2021-02-23",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1051512/000110465921026507/tm217459-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-026507.txt"
+    },
+    {
+      "accession": "0001193125-21-082985",
+      "company": "SCHWAB CHARLES CORP  (SCHW, SCHW-PD, SCHW-PJ)",
+      "company_key": "schwab charles corp",
+      "filed_date": "2021-03-16",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/316709/000119312521082985/d143702d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-082985.txt"
+    },
+    {
+      "accession": "0001193125-21-092735",
+      "company": "SCHWAB CHARLES CORP  (SCHW, SCHW-PD, SCHW-PJ)",
+      "company_key": "schwab charles corp",
+      "filed_date": "2021-03-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/316709/000119312521092735/d127659d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-092735.txt"
+    },
+    {
+      "accession": "0001193125-21-090488",
+      "company": "SCHWAB CHARLES CORP  (SCHW, SCHW-PD, SCHW-PJ)",
+      "company_key": "schwab charles corp",
+      "filed_date": "2021-03-23",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/316709/000119312521090488/d127659d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-090488.txt"
+    },
+    {
+      "accession": "0001193125-22-064467",
+      "company": "SCHWAB CHARLES CORP  (SCHW, SCHW-PD, SCHW-PJ)",
+      "company_key": "schwab charles corp",
+      "filed_date": "2022-03-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/316709/000119312522064467/d302517d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-064467.txt"
+    },
+    {
+      "accession": "0001193125-22-062385",
+      "company": "SCHWAB CHARLES CORP  (SCHW, SCHW-PD, SCHW-PJ)",
+      "company_key": "schwab charles corp",
+      "filed_date": "2022-03-02",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/316709/000119312522062385/d302517d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-062385.txt"
+    },
+    {
+      "accession": "0001193125-26-168281",
+      "company": "SCHWAB CHARLES CORP  (SCHW, SCHW-PD, SCHW-PJ)",
+      "company_key": "schwab charles corp",
+      "filed_date": "2026-04-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/316709/000119312526168281/d22041d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-168281.txt"
+    },
+    {
+      "accession": "0001193125-21-291614",
+      "company": "AIR LEASE CORP  (AL, AL-PA)",
+      "company_key": "air lease corp",
+      "filed_date": "2021-10-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1487712/000119312521291614/d195667d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-291614.txt"
+    },
+    {
+      "accession": "0001193125-24-220237",
+      "company": "AIR LEASE CORP  (AL, AL-PA)",
+      "company_key": "air lease corp",
+      "filed_date": "2024-09-17",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1487712/000119312524220237/d209085d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-220237.txt"
+    },
+    {
+      "accession": "0001193125-21-171817",
+      "company": "Ally Financial Inc.  (ALLY)",
+      "company_key": "ally financial inc.",
+      "filed_date": "2021-05-25",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/40729/000119312521171817/d127112d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-171817.txt"
+    },
+    {
+      "accession": "0001193125-21-328186",
+      "company": "Brighthouse Financial, Inc.  (BHF, BHFAL, BHFAM, BHFAN, BHFAO, BHFAP)",
+      "company_key": "brighthouse financial, inc.",
+      "filed_date": "2021-11-12",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1685040/000119312521328186/d243363d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-21-328186.txt"
+    },
+    {
+      "accession": "0001104659-21-036750",
+      "company": "Merchants Bancorp  (MBIN, MBINM, MBINN, MBINO)",
+      "company_key": "merchants bancorp",
+      "filed_date": "2021-03-16",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1629019/000110465921036750/tm219652-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-036750.txt"
+    },
+    {
+      "accession": "0001104659-22-102190",
+      "company": "Merchants Bancorp  (MBIN, MBINM, MBINN, MBINO)",
+      "company_key": "merchants bancorp",
+      "filed_date": "2022-09-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1629019/000110465922102190/tm2222456-3_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-22-102190.txt"
+    },
+    {
+      "accession": "0001104659-24-119981",
+      "company": "Merchants Bancorp  (MBIN, MBINM, MBINN, MBINO)",
+      "company_key": "merchants bancorp",
+      "filed_date": "2024-11-18",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1629019/000110465924119981/tm2425445-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-24-119981.txt"
+    },
+    {
+      "accession": "0001104659-24-120883",
+      "company": "Merchants Bancorp  (MBIN, MBINM, MBINN, MBINO)",
+      "company_key": "merchants bancorp",
+      "filed_date": "2024-11-20",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1629019/000110465924120883/tm2425445-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-24-120883.txt"
+    },
+    {
+      "accession": "0001493152-21-026570",
+      "company": "Fat Brands, Inc  (FAT, FATBB, FATBP, FATBW)",
+      "company_key": "fat brands, inc",
+      "filed_date": "2021-10-28",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1705012/000149315221026570/form424b5.htm",
+      "span_file": "data/interim/spans/train/0001493152-21-026570.txt"
+    },
+    {
+      "accession": "0001493152-22-031578",
+      "company": "Fat Brands, Inc  (FAT, FATBB, FATBP, FATBW)",
+      "company_key": "fat brands, inc",
+      "filed_date": "2022-11-14",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1705012/000149315222031578/form424b5.htm",
+      "span_file": "data/interim/spans/train/0001493152-22-031578.txt"
+    },
+    {
+      "accession": "0001104659-21-094927",
+      "company": "Pebblebrook Hotel Trust  (PEB, PEB-PE, PEB-PF, PEB-PG, PEB-PH)",
+      "company_key": "pebblebrook hotel trust",
+      "filed_date": "2021-07-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1474098/000110465921094927/tm2122495-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-094927.txt"
+    },
+    {
+      "accession": "0001104659-21-063094",
+      "company": "Pebblebrook Hotel Trust  (PEB, PEB-PE, PEB-PF, PEB-PG, PEB-PH)",
+      "company_key": "pebblebrook hotel trust",
+      "filed_date": "2021-05-07",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1474098/000110465921063094/tm2115237-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-063094.txt"
+    },
+    {
+      "accession": "0001104659-21-094258",
+      "company": "Pebblebrook Hotel Trust  (PEB, PEB-PE, PEB-PF, PEB-PG, PEB-PH)",
+      "company_key": "pebblebrook hotel trust",
+      "filed_date": "2021-07-21",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1474098/000110465921094258/tm2122495-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-094258.txt"
+    },
+    {
+      "accession": "0001104659-21-062081",
+      "company": "Pebblebrook Hotel Trust  (PEB, PEB-PE, PEB-PF, PEB-PG, PEB-PH)",
+      "company_key": "pebblebrook hotel trust",
+      "filed_date": "2021-05-06",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1474098/000110465921062081/tm2115237-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-21-062081.txt"
+    },
+    {
+      "accession": "0001104659-22-029398",
+      "company": "NEW YORK MORTGAGE TRUST INC  (NYMT, NYMTI, NYMTL, NYMTM, NYMTN, NYMTZ)",
+      "company_key": "new york mortgage trust inc",
+      "filed_date": "2022-03-02",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1273685/000110465922029398/tm227995-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-22-029398.txt"
+    },
+    {
+      "accession": "0001437749-22-006321",
+      "company": "NexPoint Real Estate Finance, Inc.  (NREF, NREF-PA)",
+      "company_key": "nexpoint real estate finance, inc.",
+      "filed_date": "2022-03-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1786248/000143774922006321/nref20220311_424b5.htm",
+      "span_file": "data/interim/spans/train/0001437749-22-006321.txt"
+    },
+    {
+      "accession": "0001437749-23-029885",
+      "company": "NexPoint Real Estate Finance, Inc.  (NREF, NREF-PA)",
+      "company_key": "nexpoint real estate finance, inc.",
+      "filed_date": "2023-11-02",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1786248/000143774923029885/nref20231030_424b5.htm",
+      "span_file": "data/interim/spans/train/0001437749-23-029885.txt"
+    },
+    {
+      "accession": "0001437749-25-033056",
+      "company": "NexPoint Real Estate Finance, Inc.  (NREF, NREF-PA)",
+      "company_key": "nexpoint real estate finance, inc.",
+      "filed_date": "2025-11-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1786248/000143774925033056/nref20251101_424b5.htm",
+      "span_file": "data/interim/spans/train/0001437749-25-033056.txt"
+    },
+    {
+      "accession": "0001493152-22-004305",
+      "company": "CareCloud, Inc.  (CCLD, CCLDO, CCLDP)",
+      "company_key": "carecloud, inc.",
+      "filed_date": "2022-02-14",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1582982/000149315222004305/form424b5.htm",
+      "span_file": "data/interim/spans/train/0001493152-22-004305.txt"
+    },
+    {
+      "accession": "0001493152-22-002359",
+      "company": "CareCloud, Inc.  (CCLD, CCLDO, CCLDP)",
+      "company_key": "carecloud, inc.",
+      "filed_date": "2022-01-27",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1582982/000149315222002359/form424b5.htm",
+      "span_file": "data/interim/spans/train/0001493152-22-002359.txt"
+    },
+    {
+      "accession": "0001213900-22-003164",
+      "company": "LiveOne, Inc.  (LVO)",
+      "company_key": "liveone, inc.",
+      "filed_date": "2022-01-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1491419/000121390022003164/ea154161-424b5_liveoneinc.htm",
+      "span_file": "data/interim/spans/train/0001213900-22-003164.txt"
+    },
+    {
+      "accession": "0001140361-22-000987",
+      "company": "KKR Real Estate Finance Trust Inc.  (KREF, KREF-PA)",
+      "company_key": "kkr real estate finance trust inc.",
+      "filed_date": "2022-01-07",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1631596/000114036122000987/ny20001764x4_424b5.htm",
+      "span_file": "data/interim/spans/train/0001140361-22-000987.txt"
+    },
+    {
+      "accession": "0001213900-22-000597",
+      "company": "B. Riley Financial, Inc.  (RILY, RILYG, RILYK, RILYL, RILYM, RILYN, RILYP, RILYT, RILYZ)",
+      "company_key": "b. riley financial, inc.",
+      "filed_date": "2022-01-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1464790/000121390022000597/ea153301-424b5_brileyfin.htm",
+      "span_file": "data/interim/spans/train/0001213900-22-000597.txt"
+    },
+    {
+      "accession": "0001104659-22-066290",
+      "company": "PACWEST BANCORP",
+      "company_key": "pacwest bancorp",
+      "filed_date": "2022-05-31",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1102112/000110465922066290/tm228951-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-22-066290.txt"
+    },
+    {
+      "accession": "0001104659-22-067778",
+      "company": "PACWEST BANCORP",
+      "company_key": "pacwest bancorp",
+      "filed_date": "2022-06-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1102112/000110465922067778/tm228951-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-22-067778.txt"
+    },
+    {
+      "accession": "0001193125-22-002634",
+      "company": "Public Storage  (PSA, PSA-PF, PSA-PG, PSA-PH, PSA-PI, PSA-PJ, PSA-PK, PSA-PL, PSA-PM, PSA-PN, PSA-PO, PSA-PP, PSA-PQ)",
+      "company_key": "public storage",
+      "filed_date": "2022-01-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1393311/000119312522002634/d233289d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-002634.txt"
+    },
+    {
+      "accession": "0001193125-22-001167",
+      "company": "Public Storage  (PSA, PSA-PF, PSA-PG, PSA-PH, PSA-PI, PSA-PJ, PSA-PK, PSA-PL, PSA-PM, PSA-PN, PSA-PO, PSA-PP, PSA-PQ)",
+      "company_key": "public storage",
+      "filed_date": "2022-01-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1393311/000119312522001167/d233289d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-001167.txt"
+    },
+    {
+      "accession": "0001753926-22-000598",
+      "company": "Soluna Holdings, Inc  (SLNH, SLNHP)",
+      "company_key": "soluna holdings, inc",
+      "filed_date": "2022-04-29",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/64463/000175392622000598/g082998_424b5.htm",
+      "span_file": "data/interim/spans/train/0001753926-22-000598.txt"
+    },
+    {
+      "accession": "0001423689-22-000052",
+      "company": "AGNC Investment Corp.  (AGNC, AGNCL, AGNCM, AGNCN, AGNCO, AGNCP)",
+      "company_key": "agnc investment corp.",
+      "filed_date": "2022-09-09",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1423689/000142368922000052/finalprosupp-prefg.htm",
+      "span_file": "data/interim/spans/train/0001423689-22-000052.txt"
+    },
+    {
+      "accession": "0001423689-22-000045",
+      "company": "AGNC Investment Corp.  (AGNC, AGNCL, AGNCM, AGNCN, AGNCO, AGNCP)",
+      "company_key": "agnc investment corp.",
+      "filed_date": "2022-09-07",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1423689/000142368922000045/prelimprosupptemplateforpr.htm",
+      "span_file": "data/interim/spans/train/0001423689-22-000045.txt"
+    },
+    {
+      "accession": "0001423689-25-000088",
+      "company": "AGNC Investment Corp.  (AGNC, AGNCL, AGNCM, AGNCN, AGNCO, AGNCP)",
+      "company_key": "agnc investment corp.",
+      "filed_date": "2025-09-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1423689/000142368925000088/prosupp-prefh.htm",
+      "span_file": "data/interim/spans/train/0001423689-25-000088.txt"
+    },
+    {
+      "accession": "0001423689-25-000078",
+      "company": "AGNC Investment Corp.  (AGNC, AGNCL, AGNCM, AGNCN, AGNCO, AGNCP)",
+      "company_key": "agnc investment corp.",
+      "filed_date": "2025-09-03",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1423689/000142368925000078/prelimprosupp-prefhsept2025.htm",
+      "span_file": "data/interim/spans/train/0001423689-25-000078.txt"
+    },
+    {
+      "accession": "0001193125-22-314789",
+      "company": "Global Ship Lease, Inc.  (GSL, GSL-PB)",
+      "company_key": "global ship lease, inc.",
+      "filed_date": "2022-12-29",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1430725/000119312522314789/d320763d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-22-314789.txt"
+    },
+    {
+      "accession": "0001193125-23-100557",
+      "company": "GLADSTONE LAND Corp  (LAND, LANDM, LANDO, LANDP)",
+      "company_key": "gladstone land corp",
+      "filed_date": "2023-04-13",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1495240/000119312523100557/d235249d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-23-100557.txt"
+    },
+    {
+      "accession": "0001193125-26-174989",
+      "company": "GLADSTONE LAND Corp  (LAND, LANDO, LANDP)",
+      "company_key": "gladstone land corp",
+      "filed_date": "2026-04-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1495240/000119312526174989/d103827d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-174989.txt"
+    },
+    {
+      "accession": "0001411342-23-000035",
+      "company": "Ellington Financial Inc.  (EFC, EFC-PA, EFC-PB, EFC-PC, EFC-PD, EFC-PE)",
+      "company_key": "ellington financial inc.",
+      "filed_date": "2023-02-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1411342/000141134223000035/efcfinalpreferredstockpros.htm",
+      "span_file": "data/interim/spans/train/0001411342-23-000035.txt"
+    },
+    {
+      "accession": "0001493152-23-019278",
+      "company": "PetVivo Holdings, Inc.  (PETV, PETVW)",
+      "company_key": "petvivo holdings, inc.",
+      "filed_date": "2023-05-26",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1512922/000149315223019278/form424b5.htm",
+      "span_file": "data/interim/spans/train/0001493152-23-019278.txt"
+    },
+    {
+      "accession": "0001428205-23-000188",
+      "company": "Armour Residential REIT, Inc.  (ARR, ARR-PC)",
+      "company_key": "armour residential reit, inc.",
+      "filed_date": "2023-10-25",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1428205/000142820523000188/oct2023commonatmprospectus.htm",
+      "span_file": "data/interim/spans/train/0001428205-23-000188.txt"
+    },
+    {
+      "accession": "0001193125-23-279841",
+      "company": "Banco Santander, S.A.  (SAN, BCDRF)",
+      "company_key": "banco santander, s.a.",
+      "filed_date": "2023-11-17",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/891478/000119312523279841/d548108d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-23-279841.txt"
+    },
+    {
+      "accession": "0001193125-24-188573",
+      "company": "Banco Santander, S.A.  (SAN, BCDRF)",
+      "company_key": "banco santander, s.a.",
+      "filed_date": "2024-07-30",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/891478/000119312524188573/d837249d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-188573.txt"
+    },
+    {
+      "accession": "0001193125-23-272458",
+      "company": "SEMPRA  (SRE, SREA)",
+      "company_key": "sempra",
+      "filed_date": "2023-11-07",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1032208/000119312523272458/d579510d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-23-272458.txt"
+    },
+    {
+      "accession": "0001193125-24-138994",
+      "company": "CHIMERA INVESTMENT CORP  (CIM, CIMN, CIMO, CIM-PA, CIM-PB, CIM-PC, CIM-PD)",
+      "company_key": "chimera investment corp",
+      "filed_date": "2024-05-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1409493/000119312524138994/d770174d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-138994.txt"
+    },
+    {
+      "accession": "0001104659-24-067151",
+      "company": "Fortress Biotech, Inc.  (FBIO, FBIOP)",
+      "company_key": "fortress biotech, inc.",
+      "filed_date": "2024-05-31",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1429260/000110465924067151/tm2414800d2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-24-067151.txt"
+    },
+    {
+      "accession": "0001398344-24-006765",
+      "company": "RIVERNORTH OPPORTUNITIES FUND, INC.  (RIV, RIV-PA)",
+      "company_key": "rivernorth opportunities fund, inc.",
+      "filed_date": "2024-04-02",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1501072/000139834424006765/fp0087738-1_424b5ixbrl.htm",
+      "span_file": "data/interim/spans/train/0001398344-24-006765.txt"
+    },
+    {
+      "accession": "0001104659-24-065179",
+      "company": "INNOVATIVE INDUSTRIAL PROPERTIES INC  (IIPR, IIPR-PA)",
+      "company_key": "innovative industrial properties inc",
+      "filed_date": "2024-05-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1677576/000110465924065179/tm2415012-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-24-065179.txt"
+    },
+    {
+      "accession": "0001193125-24-038474",
+      "company": "Synchrony Financial  (SYF, SYF-PA, SYF-PB)",
+      "company_key": "synchrony financial",
+      "filed_date": "2024-02-16",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1601712/000119312524038474/d786523d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-038474.txt"
+    },
+    {
+      "accession": "0001193125-24-037151",
+      "company": "Synchrony Financial  (SYF, SYF-PA, SYF-PB)",
+      "company_key": "synchrony financial",
+      "filed_date": "2024-02-15",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1601712/000119312524037151/d786523d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-037151.txt"
+    },
+    {
+      "accession": "0001193125-24-057936",
+      "company": "ALBEMARLE CORP  (ALB, ALB-PA)",
+      "company_key": "albemarle corp",
+      "filed_date": "2024-03-04",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/915913/000119312524057936/d792055d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-057936.txt"
+    },
+    {
+      "accession": "0001193125-24-042046",
+      "company": "NISOURCE INC.  (NI)",
+      "company_key": "nisource inc.",
+      "filed_date": "2024-02-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1111711/000119312524042046/d797855d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-042046.txt"
+    },
+    {
+      "accession": "0001140361-24-038948",
+      "company": "Cherry Hill Mortgage Investment Corp  (CHMI, CHMI-PA, CHMI-PB)",
+      "company_key": "cherry hill mortgage investment corp",
+      "filed_date": "2024-08-28",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1571776/000114036124038948/ny20033490x5_424b5.htm",
+      "span_file": "data/interim/spans/train/0001140361-24-038948.txt"
+    },
+    {
+      "accession": "0001193125-24-180038",
+      "company": "STATE STREET CORP  (STT, STT-PG)",
+      "company_key": "state street corp",
+      "filed_date": "2024-07-17",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/93751/000119312524180038/d650452d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-180038.txt"
+    },
+    {
+      "accession": "0001193125-25-016444",
+      "company": "STATE STREET CORP  (STT, STT-PG)",
+      "company_key": "state street corp",
+      "filed_date": "2025-01-30",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/93751/000119312525016444/d890958d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-016444.txt"
+    },
+    {
+      "accession": "0000950170-24-130296",
+      "company": "Cineverse Corp.  (CNVS)",
+      "company_key": "cineverse corp.",
+      "filed_date": "2024-11-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1173204/000095017024130296/2024_pro_supp-warrant_sh.htm",
+      "span_file": "data/interim/spans/train/0000950170-24-130296.txt"
+    },
+    {
+      "accession": "0001193125-24-186782",
+      "company": "VALLEY NATIONAL BANCORP  (VLY, VLYPN, VLYPO, VLYPP)",
+      "company_key": "valley national bancorp",
+      "filed_date": "2024-07-29",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/714310/000119312524186782/d864211d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-186782.txt"
+    },
+    {
+      "accession": "0001193125-24-197935",
+      "company": "Invesco Mortgage Capital Inc.  (IVR, IVR-PB, IVR-PC)",
+      "company_key": "invesco mortgage capital inc.",
+      "filed_date": "2024-08-09",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1437071/000119312524197935/d878572d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-24-197935.txt"
+    },
+    {
+      "accession": "0001104659-25-002086",
+      "company": "American National Group Inc.  (ANG-PA, ANG-PB)",
+      "company_key": "american national group inc.",
+      "filed_date": "2025-01-08",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1039828/000110465925002086/tm2430912-4_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-002086.txt"
+    },
+    {
+      "accession": "0001104659-25-001570",
+      "company": "American National Group Inc.  (ANG-PA, ANG-PB)",
+      "company_key": "american national group inc.",
+      "filed_date": "2025-01-07",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1039828/000110465925001570/tm2430912-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-001570.txt"
+    },
+    {
+      "accession": "0001104659-25-047633",
+      "company": "FIRST BUSEY CORP /NV/  (BUSE)",
+      "company_key": "first busey corp /nv/",
+      "filed_date": "2025-05-13",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/314489/000110465925047633/tm2514597-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-047633.txt"
+    },
+    {
+      "accession": "0001104659-25-048702",
+      "company": "FIRST BUSEY CORP /NV/  (BUSE)",
+      "company_key": "first busey corp /nv/",
+      "filed_date": "2025-05-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/314489/000110465925048702/tm2514597-3_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-048702.txt"
+    },
+    {
+      "accession": "0001193125-25-130221",
+      "company": "UMB FINANCIAL CORP  (UMBF, UMBFP)",
+      "company_key": "umb financial corp",
+      "filed_date": "2025-05-29",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/101382/000119312525130221/d50836d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-130221.txt"
+    },
+    {
+      "accession": "0001193125-25-060309",
+      "company": "MICROCHIP TECHNOLOGY INC  (MCHP)",
+      "company_key": "microchip technology inc",
+      "filed_date": "2025-03-21",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/827054/000119312525060309/d903706d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-060309.txt"
+    },
+    {
+      "accession": "0001193125-25-057892",
+      "company": "MICROCHIP TECHNOLOGY INC  (MCHP)",
+      "company_key": "microchip technology inc",
+      "filed_date": "2025-03-19",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/827054/000119312525057892/d903706d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-057892.txt"
+    },
+    {
+      "accession": "0001104659-25-045940",
+      "company": "WINTRUST FINANCIAL CORP  (WTFC, WTFCM, WTFCP)",
+      "company_key": "wintrust financial corp",
+      "filed_date": "2025-05-08",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1015328/000110465925045940/tm2513736-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-045940.txt"
+    },
+    {
+      "accession": "0001104659-25-046769",
+      "company": "WINTRUST FINANCIAL CORP  (WTFC, WTFCM, WTFCP)",
+      "company_key": "wintrust financial corp",
+      "filed_date": "2025-05-09",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1015328/000110465925046769/tm2513736-3_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-046769.txt"
+    },
+    {
+      "accession": "0001104659-25-052059",
+      "company": "QXO, Inc.  (QXO)",
+      "company_key": "qxo, inc.",
+      "filed_date": "2025-05-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1236275/000110465925052059/tm2515387-4_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-052059.txt"
+    },
+    {
+      "accession": "0001104659-25-051078",
+      "company": "QXO, Inc.  (QXO)",
+      "company_key": "qxo, inc.",
+      "filed_date": "2025-05-20",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1236275/000110465925051078/tm2515387-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-051078.txt"
+    },
+    {
+      "accession": "0001193125-25-171665",
+      "company": "ANNALY CAPITAL MANAGEMENT INC  (NLY, NLY-PF, NLY-PG, NLY-PI)",
+      "company_key": "annaly capital management inc",
+      "filed_date": "2025-08-01",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1043219/000119312525171665/d898807d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-171665.txt"
+    },
+    {
+      "accession": "0001193125-25-170151",
+      "company": "ANNALY CAPITAL MANAGEMENT INC  (NLY, NLY-PF, NLY-PG, NLY-PI)",
+      "company_key": "annaly capital management inc",
+      "filed_date": "2025-07-31",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1043219/000119312525170151/d898807d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-170151.txt"
+    },
+    {
+      "accession": "0001193125-25-230383",
+      "company": "XOMA Royalty Corp  (XOMA, XOMAO, XOMAP)",
+      "company_key": "xoma royalty corp",
+      "filed_date": "2025-10-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/791908/000119312525230383/d21480d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-230383.txt"
+    },
+    {
+      "accession": "0001193125-25-230393",
+      "company": "XOMA Royalty Corp  (XOMA, XOMAO, XOMAP)",
+      "company_key": "xoma royalty corp",
+      "filed_date": "2025-10-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/791908/000119312525230393/d64005d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-230393.txt"
+    },
+    {
+      "accession": "0001193125-25-303149",
+      "company": "Imperial Petroleum Inc./Marshall Islands  (IMPP, IMPPP)",
+      "company_key": "imperial petroleum inc./marshall islands",
+      "filed_date": "2025-12-01",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1876581/000119312525303149/d83308d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-303149.txt"
+    },
+    {
+      "accession": "0001104659-25-108173",
+      "company": "Alpine Income Property Trust, Inc.  (PINE)",
+      "company_key": "alpine income property trust, inc.",
+      "filed_date": "2025-11-07",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1786117/000110465925108173/tm2530436d1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-108173.txt"
+    },
+    {
+      "accession": "0001104659-25-106700",
+      "company": "Alpine Income Property Trust, Inc.  (PINE)",
+      "company_key": "alpine income property trust, inc.",
+      "filed_date": "2025-11-05",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1786117/000110465925106700/tm2530115d1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-106700.txt"
+    },
+    {
+      "accession": "0001193125-25-173600",
+      "company": "COMERICA INC /NEW/  (CMA)",
+      "company_key": "comerica inc /new/",
+      "filed_date": "2025-08-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/28412/000119312525173600/d54727d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-173600.txt"
+    },
+    {
+      "accession": "0001193125-25-283229",
+      "company": "FIRST CITIZENS BANCSHARES INC /DE/  (FCNCA, FCNCB, FCNCO, FCNCP)",
+      "company_key": "first citizens bancshares inc /de/",
+      "filed_date": "2025-11-14",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/798941/000119312525283229/d88504d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-283229.txt"
+    },
+    {
+      "accession": "0001193125-25-279128",
+      "company": "FIRST CITIZENS BANCSHARES INC /DE/  (FCNCA, FCNCB, FCNCO, FCNCP)",
+      "company_key": "first citizens bancshares inc /de/",
+      "filed_date": "2025-11-13",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/798941/000119312525279128/d88504d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-279128.txt"
+    },
+    {
+      "accession": "0001193125-26-031996",
+      "company": "FIRST CITIZENS BANCSHARES INC /DE/  (FCNCA, FCNCB, FCNCO, FCNCP)",
+      "company_key": "first citizens bancshares inc /de/",
+      "filed_date": "2026-01-30",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/798941/000119312526031996/d23883d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-031996.txt"
+    },
+    {
+      "accession": "0001193125-26-028288",
+      "company": "FIRST CITIZENS BANCSHARES INC /DE/  (FCNCA, FCNCB, FCNCO, FCNCP)",
+      "company_key": "first citizens bancshares inc /de/",
+      "filed_date": "2026-01-29",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/798941/000119312526028288/d23883d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-028288.txt"
+    },
+    {
+      "accession": "0001193125-25-199741",
+      "company": "WESBANCO INC  (WSBC, WSBCP)",
+      "company_key": "wesbanco inc",
+      "filed_date": "2025-09-10",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/203596/000119312525199741/d93434d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-199741.txt"
+    },
+    {
+      "accession": "0001193125-25-201360",
+      "company": "WESBANCO INC  (WSBC, WSBCP)",
+      "company_key": "wesbanco inc",
+      "filed_date": "2025-09-11",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/203596/000119312525201360/d93434d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-201360.txt"
+    },
+    {
+      "accession": "0001193125-25-288984",
+      "company": "BREAD FINANCIAL HOLDINGS, INC.  (BFH)",
+      "company_key": "bread financial holdings, inc.",
+      "filed_date": "2025-11-20",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1101215/000119312525288984/d78359d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-288984.txt"
+    },
+    {
+      "accession": "0001193125-25-291614",
+      "company": "BREAD FINANCIAL HOLDINGS, INC.  (BFH)",
+      "company_key": "bread financial holdings, inc.",
+      "filed_date": "2025-11-21",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1101215/000119312525291614/d78359d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-291614.txt"
+    },
+    {
+      "accession": "0001193125-26-209403",
+      "company": "BREAD FINANCIAL HOLDINGS, INC.  (BFH, BFH-PA)",
+      "company_key": "bread financial holdings, inc.",
+      "filed_date": "2026-05-06",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1101215/000119312526209403/d34260d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-209403.txt"
+    },
+    {
+      "accession": "0001193125-26-205257",
+      "company": "BREAD FINANCIAL HOLDINGS, INC.  (BFH, BFH-PA)",
+      "company_key": "bread financial holdings, inc.",
+      "filed_date": "2026-05-05",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1101215/000119312526205257/d34260d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-205257.txt"
+    },
+    {
+      "accession": "0001193125-25-167993",
+      "company": "Live Oak Bancshares, Inc.  (LOB)",
+      "company_key": "live oak bancshares, inc.",
+      "filed_date": "2025-07-29",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1462120/000119312525167993/d878118d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-25-167993.txt"
+    },
+    {
+      "accession": "0001628280-25-052412",
+      "company": "Corebridge Financial, Inc.  (CRBD, CRBG)",
+      "company_key": "corebridge financial, inc.",
+      "filed_date": "2025-11-14",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1889539/000162828025052412/crbg-final424b5xprospectus.htm",
+      "span_file": "data/interim/spans/train/0001628280-25-052412.txt"
+    },
+    {
+      "accession": "0001628280-25-051869",
+      "company": "Corebridge Financial, Inc.  (CRBD, CRBG)",
+      "company_key": "corebridge financial, inc.",
+      "filed_date": "2025-11-13",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1889539/000162828025051869/crbg-prelim424b5xprelimpro.htm",
+      "span_file": "data/interim/spans/train/0001628280-25-051869.txt"
+    },
+    {
+      "accession": "0001104659-25-110926",
+      "company": "Global Medical REIT Inc.  (GMRE, GMRBV, GMRE-PA)",
+      "company_key": "global medical reit inc.",
+      "filed_date": "2025-11-13",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1533615/000110465925110926/tm2530976d1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-25-110926.txt"
+    },
+    {
+      "accession": "0001104659-26-003110",
+      "company": "Rithm Capital Corp.  (RITM, RITM-PA, RITM-PB, RITM-PC, RITM-PD, RITM-PE)",
+      "company_key": "rithm capital corp.",
+      "filed_date": "2026-01-13",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1556593/000110465926003110/tm262958-1_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-26-003110.txt"
+    },
+    {
+      "accession": "0001104659-26-003824",
+      "company": "Rithm Capital Corp.  (RITM, RITM-PA, RITM-PB, RITM-PC, RITM-PD, RITM-PE)",
+      "company_key": "rithm capital corp.",
+      "filed_date": "2026-01-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1556593/000110465926003824/tm262958-2_424b5.htm",
+      "span_file": "data/interim/spans/train/0001104659-26-003824.txt"
+    },
+    {
+      "accession": "0001193125-26-229014",
+      "company": "Star Equity Holdings, Inc.  (STRR, STRRP)",
+      "company_key": "star equity holdings, inc.",
+      "filed_date": "2026-05-18",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1210708/000119312526229014/d102492d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-229014.txt"
+    },
+    {
+      "accession": "0001193125-26-257702",
+      "company": "Alphabet Inc.  (GOOG, GOOGL)",
+      "company_key": "alphabet inc.",
+      "filed_date": "2026-06-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526257702/d152175d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-257702.txt"
+    },
+    {
+      "accession": "0001193125-26-257690",
+      "company": "Alphabet Inc.  (GOOG, GOOGL)",
+      "company_key": "alphabet inc.",
+      "filed_date": "2026-06-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526257690/d159942d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-257690.txt"
+    },
+    {
+      "accession": "0001193125-26-222006",
+      "company": "TRUIST FINANCIAL CORP  (TFC, TFC-PI, TFC-PO, TFC-PR)",
+      "company_key": "truist financial corp",
+      "filed_date": "2026-05-13",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/92230/000119312526222006/d32795d424b5.htm",
+      "span_file": "data/interim/spans/train/0001193125-26-222006.txt"
+    },
+    {
+      "accession": "0001398344-26-008220",
+      "company": "Bluerock Private Real Estate Fund  (BPRE)",
+      "company_key": "bluerock private real estate fund",
+      "filed_date": "2026-05-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1551047/000139834426008220/fp0098777-1_424b5ixbrl.htm",
+      "span_file": "data/interim/spans/train/0001398344-26-008220.txt"
+    }
+  ],
+  "test": [
+    {
+      "accession": "0001104659-21-143570",
+      "company": "Granite Point Mortgage Trust Inc.  (GPMT, GPMT-PA)",
+      "company_key": "granite point mortgage trust inc.",
+      "filed_date": "2021-11-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1703644/000110465921143570/tm2133465-3_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-21-143570.txt"
+    },
+    {
+      "accession": "0001104659-21-142276",
+      "company": "Granite Point Mortgage Trust Inc.  (GPMT, GPMT-PA)",
+      "company_key": "granite point mortgage trust inc.",
+      "filed_date": "2021-11-22",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1703644/000110465921142276/tm2133465-1_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-21-142276.txt"
+    },
+    {
+      "accession": "0001104659-21-084905",
+      "company": "CMS ENERGY CORP  (CMS, CMSA, CMSC, CMSD, CMS-PC)",
+      "company_key": "cms energy corp",
+      "filed_date": "2021-06-24",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/811156/000110465921084905/a21-20369_2424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-21-084905.txt"
+    },
+    {
+      "accession": "0001193125-21-027418",
+      "company": "WASHINGTON FEDERAL INC  (WAFD, WAFDP)",
+      "company_key": "washington federal inc",
+      "filed_date": "2021-02-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/936528/000119312521027418/d107462d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-027418.txt"
+    },
+    {
+      "accession": "0001193125-21-312504",
+      "company": "TSAKOS ENERGY NAVIGATION LTD  (TEN, TEN-PE, TEN-PF)",
+      "company_key": "tsakos energy navigation ltd",
+      "filed_date": "2021-10-29",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1166663/000119312521312504/d222051d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-312504.txt"
+    },
+    {
+      "accession": "0001193125-21-180192",
+      "company": "Energy Transfer LP  (ET, ET-PI)",
+      "company_key": "energy transfer lp",
+      "filed_date": "2021-06-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1276187/000119312521180192/d184831d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-180192.txt"
+    },
+    {
+      "accession": "0001193125-21-064699",
+      "company": "EDISON INTERNATIONAL  (EIX)",
+      "company_key": "edison international",
+      "filed_date": "2021-03-02",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/827052/000119312521064699/d312913d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-064699.txt"
+    },
+    {
+      "accession": "0001193125-21-067286",
+      "company": "EDISON INTERNATIONAL  (EIX)",
+      "company_key": "edison international",
+      "filed_date": "2021-03-03",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/827052/000119312521067286/d312913d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-067286.txt"
+    },
+    {
+      "accession": "0001193125-21-321597",
+      "company": "EDISON INTERNATIONAL  (EIX)",
+      "company_key": "edison international",
+      "filed_date": "2021-11-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/827052/000119312521321597/d235173d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-321597.txt"
+    },
+    {
+      "accession": "0001193125-21-319417",
+      "company": "EDISON INTERNATIONAL  (EIX)",
+      "company_key": "edison international",
+      "filed_date": "2021-11-04",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/827052/000119312521319417/d235173d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-21-319417.txt"
+    },
+    {
+      "accession": "0001437749-21-014467",
+      "company": "Atlanticus Holdings Corp  (ATLC, ATLCL, ATLCP, ATLCZ)",
+      "company_key": "atlanticus holdings corp",
+      "filed_date": "2021-06-10",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1464343/000143774921014467/atlc20210608_424b5.htm",
+      "span_file": "data/interim/spans/test/0001437749-21-014467.txt"
+    },
+    {
+      "accession": "0001193125-22-112242",
+      "company": "PNC FINANCIAL SERVICES GROUP, INC.  (PNC)",
+      "company_key": "pnc financial services group, inc.",
+      "filed_date": "2022-04-21",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/713676/000119312522112242/d297007d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-112242.txt"
+    },
+    {
+      "accession": "0001193125-22-221868",
+      "company": "PNC FINANCIAL SERVICES GROUP, INC.  (PNC)",
+      "company_key": "pnc financial services group, inc.",
+      "filed_date": "2022-08-16",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/713676/000119312522221868/d268756d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-221868.txt"
+    },
+    {
+      "accession": "0001628280-23-001970",
+      "company": "PNC FINANCIAL SERVICES GROUP, INC.  (PNC)",
+      "company_key": "pnc financial services group, inc.",
+      "filed_date": "2023-02-02",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/713676/000162828023001970/pnc-serieswfixedrateresetp.htm",
+      "span_file": "data/interim/spans/test/0001628280-23-001970.txt"
+    },
+    {
+      "accession": "0001193125-22-048719",
+      "company": "GLADSTONE COMMERCIAL CORP  (GOOD, GOODN, GOODO)",
+      "company_key": "gladstone commercial corp",
+      "filed_date": "2022-02-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1234006/000119312522048719/d296680d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-048719.txt"
+    },
+    {
+      "accession": "0001193125-22-224664",
+      "company": "KEYCORP /NEW/  (KEY, KEY-PI, KEY-PJ, KEY-PK, KEY-PL)",
+      "company_key": "keycorp /new/",
+      "filed_date": "2022-08-19",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/91576/000119312522224664/d397563d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-224664.txt"
+    },
+    {
+      "accession": "0001193125-22-302892",
+      "company": "CHART INDUSTRIES INC  (GTLS, GTLS-PB)",
+      "company_key": "chart industries inc",
+      "filed_date": "2022-12-12",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/892553/000119312522302892/d429308d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-302892.txt"
+    },
+    {
+      "accession": "0001193125-22-287672",
+      "company": "LINCOLN NATIONAL CORP  (LNC, LNC-PD)",
+      "company_key": "lincoln national corp",
+      "filed_date": "2022-11-17",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/59558/000119312522287672/d399249d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-287672.txt"
+    },
+    {
+      "accession": "0001193125-22-285333",
+      "company": "LINCOLN NATIONAL CORP  (LNC, LNC-PD)",
+      "company_key": "lincoln national corp",
+      "filed_date": "2022-11-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/59558/000119312522285333/d399249d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-285333.txt"
+    },
+    {
+      "accession": "0001193125-22-287665",
+      "company": "LINCOLN NATIONAL CORP  (LNC, LNC-PD)",
+      "company_key": "lincoln national corp",
+      "filed_date": "2022-11-17",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/59558/000119312522287665/d419126d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-22-287665.txt"
+    },
+    {
+      "accession": "0001104659-22-092950",
+      "company": "Midland States Bancorp, Inc.  (MSBI, MSBIP)",
+      "company_key": "midland states bancorp, inc.",
+      "filed_date": "2022-08-19",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1466026/000110465922092950/tm2223427-3_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-22-092950.txt"
+    },
+    {
+      "accession": "0001104659-22-092021",
+      "company": "Midland States Bancorp, Inc.  (MSBI, MSBIP)",
+      "company_key": "midland states bancorp, inc.",
+      "filed_date": "2022-08-17",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1466026/000110465922092021/tm2223427-1_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-22-092021.txt"
+    },
+    {
+      "accession": "0001140361-23-001288",
+      "company": "UMH PROPERTIES, INC.  (UMH, UMH-PD)",
+      "company_key": "umh properties, inc.",
+      "filed_date": "2023-01-11",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/752642/000114036123001288/ny20006685x3_424b5.htm",
+      "span_file": "data/interim/spans/test/0001140361-23-001288.txt"
+    },
+    {
+      "accession": "0001104659-23-061452",
+      "company": "ALLSTATE CORP  (ALL, ALL-PB, ALL-PH, ALL-PI, ALL-PJ)",
+      "company_key": "allstate corp",
+      "filed_date": "2023-05-16",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/899051/000110465923061452/tm2310215-2_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-23-061452.txt"
+    },
+    {
+      "accession": "0001104659-23-060326",
+      "company": "ALLSTATE CORP  (ALL, ALL-PB, ALL-PH, ALL-PI, ALL-PJ)",
+      "company_key": "allstate corp",
+      "filed_date": "2023-05-15",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/899051/000110465923060326/tm2310215-1_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-23-060326.txt"
+    },
+    {
+      "accession": "0001829126-23-006776",
+      "company": "LUXURBAN HOTELS INC.  (LUXH, LUXHP)",
+      "company_key": "luxurban hotels inc.",
+      "filed_date": "2023-10-26",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1893311/000182912623006776/luxurbanhotels_424b5.htm",
+      "span_file": "data/interim/spans/test/0001829126-23-006776.txt"
+    },
+    {
+      "accession": "0001193125-23-233316",
+      "company": "BANCO BILBAO VIZCAYA ARGENTARIA, S.A.  (BBVA, BBVXF)",
+      "company_key": "banco bilbao vizcaya argentaria, s.a.",
+      "filed_date": "2023-09-12",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/842180/000119312523233316/d451825d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-23-233316.txt"
+    },
+    {
+      "accession": "0001104659-24-044302",
+      "company": "CTO Realty Growth, Inc.  (CTO, CTO-PA)",
+      "company_key": "cto realty growth, inc.",
+      "filed_date": "2024-04-05",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/23795/000110465924044302/tm2411156d1_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-24-044302.txt"
+    },
+    {
+      "accession": "0001193125-24-163093",
+      "company": "BANK OF HAWAII CORP  (BOH, BOH-PA, BOH-PB)",
+      "company_key": "bank of hawaii corp",
+      "filed_date": "2024-06-18",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/46195/000119312524163093/d825765d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-24-163093.txt"
+    },
+    {
+      "accession": "0001193125-24-164583",
+      "company": "BANK OF HAWAII CORP  (BOH, BOH-PA, BOH-PB)",
+      "company_key": "bank of hawaii corp",
+      "filed_date": "2024-06-20",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/46195/000119312524164583/d825765d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-24-164583.txt"
+    },
+    {
+      "accession": "0001193125-24-246634",
+      "company": "BOEING CO  (BA)",
+      "company_key": "boeing co",
+      "filed_date": "2024-10-29",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/12927/000119312524246634/d889968d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-24-246634.txt"
+    },
+    {
+      "accession": "0001193125-24-244584",
+      "company": "BOEING CO  (BA)",
+      "company_key": "boeing co",
+      "filed_date": "2024-10-28",
+      "anchor": "preliminary",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/12927/000119312524244584/d889968d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-24-244584.txt"
+    },
+    {
+      "accession": "0001104659-24-078542",
+      "company": "Canoo Inc.  (GOEV, GOEVW)",
+      "company_key": "canoo inc.",
+      "filed_date": "2024-07-09",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1750153/000110465924078542/tm2417632-3_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-24-078542.txt"
+    },
+    {
+      "accession": "0001104659-25-059349",
+      "company": "NEW YORK MORTGAGE TRUST, INC.  (NYMT, NYMTG, NYMTI, NYMTL, NYMTM, NYMTN, NYMTZ)",
+      "company_key": "new york mortgage trust, inc.",
+      "filed_date": "2025-06-13",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1273685/000110465925059349/tm2517858-1_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-25-059349.txt"
+    },
+    {
+      "accession": "0001193125-25-124554",
+      "company": "MICROSTRATEGY Inc  (MSTR, STRF, STRK)",
+      "company_key": "microstrategy inc",
+      "filed_date": "2025-05-22",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312525124554/d860553d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-25-124554.txt"
+    },
+    {
+      "accession": "0001437749-25-002263",
+      "company": "NEXPOINT DIVERSIFIED REAL ESTATE TRUST  (NXDT, NXDT-PA)",
+      "company_key": "nexpoint diversified real estate trust",
+      "filed_date": "2025-01-30",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1356115/000143774925002263/nexsof20250116_424b5.htm",
+      "span_file": "data/interim/spans/test/0001437749-25-002263.txt"
+    },
+    {
+      "accession": "0001104659-25-079260",
+      "company": "MFA FINANCIAL, INC.  (MFA, MFAN, MFAO, MFA-PB, MFA-PC)",
+      "company_key": "mfa financial, inc.",
+      "filed_date": "2025-08-15",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1055160/000110465925079260/tm2523479-4_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-25-079260.txt"
+    },
+    {
+      "accession": "0001193125-25-263759",
+      "company": "Strategy Inc  (MSTR, STRC, STRD, STRF, STRK)",
+      "company_key": "strategy inc",
+      "filed_date": "2025-11-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312525263759/d921571d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-25-263759.txt"
+    },
+    {
+      "accession": "0001193125-25-263900",
+      "company": "Strategy Inc  (MSTR, STRC, STRD, STRF, STRK)",
+      "company_key": "strategy inc",
+      "filed_date": "2025-11-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312525263900/d90859d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-25-263900.txt"
+    },
+    {
+      "accession": "0001193125-25-263719",
+      "company": "Strategy Inc  (MSTR, STRC, STRD, STRF, STRK)",
+      "company_key": "strategy inc",
+      "filed_date": "2025-11-04",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1050446/000119312525263719/d922690d424b5.htm",
+      "span_file": "data/interim/spans/test/0001193125-25-263719.txt"
+    },
+    {
+      "accession": "0001104659-26-027081",
+      "company": "Chiron Real Estate Inc.  (XRN, GMRE, XRN-PA, XRN-PB)",
+      "company_key": "chiron real estate inc.",
+      "filed_date": "2026-03-12",
+      "anchor": "priced",
+      "doc_url": "https://www.sec.gov/Archives/edgar/data/1533615/000110465926027081/tm268627d3_424b5.htm",
+      "span_file": "data/interim/spans/test/0001104659-26-027081.txt"
+    }
+  ]
+}

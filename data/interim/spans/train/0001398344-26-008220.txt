@@ -1,0 +1,62 @@
+ent Funds”);
+non-traded unregistered real estate investment trusts (the “Private REITs”); and unregistered funds that invest principally
+in real estate. In certain circumstances or market environments we may reduce our investment in private real estate securities and hold
+a larger position in cash or cash equivalents.
+
+ Bluerock
+Fund Advisor, LLC (the “Advisor”), our investment adviser, manages our investments subject to the supervision of our
+board of trustees (the “Board of Trustees”). ALPS Fund Services, Inc. (the “Administrator”), serves as our administrator
+and accounting agent.
+
+ We
+are offering up to 25 million preferred shares of beneficial interest in multiple series, including the 7.00% Series A Convertible
+and Perpetual Preferred Shares (the “Series A Preferred Shares”) and the 7.00% Series B Preferred Shares (the
+“Series B Preferred Shares” and, together with the Series A Preferred Shares, the “Offered Preferred
+Shares”), with an aggregate liquidation preference of $250 million. This prospectus supplement and the related
+prospectus also cover the common shares of beneficial interest (the “common shares”) into which the Offered Preferred
+Shares may be converted. We may sell any combination of Series A Preferred Shares and Series B Preferred Shares not to exceed an
+aggregate amount of 25 million Offered Preferred Shares.
+
+ We intend to pay monthly
+dividends on the Offered Preferred Shares at an annual rate of 7.00% of the Liquidation Preference, or $0.70 per share per year. The Offered
+Preferred Shares have no maturity date and will remain outstanding indefinitely unless converted by the holder or by us. The Offered Preferred
+Shares will rank senior in right of payment to our common shares, will rank equally in right of payment with any other preferred shares
+of beneficial interest (the Offered Preferred Shares and any additional preferred shares we may issue from time to time, the “Preferred
+Shares”) we may issue in the future and will be subordinated in right of payment to any of our future senior indebtedness. Each
+holder of the Offered Preferred Shares will be entitled to one vote for each Offered Preferred Share held on each matter submitted to
+a vote of our shareholders, and the holders of all of our outstanding Preferred Shares and common shares will generally vote together
+as a single class. The holders of Offered Preferred Shares (together with the holders of any additional series of Preferred Shares we
+may issue in the future) are entitled as a class to elect two of our trustees and, if dividends on any outstanding Preferred Shares are
+in arrears by two years or more, to elect a majority of our trustees (and to continue to be so represented until all dividends in arrears
+have been paid or otherwise provided for).
+
+ Holder
+Optional Conversion . So long as the Offered Preferred Shares have not been listed on a national securities exchange
+(which is not currently anticipated), the Offered Preferred Shares will initially be convertible on a semi-monthly basis, at the
+option of the holder of the Offered Preferred Shares (a “Holder Optional Conversion”). At any time, a holder may elect
+to convert the Offered Preferred Shares by delivery to us of a notice of conversion (a “Holder Notice of Conversion”). A
+Holder Notice of Conversion will be effective as of the 15th calendar day (or, if the 15th calendar day is not a business day, then
+on the business day immediately following the 15th calendar day) and last business day of each calendar month (the “Holder
+Conversion Deadline”). We will settle any Holder Optional Conversion by paying or delivering, as the case may be, (A) any
+portion of the Settlement Amount (as defined below) that we elect to pay in cash and (B) a number of our common shares
+calculated using a conversion rate (the “HOC Rate”) equal to (1) the Settlement Amount minus any portion of the
+Settlement Amount that we elect to pay in cash, divided by (2) the closing price on the New York Stock Exchange of our common
+shares on the Holder Conversion Exercise Date (as defined herein) (the “HOC Conversion Price”). For the Series A
+Preferred Shares the “Settlement Amount” means (A) $10.00 per share (the “Liquidation Preference”),
+plus (B) unpaid dividends accrued to, but not including, the Holder Conversion Exercise Date, minus (C) the Holder
+Optional Conversion Fee (as defined herein) applicable on the respective Holder Conversion Deadline. For the Series B Preferred
+Shares, the “Settlement Amount” means (A) the Liquidation Preference, plus (B) unpaid dividends accrued to, but not
+including, the Holder Conversion Exercise Date, but if a holder of Series B Preferred Shares exercises a Holder Optional Conversion
+within the first twelve months following the issuance of such Series B Preferred Shares, the Settlement Amount payable to such
+holder will be reduced by the aggregate amount of all dividends, whether paid or accrued, on such Series B Preferred Shares in the
+three full months prior to the Holder Conversion Exercise Date (the “Series B Clawback”). The right of holders to
+convert a given Offered Preferred Share will terminate in the event such shares are subsequently listed on a national securities
+exchange.
+
+ Issuer
+Optional Conversion . Subject to certain limitations, beginning two years from the date of issuance of a given Offered Preferred
+Share (or, if the Offered Preferred Shares have been listed on a national securities exchange, two years from the first date on which
+any Offered Preferred Shares were issued), such Offered Preferred Share will be convertible at our option, upon not less than 30 calendar
+days’ written notice to the holder, prior to the date fixed for conversion thereof (an “Issuer Optional Conversion”).
+We will settle any Issuer Optional Conversion by paying or delivering, as the case may be, (A) any portion of the IOC Payment (as
+defined below) that we elect to pay in cash and (B) a number of our common shares calculated using a conversion rat

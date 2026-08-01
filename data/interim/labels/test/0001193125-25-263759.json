@@ -1,0 +1,19 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 10.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 100.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": null,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "10.00% Series A Perpetual Stride Preferred Stock",
+    "liquidation_preference_usd": "The STRD Stock has an initial liquidation preference of $100 per share."
+  }
+}

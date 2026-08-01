@@ -1,0 +1,21 @@
+{
+  "series": "OO",
+  "coupon_rate_pct": 6.625,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 25,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 3000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "at a fixed rate equal to 6.625% per annum",
+    "liquidation_preference_usd": "a liquidation preference of $25,000 per share (equivalent to $1,000 per depositary share)",
+    "par_value_usd": "Series OO, $0.01 par value",
+    "shares_offered": "Bank of America Corporation is offering 3,000,000 depositary shares"
+  }
+}

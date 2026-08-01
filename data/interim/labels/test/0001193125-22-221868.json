@@ -1,0 +1,19 @@
+{
+  "series": "V",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 100,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 1.0,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "with a liquidation preference of $100,000 per share (equivalent to $1,000 per depositary share)",
+    "par_value_usd": "$1.00 par value"
+  }
+}

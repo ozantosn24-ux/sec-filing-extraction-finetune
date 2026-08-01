@@ -1,0 +1,96 @@
+424B5
+ 1
+ d903706d424b5.htm
+ 424B5
+
+ 424B5 
+
+ Table of Contents 
+
+ Filed Pursuant to Rule 424(b)(5)
+Registration No. 333-285913 
+
+ The information in this preliminary prospectus supplement is not complete and may be changed. This preliminary prospectus supplement and
+the accompanying prospectus are not an offer to sell these securities or a solicitation of an offer to buy these securities in any jurisdiction where the offer and sale is not permitted.
+
+ Subject to Completion 
+
+ Preliminary Prospectus Supplement, dated March 19, 2025 
+
+ PROSPECTUS SUPPLEMENT 
+ (To Prospectus dated March 19,
+2025) 
+ 27,000,000 Depositary Shares 
+
+ Each Representing a 1/20th Interest in a Share of 
+
+ % Series A Mandatory Convertible Preferred Stock 
+
+ Microchip Technology Incorporated 
+
+ % Series A Mandatory Convertible Preferred Stock 
+
+ We are offering 27,000,000 depositary shares (“Depositary Shares”), each of which represents a 1/20th interest in a share of
+our % Series A Mandatory Convertible Preferred Stock, par value $0.001 per share (“Mandatory Convertible Preferred Stock”). The shares of Mandatory Convertible Preferred Stock will be deposited with Equiniti Trust Company, LLC,
+as bank depositary, pursuant to a deposit agreement. Holders of the Depositary Shares will be entitled to a proportional fractional interest in the rights and preferences of the Mandatory Convertible Preferred Stock, including conversion, dividend,
+liquidation and voting rights, subject to the terms of such deposit agreement. 
+ Dividends on our Mandatory Convertible Preferred Stock
+will be payable on a cumulative basis when, as and if declared by our board of directors, or an authorized committee of our board of directors, at an annual rate of % on the liquidation preference of $1,000 per share. We may pay
+declared dividends in cash or, subject to certain limitations, in shares of our common stock, par value $0.001 per share, or in any combination of cash and common stock on March 15, June 15, September 15 and December 15 of each
+year, commencing on, and including, June 15, 2025 and ending on, and including, March 15, 2028. 
+ Each share of our Mandatory
+Convertible Preferred Stock has a liquidation preference of $1,000 (and, correspondingly, each Depositary Share represents a liquidation preference of $50). Unless earlier converted, each share of our Mandatory Convertible Preferred Stock will
+automatically convert on the second business day immediately following the last trading day of the final averaging period (as defined below) into between and shares of our common stock, subject
+to anti-dilution adjustments. The number of shares of our common stock issuable on conversion will be determined based on the average VWAP (as defined herein) of our common stock over
+ the 20-trading-day period beginning on, and including, the 21st scheduled trading day prior to March 15, 2028, which we refer to herein as the “final
+averaging period.” At any time prior to March 15, 2028, a holder of 20 Depositary Shares may cause the bank depositary to convert one share of our Mandatory Convertible Preferred Stock, on such holder’s behalf, into a number of shares
+of our common stock equal to the minimum conversion rate of , subject to anti-dilution adjustments. If a holder of 20 Depositary Shares causes the bank depositary to convert one share of our Mandatory Convertible Preferred
+Stock, on such holder’s behalf, during a specified period beginning on the effective date of a fundamental change (as described herein), the conversion rate will be adjusted under certain circumstances, and such holder will also be entitled to
+a make whole dividend amount (as described herein). 
+
+ Prior to this
+offering, there has been no public market for the Depositary Shares or the Mandatory Convertible Preferred Stock. We intend to apply to list the Depositary Shares on The Nasdaq Global Select Market (“Nasdaq”) under the symbol
+“MCHPP.” Our common stock is listed on Nasdaq under the symbol “MCHP.” 
+
+ Investing in
+the Depositary Shares involves risks. See the section titled “ Risk Factors ” beginning on page S-14 of this prospectus supplement and in our Annual Report on Form 10-K for the fiscal year ended March 31, 2024 and our Quarterly Reports on Form 10-Q for the fiscal quarters ended June 30, 2024, September 30, 2024 and
+December 31, 2024. 
+
+ Per Depositary Share 
+
+ Total 
+
+ Price to Public (1) 
+
+ $ 
+
+ $ 
+
+ Underwriting discount (1)(2) 
+
+ $ 
+
+ $ 
+
+ Proceeds, before expenses, to Microchip Technology Incorporated
+
+ $ 
+
+ $ 
+
+ (1) 
+ Assumes no exercise of the underwriters’ over-allotment option to purchase additional Depositary Shares
+described below. 
+
+ (2) 
+ See the section titled “Underwriting (Conflicts of Interest)” beginning on page S-80 of this prospectus supplement for a description of the compensation payable to the underwriters. 
+
+ We have granted the underwriters a 13-day option to purchase up to 2,700,000 additional
+Depositary Shares from us at the public offering price, less the underwriting discount, solely to cover over-allotments. 
+ Neither the
+Securities and Exchange Commission nor any state securities commission has approved or disapproved of these securities or determined if this prospectus supplement or the accompanying prospectus is truthful or complete. Any representation to the
+contrary is a criminal offense. 
+ We urge you to carefully read this prospectus supplement and the accompanying prospectus, which
+describe the terms of the offering, before you make your investment decision. 
+ It is expected that delivery of the Depositary Shares will
+be made against payment therefor on , 2025, which is the second business day following the trade date for the Depositary Shares (such settlement cycle being referred to as “T+2”). Under Rule 15c6-1 under the Securities Exchange Act of 1934, as amended (the “Exchange Act”), trades in the secondary m

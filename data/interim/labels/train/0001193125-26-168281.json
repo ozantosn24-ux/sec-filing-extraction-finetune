@@ -1,0 +1,21 @@
+{
+  "series": "L",
+  "coupon_rate_pct": 6.1,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 100,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 1500000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "6.100% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series L",
+    "liquidation_preference_usd": "equivalent to $1,000 per depositary share",
+    "par_value_usd": "$0.01 par value",
+    "shares_offered": "1,500,000 depositary shares"
+  }
+}

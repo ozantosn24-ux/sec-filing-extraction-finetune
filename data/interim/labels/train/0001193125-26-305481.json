@@ -1,0 +1,19 @@
+{
+  "series": "L",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 400,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 1.0,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "equivalent to $25 per depositary share",
+    "par_value_usd": "Non-Cumulative Preferred Stock, Series L, par value $1.00 per share"
+  }
+}

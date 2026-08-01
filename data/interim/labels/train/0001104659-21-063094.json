@@ -1,0 +1,21 @@
+{
+  "series": "G",
+  "coupon_rate_pct": 6.375,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 8000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "6.375% Series G Cumulative Redeemable Preferred Shares of Beneficial Interest",
+    "liquidation_preference_usd": "(Liquidation Preference $25 Per Share)",
+    "par_value_usd": "$0.01 par value per share",
+    "shares_offered": "We are offering 8,000,000 of our 6.375% Series G Cumulative Redeemable Preferred Shares of Beneficial Interest"
+  }
+}

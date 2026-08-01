@@ -1,0 +1,20 @@
+{
+  "series": null,
+  "coupon_rate_pct": 7.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 10.0,
+  "par_value_usd": null,
+  "cumulative": null,
+  "redeemable": null,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 25000000,
+  "dividend_frequency": "monthly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "the 7.00% Series A Convertible and Perpetual Preferred Shares... and the 7.00% Series B Preferred Shares",
+    "liquidation_preference_usd": "an annual rate of 7.00% of the Liquidation Preference, or $0.70 per share per year",
+    "shares_offered": "We are offering up to 25 million preferred shares of beneficial interest in multiple series"
+  }
+}

@@ -1,9 +1,28 @@
-# Ham EDGAR belgeleri versiyonlanmaz — fetch script'i yeniden uretir.
-# Versiyonlanan sey veri degil, VERIYI URETEN KOD.
+# KURAL (2026-08-02'de duzeltildi): TURETILMIS veri versiyonlanmaz, URETILEMEYEN
+# veri versiyonlanir. Eski kural "veri degil kod versiyonlanir" idi ve etiketleri de
+# disari atiyordu — ama etiketler koddan uretilmiyor, ELLE uretiliyor. Onlar yoksa
+# depoyu klonlayan hicbir sayiyi dogrulayamaz ve tek kopyalari tek diskte durur.
+
+# Ham EDGAR belgeleri: fetch script'i yeniden uretir.
 data/raw/
-data/interim/
-# Egitim seti de TURETILMIS veri: build_sft.py labels/ + spans/'dan yeniden uretir.
+# Egitim seti de TURETILMIS: build_sft.py labels/ + spans/'dan yeniden uretir.
 data/processed/
+
+# interim'in cogu ara ciktidir; URETILEMEYEN parcalari asagida geri aciliyor.
+# DIKKAT: .gitignore satir-ici yorum DESTEKLEMEZ — aciklama kendi satirinda olmali,
+# yoksa yorum desenin parcasi olur ve kural sessizce eslesmez (bir kez oldu).
+data/interim/*
+# altin etiketler — elle uretildi, koddan yeniden URETILEMEZ
+!data/interim/labels/
+# modelin girdisi: kapak sayfasi penceresi (~6 KB/belge)
+!data/interim/spans/
+# accession -> sirket/CIK/URL; SIRKET bazli bolmenin dayanagi
+!data/interim/manifest.json
+# isaretlenmis 12 kayit
+!data/interim/label_flags.json
+!data/interim/normalize_report.json
+# Bilerek DISARIDA: documents.jsonl, dropped/, rejected.jsonl, todo.json —
+# tekrar-uretim icin gerekmiyorlar.
 # Egitilmis adaptor agirliklari — kod degil cikti.
 models/
 

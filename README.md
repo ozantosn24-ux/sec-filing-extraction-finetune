@@ -207,11 +207,28 @@ reported separately in the evaluation.
 
 ## Reproduce
 
+**The dataset ships with the repository.** `data/interim/labels/` (160 gold records) and
+`data/interim/spans/` (the cover-page window each record was labelled from) are tracked, so a
+clone can rebuild the training set, retrain and re-measure **without contacting EDGAR at all**:
+
+```bash
+pytest -q                            # 89 tests, no data fetch needed
+python src/build_sft.py              # labels + spans -> data/processed/sft_{train,dev,test}.jsonl
+python src/extract_rules.py --split test
+python src/evaluate.py data/processed/preds_regex_test.jsonl
+```
+
+The labels are tracked because they are the one artefact **the code cannot regenerate** — they
+were produced by hand. Everything downstream of them is derived and stays gitignored.
+
+The full collection pipeline, if you want to rebuild the corpus from scratch:
+
 ```bash
 export SEC_EDGAR_UA="Your Name your@email.com"   # SEC requires a self-identifying UA
 python src/collect.py --per-query 10 --max-docs 250   # fetch + locate spans
 python src/split.py                                   # company-wise, deterministic
 #   ... labelling step: spans -> data/interim/labels/<split>/<accession>.json
+#   (already done — this is what the tracked labels are)
 python src/normalize_labels.py                        # fix the label key set (see below)
 python src/clean_dataset.py                           # applies data/exclusions.json, sweeps orphan spans
 python src/validate_labels.py                         # consistency checks
@@ -258,9 +275,10 @@ where the evidence does not decide, it stops and reports rather than filling som
 which are not preferred-stock offerings (base prospectuses, common-stock ATM programmes,
 resale registrations, one senior-notes offering), each with a reason. `data/company_keys_extra.json`
 is tracked for the same reason: three wave-2 accessions were labelled without being written to
-the manifest, and `data/interim/` is not versioned, so without that file the company-wise split
-cannot be verified at all. Without both, the pipeline is not reproducible — a fresh clone
-would produce 172 documents where 160 belong in the dataset.
+`manifest.json`, and the collection log they could be recovered from (`documents.jsonl`) is not
+versioned, so without that file the company-wise split cannot be verified at all. Without both,
+the pipeline is not reproducible — a fresh collection run would produce 172 documents where 160
+belong in the dataset.
 
 ## The training script, and what the library docs actually say
 
@@ -396,6 +414,9 @@ src/predict.py          generation -> raw model output for the harness
 COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
 tests/                  89 tests over real filing excerpts
+data/interim/labels/    160 gold records — hand-produced, the one thing code cannot regenerate
+data/interim/spans/     the cover-page excerpt each record was labelled from (~6 KB each)
+data/interim/manifest.json    accession -> company/CIK/URL; the company-wise split rests on it
 data/exclusions.json    tracked exclusion list with reasons
 data/dev_split.json     tracked dev carve (companies + accessions) — selection must be reproducible
 data/company_keys_extra.json  tracked company keys for 3 records absent from the manifest
@@ -408,6 +429,11 @@ of model quality.
 
 ## Data and licensing
 
-Code is MIT. SEC filings are public record and are **not** redistributed here — documents are
-fetched at runtime into gitignored directories. Access follows SEC fair-access rules: a
-self-identifying User-Agent (never rotated) and request throttling.
+Code is MIT. SEC filings are public record. **Full documents are not redistributed** — they are
+fetched at runtime into gitignored directories. What *is* tracked is the labelled dataset: the
+gold JSON records under `data/interim/labels/`, and under `data/interim/spans/` the cover-page
+excerpt each was labelled from (~6 KB per filing, out of documents that run to 400 KB). Every
+span carries its accession number, so any value can be checked against the original on EDGAR.
+This is the same standard the test fixtures already hold themselves to — real excerpts from real
+filings, cited. Access follows SEC fair-access rules: a self-identifying User-Agent (never
+rotated) and request throttling.

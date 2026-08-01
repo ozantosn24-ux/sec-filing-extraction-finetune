@@ -1,0 +1,18 @@
+{
+  "series": "D",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "$25,000 liquidation preference per share (equivalent to $25.00 per Depositary Share) of American National Group Inc."
+  }
+}

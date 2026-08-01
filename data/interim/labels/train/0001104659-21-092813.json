@@ -1,0 +1,21 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 7.75,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 2916880,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "2,916,880 shares of 7.75% Series A Cumulative Perpetual Preferred Stock",
+    "liquidation_preference_usd": "par value $0.01 per share and with a liquidation preference of $25.00 per share",
+    "par_value_usd": "par value $0.01 per share and with a liquidation preference of $25.00 per share",
+    "shares_offered": "up to 2,916,880 shares of 7.75% Series A Cumulative Perpetual Preferred Stock"
+  }
+}

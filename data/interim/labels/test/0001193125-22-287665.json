@@ -1,0 +1,20 @@
+{
+  "series": "C",
+  "coupon_rate_pct": 9.25,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 25,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": 500000,
+  "dividend_frequency": "semi-annual",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "9.250% Fixed Rate Reset Non-Cumulative Preferred Stock, Series C",
+    "liquidation_preference_usd": "$25,000 liquidation preference per share (equivalent to $1,000.00 per Depositary Share)",
+    "shares_offered": "500,000 Depositary Shares, each representing a 1/25th Interest"
+  }
+}

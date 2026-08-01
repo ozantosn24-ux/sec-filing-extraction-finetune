@@ -1,0 +1,19 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 10.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": null,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "twenty (20) shares are authorized as Series A 10% Non-Voting Cumulative Preferred Stock",
+    "par_value_usd": "15,000,000 shares of preferred stock, par value $0.001 per share"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "series": "B",
+  "coupon_rate_pct": 8.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "8.00% Series B Cumulative Redeemable Preferred Stock, $0.001 par value per share, with a liquidation preference of $25.00 per share",
+    "liquidation_preference_usd": "with a liquidation preference of $25.00 per share",
+    "par_value_usd": "8.00% Series B Cumulative Redeemable Preferred Stock, $0.001 par value per share"
+  }
+}

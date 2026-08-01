@@ -1,0 +1,19 @@
+{
+  "series": "D",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": null,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "at a redemption price equal to the stated amount of a share of Series D Preferred Stock (initially, $25,000 per share of Series D Preferred Stock, equivalent to $25.00 per Depositary Share)",
+    "depositary_ratio": "$25,000 per share of Series D Preferred Stock, equivalent to $25.00 per Depositary Share"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "series": "I",
+  "coupon_rate_pct": 5.7,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 4000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "5.70% Series I Cumulative Redeemable Preferred Stock",
+    "liquidation_preference_usd": "(Liquidation Preference $25.00 Per Share)",
+    "par_value_usd": "par value $0.01 per share",
+    "shares_offered": "We are offering 4,000,000 shares of our 5.70% Series I Cumulative Redeemable Preferred Stock"
+  }
+}

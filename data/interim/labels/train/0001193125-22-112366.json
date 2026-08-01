@@ -1,0 +1,21 @@
+{
+  "series": "TT",
+  "coupon_rate_pct": 6.125,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 25,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 2000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "our perpetual 6.125% Fixed-Rate Reset Non-Cumulative Preferred Stock, Series TT",
+    "liquidation_preference_usd": "liquidation preference of $25,000 per share (equivalent to $1,000 per depositary share)",
+    "par_value_usd": "$0.01 par value",
+    "shares_offered": "Bank of America Corporation is offering 2,000,000 depositary shares"
+  }
+}

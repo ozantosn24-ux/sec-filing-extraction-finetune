@@ -1,0 +1,19 @@
+{
+  "series": "F",
+  "coupon_rate_pct": null,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "with a liquidation preference of $25.00 per share (the \"Series F Preferred Stock\")",
+    "par_value_usd": "Series F Fixed-Rate Reset Cumulative Redeemable Preferred Stock, $0.01 par value per share"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 8.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 100.0,
+  "par_value_usd": 0.001,
+  "cumulative": null,
+  "redeemable": null,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "8.00% Series A Perpetual Strike Preferred Stock",
+    "liquidation_preference_usd": "The liquidation preference of the STRK Stock is $100 as of the date of this STRK Stock Annex",
+    "par_value_usd": "shares of several series of our preferred stock, par value $0.001 per share"
+  }
+}

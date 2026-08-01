@@ -1,0 +1,21 @@
+{
+  "series": "B",
+  "coupon_rate_pct": 8.75,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 100,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "8.75% Series B Cumulative Redeemable Perpetual Preferred Stock (Liquidation Preference: $25.00 per Depositary Share)",
+    "depositary_ratio": "Depositary Shares Each representing 1/100th of One Share of 8.75% Series B Cumulative Redeemable Perpetual Preferred Stock",
+    "liquidation_preference_usd": "with a liquidation preference of $2,500.00 per share (equivalent to $25.00 per Depositary Share)",
+    "par_value_usd": "par value $0.01 per share, with a liquidation preference of $2,500.00 per share"
+  }
+}

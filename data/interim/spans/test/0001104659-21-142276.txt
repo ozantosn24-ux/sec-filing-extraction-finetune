@@ -1,0 +1,49 @@
+2133465-1_424b5.htm
+ 424B5
+
+ tm2133465-1_424b5 - none - 12.1250715s 
+
+ TABLE OF CONTENTS 
+
+ The information in this prospectus supplement is not complete and may be changed. This prospectus supplement and the accompanying prospectus are part of an effective registration statement filed with the U.S. Securities and Exchange Commission. This prospectus supplement and the accompanying prospectus are not an offer to sell these securities and are not soliciting an offer to buy these securities in any jurisdiction where the offer or sale is not permitted. 
+
+ Filed Pursuant to Rule 424(b)(5) 
+
+ Registration No. 333-258719 ​
+
+ SUBJECT TO COMPLETION, DATED NOVEMBER 22, 2021 
+
+ PRELIMINARY PROSPECTUS SUPPLEMENT 
+ (To Prospectus dated August 11, 2021) 
+
+ Granite Point Mortgage Trust Inc. 
+
+ Shares 
+
+ % Series A Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock 
+
+ (Liquidation Preference $25.00 Per Share) 
+
+ We are offering to the public shares of our % Series A Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock, par value $0.01 per share, which we refer to in this prospectus supplement as the Series A Preferred Stock. This is the initial issuance of the Series A Preferred Stock. Holders of the Series A Preferred Stock will be entitled to receive cumulative cash dividends (i) from and including the original issue date to, but excluding, January 15, 2027 at a fixed rate equal to % per annum of the $25.00 per share liquidation preference (equivalent to $ per annum per share) and (ii) from and including January 15, 2027 at a floating rate equal to a benchmark rate (which is expected to be Three-Month Term SOFR (as defined below)) plus a spread of % per annum of the $25.00 per share liquidation preference, or the Floating Rate; provided, however, that in no event shall the Floating Rate be lower than the Dividend Floor (as defined herein). Dividends will be payable quarterly in arrears, on or about the 15th day of April, July, October and January of each year, when and as declared. Dividends will accumulate and be cumulative from and including the date of original issuance of the Series A Preferred Stock. Dividends will be payable, when, as and if authorized by our board of directors and declared by us, to holders of record as they appear in our stock records for the Series A Preferred Stock at the close of business on the applicable record date, which will be such date as designated by our board of directors for the payment of dividends that is not more than 90 days nor fewer than 10 days prior to the dividend payment date. The first dividend on the Series A Preferred Stock sold in this offering will be payable on January 15, 2022 and will be in the amount of $ per share. 
+
+ The Series A Preferred Stock may not be redeemed before , 2026 except under circumstances intended to preserve our qualification as a real estate investment trust (“REIT”) for U.S. federal income tax purposes and except as described below upon the occurrence of a Change of Control (as defined herein). On or after , 2026 we may, at our option, redeem any or all of the shares of the Series A Preferred Stock at $25.00 per share, plus any accumulated and unpaid dividends to, but not including, the redemption date. In addition, upon the occurrence of a Change of Control, we may, at our option, redeem any or all of the shares of Series A Preferred Stock on, or within 120 days after the first date on which such Change of Control occurred, for a cash redemption price equal to $25.00 per share, plus any accumulated and unpaid dividends to, but not including, the redemption date. The Series A Preferred Stock has no stated maturity, is not subject to any sinking fund or mandatory redemption and will remain outstanding indefinitely unless repurchased or redeemed by us or converted into our common stock in connection with a Change of Control by the holders of shares of Series A Preferred Stock. 
+
+ Upon the occurrence of a Change of Control, each holder of shares of Series A Preferred Stock will have the right (subject to our election to redeem the Series A Preferred Stock in whole or in part, as described above, prior to the Change of Control Conversion Date (as defined herein)) to convert some or all of the shares of Series A Preferred Stock held by such holder on the Change of Control Conversion Date into a number of shares of our common stock per share of Series A Preferred Stock equal to the lesser of: 
+
+ • 
+
+ the quotient obtained by dividing (i) the sum of the $25.00 liquidation preference per share of the Series A Preferred Stock plus the amount of any accumulated and unpaid dividends thereon to, but excluding, the Change of Control Conversion Date (unless the Change of Control Conversion Date is after a dividend record date and prior to the corresponding dividend payment date for the Series A Preferred Stock, in which case no additional amount for such accrued and unpaid dividend will be included in this sum) by (ii) the Common Stock Price (as defined herein); and 
+
+ ​
+
+ • 
+
+ (the “Share Cap”), subject to certain adjustments as explained herein; 
+
+ ​
+
+ in each case, on the terms and subject to the conditions described in this prospectus supplement, including provisions for the receipt, under specified circumstances, of alternative consideration as described in this prospectus supplement. 
+
+ No current market exists for the Series A Preferred Stock. We have applied to list the Series A Preferred Stock on the New York Stock Exchange (“NYSE”) under the symbol “GPMT PrA.” If the application is approved, trading of the Series A Preferred Stock on the NYSE is expected to begin within 30 days after the date of initial issuance of the Series A Preferred Stock. Our common stock is traded on the NYSE under the symbol “GPMT.” 
+
+ To assist us in maintaining our qualification as a REIT, among other purposes, stockholders are generally restricted from owning (or being treated as owning under applicable attribution rules) more tha

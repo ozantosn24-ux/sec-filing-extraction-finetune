@@ -1,0 +1,16 @@
+{
+  "series": "D",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": null,
+  "par_value_usd": null,
+  "cumulative": null,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": true,
+  "evidence": {}
+}

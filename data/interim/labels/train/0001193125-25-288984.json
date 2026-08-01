@@ -1,0 +1,18 @@
+{
+  "series": "A",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 40,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "$25 per depositary share (equivalent to $1,000 per share of Series A Preferred Stock)"
+  }
+}

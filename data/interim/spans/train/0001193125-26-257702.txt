@@ -1,0 +1,92 @@
+424B5
+ 1
+ d152175d424b5.htm
+ 424B5
+
+ 424B5 
+
+ Filed Pursuant to Rule 424(b)(5)
+Registration No. 333-296395 
+
+ PROSPECTUS SUPPLEMENT 
+
+ (To Prospectus dated June 1, 2026) 
+
+ 167,500,000 Series B Depositary Shares 
+
+ Each Representing a 1/20th Interest in a Share of 
+
+ 6.25% Series B Mandatory Convertible Preferred Stock 
+
+ Alphabet Inc. 
+ 6.25%
+Series B Mandatory Convertible Preferred Stock 
+
+ We are offering 167,500,000 of our Series B Depositary Shares (“Series B Depositary Shares”), each of which represents a 1/20th interest in a
+share of our 6.25% Series B Mandatory Convertible Preferred Stock, par value $0.001 per share (“Series B Mandatory Convertible Preferred Stock”). The shares of Series B Mandatory Convertible Preferred Stock will be deposited with
+Computershare Trust Company, N.A. and Computershare Inc., acting as joint bank depositary (the “bank depositary”), pursuant to a deposit agreement. Holders of the Series B Depositary Shares will be entitled to a proportional fractional
+interest in the rights and preferences of the Series B Mandatory Convertible Preferred Stock, including conversion, dividend, liquidation and voting rights, subject to the provisions of such deposit agreement. 
+
+ Dividends on our Series B Mandatory Convertible Preferred Stock will be payable on a cumulative basis when, as and if declared by our board of directors, or
+an authorized committee of our board of directors, at an annual rate of 6.25% on the liquidation preference of $1,000 per share. We may pay declared dividends in cash or, subject to certain limitations, in shares of our Class C capital stock,
+par value $0.001 per share (“Class C Capital Stock”), or in any combination of cash and shares of our Class C Capital Stock on February 15, May 15, August 15 and November 15 of each year, commencing on, and
+including, August 15, 2026 and ending on, and including, May 15, 2029. 
+ Each share of our Series B Mandatory Convertible Preferred Stock has a
+liquidation preference of $1,000 (and, correspondingly, each Series B Depositary Share represents a liquidation preference of $50). Unless earlier converted, each share of our Series B Mandatory Convertible Preferred Stock will automatically convert
+on the second business day immediately following the last trading day of the final averaging period (as defined below) into between 2.2740 and 2.8420 shares of our Class C Capital Stock, subject to anti-dilution adjustments. The number of
+shares of our Class C Capital Stock issuable on conversion will be determined based on the average VWAP (as defined herein) of our Class C Capital Stock over the
+ 20-trading-day period beginning on, and including, the 21st scheduled trading day prior to May 15, 2029, which we refer to herein as the “final averaging
+period.” At any time prior to May 15, 2029, a holder of 20 Series B Depositary Shares may cause the bank depositary to convert one share of our Series B Mandatory Convertible Preferred Stock, on such holder’s behalf, into a number
+of shares of our Class C Capital Stock equal to the minimum conversion rate of 2.2740, subject to anti-dilution adjustments. If a holder of 20 Series B Depositary Shares causes the bank depositary to convert one share of our Series B Mandatory
+Convertible Preferred Stock, on such holder’s behalf, during a specified period beginning on the effective date of a fundamental change (as described herein), the conversion rate will be adjusted under certain circumstances, and such holder
+will also be entitled to a make-whole dividend amount (as described herein). 
+ Prior to this offering, there has been no public market for the Series B
+Depositary Shares or the Series B Mandatory Convertible Preferred Stock. We intend to apply to list the Series B Depositary Shares on The Nasdaq Global Select Market under the symbol “GOOGN.” Our Class C Capital Stock is listed on
+The Nasdaq Global Select Market under the symbol “GOOG.” 
+ ( continued on inside front cover ) 
+
+ See “ Risk Factors ” beginning on page S-16 of this prospectus supplement and in our Annual Report on Form 10-K for the fiscal year ended December 31, 2025 and our Quarterly Report on Form 10-Q for the fiscal quarter ended March 31, 2026 for a discussion of certain risks
+that should be considered in connection with an investment in our Series B Depositary Shares. 
+
+ Per Series B
+Depositary Share (1) 
+
+ Total 
+
+ Price to public (1) 
+
+ $ 
+ 50.0000 
+
+ $ 
+ 8,375,000,000 
+
+ Underwriting discounts (1)(2) 
+
+ $ 
+ 0.4867 
+
+ $ 
+ 81,522,250 
+
+ Proceeds, before expenses, to Alphabet Inc.
+
+ $ 
+ 49.5133 
+
+ $ 
+ 8,293,477,750 
+
+ (1) 
+ Assumes no exercise of the underwriters’ over-allotment option to purchase additional Series B Depositary
+Shares described below. 
+
+ (2) 
+ See the section titled “Underwriting” beginning on page
+ S-76 of this prospectus supplement for a description of the compensation payable to the underwriters. 
+
+ We have granted the underwriters the option to purchase up to an additional 25,000,000 Series B Depositary Shares from us at the public offering price less
+the underwriting discounts within a 13-day period beginning on, and including, the date we first issue the Series B Depositary Shares, solely to cover over-allotments, if any. 
+
+ Neither the Securities and Exchange Commission (the “SEC”) nor any state securities commission has approved or disapproved of our Series B
+Depositary Shares or determined that this prospectus supplement or the accompanying prospectus 

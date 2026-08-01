@@ -1,0 +1,54 @@
+424B5
+ 1
+ tm262958-1_424b5.htm
+ 424B5
+
+ tm262958-1_424b5 - none - 9.8322189s 
+
+ TABLE OF CONTENTS 
+
+ The information in this preliminary prospectus supplement is not complete and may be changed. A registration statement relating to these securities has become effective under the Securities Act of 1933. This preliminary prospectus supplement and the accompanying prospectus are not an offer to sell these securities and we are not soliciting an offer to buy these securities in any state or other jurisdiction where the offer or sale is not permitted. 
+
+ Filed Pursuant to Rule 424(b)(5) ​
+
+ Registration No. 333-289162 ​
+
+ Subject to Completion, dated January 13, 2026 
+
+ Preliminary Prospectus Supplement 
+
+ (To Prospectus dated August 1, 2025) 
+
+ Shares 
+
+ Rithm Capital Corp. 
+
+ % Series F Fixed-Rate Reset Cumulative Redeemable Preferred Stock 
+
+ (Liquidation Preference $25.00 Per Share) 
+
+ We are offering shares of our % Series F Fixed-Rate Reset Cumulative Redeemable Preferred Stock, $0.01 par value per share, with a liquidation preference of $25.00 per share (the “Series F Preferred Stock”) by this prospectus supplement and the accompanying prospectus. Dividends on the Series F Preferred Stock are cumulative from and including the date of original issue and will be payable quarterly in arrears on or about the 15th day of February, May, August and November of each year, commencing May 15, 2026, in each case when, as, and if declared by our board of directors out of funds legally available for such purpose. An initial dividend on the shares will be payable on May 15, 2026 in an amount equal to approximately $ per share. Dividends based on the stated liquidation preference of $25.00 per share will be payable on the shares at a rate equal to (i) from and including the date of original issue to, but excluding, February 15, 2031, % per annum, and (ii) thereafter, during each reset period, at a rate per annum equal to the five-year treasury rate as of the most recent reset dividend determination date (as described elsewhere in this prospectus supplement) plus a spread of basis points per annum. 
+
+ The Series F Preferred Stock is not redeemable by us prior to February 15, 2031, except under circumstances where it is necessary to preserve our qualification as a real estate investment trust (“REIT”), for U.S. federal income tax purposes and except as described below upon the occurrence of a Change of Control (as defined herein). On or after February 15, 2031, we may, at our option, subject to certain procedural requirements, redeem any or all of the shares of the Series F Preferred Stock for cash at a redemption price of $25.00 per share of the Series F Preferred Stock, plus any accumulated and unpaid dividends thereon (whether or not authorized or declared) to, but excluding, the redemption date, without interest. In addition, upon the occurrence of a Change of Control, we may, at our option, subject to certain procedural requirements, redeem any or all of the shares of the Series F Preferred Stock within 120 days after the first date on which such Change of Control occurred, for cash at a redemption price of $25.00 per share, plus any accumulated and unpaid dividends thereon (whether or not authorized or declared) to, but excluding, the redemption date, without interest. The Series F Preferred Stock has no stated maturity, is not subject to any sinking fund or mandatory redemption, and will remain outstanding indefinitely unless repurchased or redeemed by us or converted into shares of our common stock, par value $0.01 per share (our “common stock”), in connection with a Change of Control by the holders of the Series F Preferred Stock. 
+
+ Upon the occurrence of a Change of Control, each holder of the Series F Preferred Stock will have the right (subject to our election to redeem the Series F Preferred Stock in whole or in part, as described above, prior to the Change of Control Conversion Date (as defined herein)) to convert some or all of the shares of the Series F Preferred Stock held by such holder on the Change of Control Conversion Date into a number of shares of our common stock per share of the Series F Preferred Stock equal to the lesser of: 
+
+ • 
+
+ the quotient obtained by dividing (i) the sum of the $25.00 liquidation preference per share of the Series F Preferred Stock plus any accumulated and unpaid dividends thereon (whether or not authorized or declared) to, but excluding, the Change of Control Conversion Date (unless the Change of Control Conversion Date is after a dividend record date (as defined herein) and prior to the corresponding dividend payment date (as defined herein) for the Series F Preferred Stock, in which case no additional amount for such accumulated and unpaid dividends to be paid on such dividend payment date will be included in this sum) by (ii) the Common Stock Price (as defined herein); and 
+
+ ​
+
+ • 
+
+ (the “Share Cap”), subject to certain adjustments as explained herein; 
+
+ ​
+
+ TABLE OF CONTENTS 
+
+ in each case, on the terms and subject to the conditions described in this prospectus supplement, including provisions for the receipt, under specified circumstances, of alternative consideration as described in this prospectus supplement. 
+
+ No current market exists for the Series F Preferred Stock. We intend to apply to list the shares of the Series F Preferred Stock on the New York Stock Exchange (the “NYSE”) under the symbol “RITM PR F.” If the application is approved, trading of the Series F Preferred Stock on the NYSE is expected to commence within 30 days after the original issue date of the Series F Preferred Stock. Our common stock is traded on the NYSE under the symbol “RITM.” 
+
+ There are restrictions on ownership of the Series F Preferred Stock intended to preserve our qualification as a REIT. Please see the sections entitled “Description of the Series F Preferred Stock — Restrictions on Ownership and Transfer” in this prospectus supplement

@@ -1,0 +1,20 @@
+{
+  "series": "A",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 100,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": true,
+  "evidence": {
+    "depositary_ratio": "Depositary Shares, Each Representing a 1/100th Interest in a Share of % Non-Cumulative Perpetual Preferred Stock, Series A",
+    "liquidation_preference_usd": "with a liquidation preference of $2,500 per share (equivalent to $25.00 per depositary share)",
+    "par_value_usd": "Series A, $0.01 par value per share, with a liquidation preference of $2,500 per share"
+  }
+}

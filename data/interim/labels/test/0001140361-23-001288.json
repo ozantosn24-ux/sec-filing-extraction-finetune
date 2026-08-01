@@ -1,0 +1,20 @@
+{
+  "series": "D",
+  "coupon_rate_pct": 6.375,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.1,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "6.375% Series D Cumulative Redeemable Preferred Stock",
+    "liquidation_preference_usd": "Liquidation Preference $25.00 Per Share",
+    "par_value_usd": "par value $0.10 per share"
+  }
+}

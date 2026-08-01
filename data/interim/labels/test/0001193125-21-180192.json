@@ -1,0 +1,20 @@
+{
+  "series": "H",
+  "coupon_rate_pct": 6.5,
+  "offered_unit": "unit",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 900000,
+  "dividend_frequency": "semi-annual",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "900,000 6.500% Series H Fixed-Rate Reset Cumulative Redeemable Perpetual Preferred Units",
+    "liquidation_preference_usd": "(Liquidation Preference $1,000 per Series H Preferred Unit)",
+    "shares_offered": "We are offering 900,000 of our 6.500% Series H Fixed-Rate Reset Cumulative Redeemable Perpetual Preferred Units"
+  }
+}

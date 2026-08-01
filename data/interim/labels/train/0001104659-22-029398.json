@@ -1,0 +1,18 @@
+{
+  "series": null,
+  "coupon_rate_pct": null,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": null,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "par_value_usd": "Series D Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock, par value $0.01 per share"
+  }
+}

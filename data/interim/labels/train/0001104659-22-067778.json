@@ -1,0 +1,22 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 7.75,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 40,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 20000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "7.75% fixed rate reset non-cumulative perpetual preferred stock, Series A",
+    "depositary_ratio": "20,000,000 Depositary Shares Each Representing a 1/40th Interest in a Share of 7.75% Fixed Rate Reset Non-Cumulative Perpetual Preferred Stock, Series A",
+    "liquidation_preference_usd": "with a liquidation preference of $1,000 per share of Series A Preferred Stock (equivalent to $25.00 per depositary share)",
+    "par_value_usd": "Series A, par value $0.01 per share",
+    "shares_offered": "We are offering 20,000,000 of our depositary shares"
+  }
+}

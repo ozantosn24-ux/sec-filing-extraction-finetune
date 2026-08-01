@@ -1,0 +1,21 @@
+{
+  "series": "C",
+  "coupon_rate_pct": 8.625,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 4000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "8.625% Series C Fixed-Rate Reset Cumulative Redeemable Preferred Stock",
+    "liquidation_preference_usd": "with a liquidation preference of $25.00 per share",
+    "par_value_usd": "$0.001 par value per share",
+    "shares_offered": "We are offering 4,000,000 shares"
+  }
+}

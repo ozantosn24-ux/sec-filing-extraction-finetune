@@ -1,0 +1,18 @@
+{
+  "series": "O",
+  "coupon_rate_pct": null,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": null,
+  "redeemable": true,
+  "convertible": false,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "$25.00 per share, plus an amount equal to accrued and unpaid dividends (whether or not earned or declared)"
+  }
+}

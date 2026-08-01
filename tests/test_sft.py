@@ -178,7 +178,13 @@ def test_her_etiketin_SIRKETI_BILINIYOR():
     icin kaynak geri getirilemiyor — bu yuzden `data/company_keys_extra.json`
     git'te tutuluyor. Bu test o dosya kaybolursa/bayatlarsa sessiz kalmaz.
     """
-    from build_sft import LABEL_DIR, company_keys
+    from build_sft import LABEL_DIR, MANIFEST, company_keys
+
+    # Diger veri testleriyle AYNI koruma. Bu satir eksikti ve arizasi yalnizca TEMIZ
+    # KLONDA goruluyordu: burada veri hep var, orada `company_keys()` manifest'i
+    # acamayip FileNotFoundError ile COKUYORDU — atlanmiyor, kirmizi donuyordu.
+    if not MANIFEST.exists():
+        pytest.skip(f"{MANIFEST.name} yok — once `python src/collect.py`")
 
     keys = company_keys()
     # Etiket DIZINLERI ikidir (train/, test/); dev onlarin uzerinde bir gorunum,

@@ -1,0 +1,21 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 6.0,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 20,
+  "liquidation_preference_usd": 50.0,
+  "par_value_usd": 1.0,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": true,
+  "perpetual": null,
+  "shares_offered": 100000000,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "at an annual rate of 6.00% on the liquidation preference of $1,000 per share",
+    "liquidation_preference_usd": "each Depositary Share represents a liquidation preference of $50",
+    "par_value_usd": "par value $1.00 per share",
+    "shares_offered": "We are offering 100,000,000 depositary shares"
+  }
+}

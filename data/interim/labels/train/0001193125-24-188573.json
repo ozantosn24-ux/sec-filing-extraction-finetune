@@ -1,0 +1,19 @@
+{
+  "series": null,
+  "coupon_rate_pct": 8.0,
+  "offered_unit": "note",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 200000.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "at the rate of 8.000% per annum",
+    "liquidation_preference_usd": "a liquidation preference of $200,000 per Note (the \"Liquidation Preference\")"
+  }
+}

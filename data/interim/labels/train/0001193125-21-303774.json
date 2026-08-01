@@ -1,0 +1,21 @@
+{
+  "series": "QQ",
+  "coupon_rate_pct": 4.25,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 52000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "perpetual 4.250% Non-Cumulative Preferred Stock, Series QQ",
+    "liquidation_preference_usd": "liquidation preference of $25,000 per share (equivalent to $25 per depositary share)",
+    "par_value_usd": "$0.01 par value",
+    "shares_offered": "Bank of America Corporation is offering 52,000,000 depositary shares"
+  }
+}

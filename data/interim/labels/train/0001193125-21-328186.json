@@ -1,0 +1,21 @@
+{
+  "series": "D",
+  "coupon_rate_pct": 4.625,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": 14000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "Each of the 14,000,000 depositary shares offered hereby (the \"depositary shares\") represents a 1/1,000th interest in a share of 4.625% Non-Cumulative Preferred Stock, Series D",
+    "depositary_ratio": "Each representing a 1/1,000th Interest in a Share of 4.625% Non-Cumulative Preferred Stock, Series D",
+    "liquidation_preference_usd": "$25,000 stated amount (as defined herein) per share (equivalent to $25.00 per depositary share)",
+    "shares_offered": "14,000,000 Depositary Shares"
+  }
+}

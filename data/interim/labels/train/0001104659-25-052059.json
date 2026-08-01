@@ -1,0 +1,21 @@
+{
+  "series": "B",
+  "coupon_rate_pct": 5.5,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 20,
+  "liquidation_preference_usd": 50.0,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": true,
+  "perpetual": null,
+  "shares_offered": 10000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "5.50% Series B Mandatory Convertible Preferred Stock",
+    "liquidation_preference_usd": "each Depositary Share represents a liquidation preference of $50",
+    "par_value_usd": "par value $0.001 per share",
+    "shares_offered": "QXO, Inc. is offering 10,000,000 depositary shares"
+  }
+}

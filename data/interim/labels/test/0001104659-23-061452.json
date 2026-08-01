@@ -1,0 +1,20 @@
+{
+  "series": null,
+  "coupon_rate_pct": 7.375,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": 24000000,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "payable in arrears at an annual rate equal to 7.375% on January 15, April 15, July 15 and October 15 of each year",
+    "liquidation_preference_usd": "redemption price equal to $25,000 per share (equivalent to $25 per Depositary Share)",
+    "shares_offered": "Reflects 10,000,000 Depositary Shares sold to retail investors, for which the underwriters will receive an underwriting discount of $0.7875 per Depositary Share, and 14,000,000 Depositary Shares sold to institutional investors, for which the underwriters will receive an underwriting discount of $0.2500 per Depositary Share."
+  }
+}

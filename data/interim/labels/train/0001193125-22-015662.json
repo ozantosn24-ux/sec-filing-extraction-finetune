@@ -1,0 +1,21 @@
+{
+  "series": "RR",
+  "coupon_rate_pct": 4.375,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 25,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 1750000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "our perpetual 4.375% Fixed-Rate Reset Non-Cumulative Preferred Stock, Series RR",
+    "liquidation_preference_usd": "liquidation preference of $25,000 per share (equivalent to $1,000 per depositary share)",
+    "par_value_usd": "$0.01 par value",
+    "shares_offered": "Bank of America Corporation is offering 1,750,000 depositary shares"
+  }
+}

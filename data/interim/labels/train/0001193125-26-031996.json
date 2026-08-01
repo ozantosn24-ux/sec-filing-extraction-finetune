@@ -1,0 +1,21 @@
+{
+  "series": "E",
+  "coupon_rate_pct": 6.625,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 40,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 16000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "dividends on the Series E Preferred Stock will accrue on a non-cumulative basis at a rate of 6.625% per annum on the liquidation preference of $1,000 per share",
+    "liquidation_preference_usd": "with a liquidation preference of $1,000 per share (equivalent to $25 per depositary share) (the \"Series E Preferred Stock\")",
+    "par_value_usd": "Non-Cumulative Perpetual Preferred Stock, Series E, par value $0.01 per share",
+    "shares_offered": "We are offering 16,000,000 depositary shares, each representing a 1/40th ownership interest in a share of 6.625% Non-Cumulative Perpetual Preferred Stock, Series E"
+  }
+}

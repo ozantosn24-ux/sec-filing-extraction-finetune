@@ -1,0 +1,54 @@
+424B5
+ 1
+ d548108d424b5.htm
+ 424B5
+
+ 424B5 
+
+ Table of Contents 
+
+ Filed Pursuant to Rule 424(b)(5) 
+ Registration Statement No. 333-271955 
+
+ PROSPECTUS SUPPLEMENT 
+ (to prospectus dated
+May 16, 2023) 
+
+ $2,500,000,000 
+
+ Banco Santander, S.A. 
+
+ $1,150,000,000 9.625% Non-Step-Up Non-Cumulative Contingent Convertible Perpetual Preferred Tier 1 Securities 
+ $1,350,000,000 9.625%
+Non-Step-Up Non-Cumulative Contingent Convertible Perpetual Preferred Tier 1 Securities 
+ The $1,150,000,000 9.625% Non-Step-Up Non-Cumulative Contingent Convertible Perpetual Preferred Tier 1 Securities of $200,000 liquidation preference each (the
+“First Tranche Notes”) and the $1,350,000,000 9.625% Non-Step-Up Non-Cumulative Contingent Convertible Perpetual Preferred Tier 1 Securities of $200,000 liquidation preference each (the “Second Tranche Notes” and, together with
+the First Tranche Notes, the “Notes”) are being issued by Banco Santander, S.A. (“Banco Santander”) on November 21, 2023 (the “Closing Date”). 
+
+ The First Tranche Notes will accrue non-cumulative cash distributions (“First Tranche Notes
+Distributions”) (i) in respect of the period from (and including) the Closing Date to (but excluding) May 21, 2029 (five years and six months after the Closing Date) (the “First Tranche Notes First Reset Date”) at the rate
+of 9.625% per annum, and (ii) in respect of each period from (and including) the First Tranche Notes First Reset Date and every fifth anniversary thereof (each, a “First Tranche Notes Reset Date”) to (but excluding) the next
+succeeding First Tranche Notes Reset Date (each such period, a “First Tranche Notes Reset Period”), at the rate per annum equal to the aggregate of 5.306% per annum (the “First Tranche Notes Initial Margin”) and the 5-year UST (as defined below) for the relevant First Tranche Notes Reset Period, with such rate per annum converted to a quarterly rate in accordance with market convention. 
+
+ The Second Tranche Notes will accrue non-cumulative cash distributions (“Second Tranche Notes Distributions” and, together with the
+First Tranche Notes Distributions, the “Distributions”) (i) in respect of the period from (and including) the Closing Date to (but excluding) November 21, 2033 (ten years after the Closing Date) (the “Second Tranche Notes First
+Reset Date”) at the rate of 9.625% per annum, and (ii) in respect of each period from (and including) the Second Tranche Notes First Reset Date and every fifth anniversary thereof (each, a “Second Tranche Notes Reset Date”) to
+(but excluding) the next succeeding Second Tranche Notes Reset Date (each such period, a “Second Tranche Notes Reset Period”), at the rate per annum equal to the aggregate of 5.298% per annum (the “Second Tranche Notes Initial
+Margin”) and the 5-year UST (as defined below) for the relevant Second Tranche Notes Reset Period, with such rate per annum converted to a quarterly rate in accordance with market convention. 
+
+ Such Distributions will be payable quarterly in arrears on February 21, May 21, August 21 and November 21 of each year (each, a
+“Distribution Payment Date”), commencing on February 21, 2024. Banco Santander may elect in its sole and absolute discretion to cancel the payment of any Distribution in whole or in part at any time that it deems necessary or desirable,
+and for any reason. No such election to cancel the payment of any Distribution (or part thereof) will constitute an Enforcement Event (as defined below). There are no events of default under the Notes. In addition, under the terms of the Base
+Indenture, as amended and supplemented by the First Supplemental Indenture (as defined below), neither the Trigger Conversion (as defined below) nor the exercise of the Bail-in Power by the Relevant Resolution
+Authority (both as defined below) or any action in compliance therewith will be an Enforcement Event. 
+ The Notes are perpetual. The Notes
+may be redeemed, in whole but not in part, at the option of Banco Santander (a) with respect to the First Tranche Notes on (i) any calendar day during the six-month period commencing on (and including)
+November 21, 2028 to (and including) the First Tranche Notes First Reset Date and (ii) any Distribution Payment Date thereafter, and (b) with respect to the Second Tranche Notes on (i) any calendar day during the six-month period commencing on (and
+including) May 21, 2033 to (and including) the Second Tranche Notes First Reset Date and (ii) any Distribution Payment Date thereafter, in each case at the 
+
+ Table of Contents 
+
+Redemption Price (as defined below) in accordance with Articles 77 and 78 of the CRR (as defined below), Article 29 of the Commission Delegated Regulation (EU) No. 241/2014 and/or any other
+Applicable Banking Regulations (as defined below) then in force. The Notes of any series are also redeemable on or after the Closing Date at the option of Banco Santander in whole but not in part, at any time, at the Redemption Price, if there is a
+Capital Event or a Tax Event (each as defined below) with respect to such series, in accordance with Articles 77 and 78 of the CRR, Article 29 of the Commission Delegated Regulation (EU) No. 241/2014 and/or any other Applicable Banking
+Regulations then in force. The Notes of any series are also redeemable after the Closing Date at the option of Banco Santander in whole but not in part, on any date that is a Distribution Payment Date, at the Redemption Price, if there is a Clean-up Call

@@ -1,0 +1,439 @@
+ of: 
+
+ • 
+
+ the quotient obtained by dividing (i) the sum of the $25.00 liquidation preference plus the amount of any accrued and unpaid dividends to, but not including, the Change of Control Conversion Date (unless the Change of Control Conversion Date is after a record date for a series H preferred dividend payment and prior to the corresponding series H preferred dividend payment date, in which case no additional amount for such accrued and unpaid dividend will be included in this sum) by (ii) the Common Share Price (as defined herein); and 
+
+ ​
+
+ • 
+
+ , or the Share Cap, subject to certain adjustments; 
+
+ ​
+
+ subject, in each case, to provisions for the receipt of alternative consideration as described in this prospectus supplement. 
+
+ The series H preferred ranks pari passu with our 6.950% Series E Cumulative Redeemable Preferred Stock, par value $0.01 per share, our 6.450% Series F Cumulative Redeemable Preferred Stock, par value $0.01 per share, and our Series G Cumulative Redeemable Preferred Stock, par value $0.01 per share. 
+
+ The series H preferred are subject to certain restrictions on ownership designed to preserve our qualification as a REIT for federal income tax purposes. 
+
+ We intend to file an application to list the series H preferred on the New York Stock Exchange (“NYSE”) under the symbol “SHO PRH.” If the application is approved, we expect trading of the series H preferred on the NYSE to commence within 30 days after the initial date of issuance. 
+
+ ​
+
+ Investing in the series H preferred involves a high degree of risk. Before buying any series H preferred, you should carefully read the discussion of material risks of investing in the series H preferred under the heading “Risk Factors” beginning on page S- 7 of this prospectus supplement and beginning on page 12 of our Annual Report on Form 10-K for the year ended December 31, 2020. 
+
+ Neither the Securities and Exchange Commission nor any state securities commission has approved or disapproved of these securities or determined if this prospectus supplement or the accompanying prospectus is truthful or complete. Any representation to the contrary is a criminal offense. 
+
+ ​
+
+ ​ 
+ ​ 
+ ​ 
+
+ Per Share 
+
+ ​ 
+ ​ 
+
+ Total (2) 
+
+ ​ 
+
+ Public offering price (1) 
+
+ ​ 
+ ​ 
+ ​ 
+ $ 
+ 
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ $ 
+ 
+ ​ 
+ ​ 
+
+ Underwriting discounts and commissions paid by us 
+
+ ​ 
+ ​ 
+ ​ 
+ $ 
+ 
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ $ 
+ 
+ ​ 
+ ​ 
+
+ Proceeds to us, before expenses 
+
+ ​ 
+ ​ 
+ ​ 
+ $ 
+ 
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ $ 
+ ​ 
+ ​ 
+ ​ 
+
+ ​
+
+ (1) 
+
+ Plus accrued dividends, if any, from , 2021. 
+
+ ​
+
+ (2) 
+
+ Assumes no exercise of the underwriters’ option to purchase additional shares of series H preferred described below. 
+
+ ​
+
+ We have granted the underwriters the right to purchase up to additional shares of series H preferred at the public offering price, less the underwriting discount, to cover over-allotments within 30 days from the date of this prospectus supplement. 
+
+ The underwriters expect that the shares will be delivered in global form through the book-entry delivery system of The Depository Trust Company on or about , 2021. 
+
+ ​
+
+ ​ 
+ 
+ Wells Fargo Securities 
+ 
+ ​ 
+ ​ 
+
+ J.P. Morgan 
+
+ ​ 
+ ​ 
+
+ BofA Securities 
+
+ ​ 
+
+ The date of this Prospectus Supplement is , 2021. 
+
+ TABLE OF CONTENTS ​ ​ 
+
+ TABLE OF CONTENTS 
+
+ Prospectus Supplement 
+
+ ​ 
+ ​ 
+ ​ 
+
+ Page 
+
+ ​ 
+
+ ABOUT THIS PROSPECTUS SUPPLEMENT 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-1 
+ ​ 
+ ​ 
+
+ SPECIAL NOTE ABOUT FORWARD-LOOKING STATEMENTS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-2 
+ ​ 
+ ​ 
+
+ SUMMARY 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-1 
+ ​ 
+ ​ 
+
+ THE OFFERING 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-2 
+ ​ 
+ ​ 
+
+ RISK FACTORS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-7 
+ ​ 
+ ​ 
+
+ USE OF PROCEEDS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-9 
+ ​ 
+ ​ 
+
+ DESCRIPTION OF THE SERIES H PREFERRED 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-10 
+ ​ 
+ ​ 
+
+ UNDERWRITING 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-19 
+ ​ 
+ ​ 
+
+ LEGAL MATTERS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-22 
+ ​ 
+ ​ 
+
+ EXPERTS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-22 
+ ​ 
+ ​ 
+
+ INCORPORATION OF CERTAIN INFORMATION BY REFERENCE 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ S-22 
+ 
+ ​ 
+ ​ 
+
+ Prospectus 
+
+ ​ 
+ ​ 
+ ​ 
+
+ Page 
+
+ ​ 
+
+ ABOUT THIS PROSPECTUS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 1 
+ ​ 
+ ​ 
+
+ AVAILABLE INFORMATION 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 2 
+ ​ 
+ ​ 
+
+ INCORPORATION OF CERTAIN INFORMATION BY REFERENCE 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 3 
+ ​ 
+ ​ 
+
+ RISK FACTORS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 4 
+ ​ 
+ ​ 
+
+ USE OF PROCEEDS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 5 
+ ​ 
+ ​ 
+
+ DESCRIPTION OF SECURITIES WE MAY OFFER 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 6 
+ ​ 
+ ​ 
+
+ DESCRIPTION OF OUR CAPITAL STOCK 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 11 
+ ​ 
+ ​ 
+
+ GLOBAL SECURITIES 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 22 
+ ​ 
+ ​ 
+
+ RESTRICTIONS ON OWNERSHIP AND TRANSFER 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 26 
+ ​ 
+ ​ 
+
+ CERTAIN PROVISIONS OF MARYLAND LAW AND OF OUR CHARTER AND BYLAWS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 30 
+ ​ 
+ ​ 
+
+ U.S. FEDERAL INCOME TAX CONSIDERATIONS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 36 
+ ​ 
+ ​ 
+
+ PLAN OF DISTRIBUTION 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 61 
+ ​ 
+ ​ 
+
+ LEGAL MATTERS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 62 
+ ​ 
+ ​ 
+
+ EXPERTS 
+
+ ​ 
+ ​ 
+ ​ 
+ ​ 
+ 
+ 63 
+ 
+ ​ 
+ ​ 
+
+ i 
+
+ TABLE OF CONTENTS ​ 
+
+ ABOUT THIS PROSPECTUS SUPPLEMENT 
+
+ This document consists of two parts. The first part is this prospectus supplement, which relates to the offer and sale from time to time of our series H preferred and also supplements and updates information contained in the accompanying prospectus and the documents incorporated by reference into the prospectus. The second part is the accompanying prospectus, which gives more general information, some of which may not apply to any potential sale of our series H preferred. To the extent there is a conflict between the information contained in this prospectus supplement, on the one hand, and the information contained in the accompanying prospectus or any document incorporated by reference herein that was filed with the Securities and Exchange Commission, or the SEC, before the date of this prospectus supplement, on the other hand, you should rely on the information in this prospectus supplement. 
+
+ You should rely only on the information contained in or incorporated by reference in

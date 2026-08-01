@@ -1,0 +1,21 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 6.25,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 20,
+  "liquidation_preference_usd": 50.0,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": true,
+  "perpetual": null,
+  "shares_offered": 167500000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "6.25% Series A Mandatory Convertible Preferred Stock",
+    "liquidation_preference_usd": "Each share of our Series A Mandatory Convertible Preferred Stock has a liquidation preference of $1,000 (and, correspondingly, each Series A Depositary Share represents a liquidation preference of $50)",
+    "par_value_usd": "par value $0.001 per share",
+    "shares_offered": "We are offering 167,500,000 of our Series A Depositary Shares"
+  }
+}

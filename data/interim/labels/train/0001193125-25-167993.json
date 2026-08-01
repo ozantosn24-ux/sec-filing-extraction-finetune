@@ -1,0 +1,20 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 8.375,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 40,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 4000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "dividends will accrue and be payable from the date of issuance at a rate of 8.375% per annum",
+    "liquidation_preference_usd": "with a liquidation preference of $25 per depositary share (equivalent to $1,000 per share of Series A preferred stock)",
+    "shares_offered": "We are offering 4,000,000 depositary shares, each representing a 1/40th ownership interest in a share of our 8.375% Fixed Rate Non-Cumulative Perpetual Preferred Stock, Series A"
+  }
+}

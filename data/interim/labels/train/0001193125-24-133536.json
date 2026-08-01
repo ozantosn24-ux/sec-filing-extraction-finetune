@@ -1,0 +1,21 @@
+{
+  "series": "J",
+  "coupon_rate_pct": 7.5,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 400,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 1.0,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 30000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "Perpetual 7.500% Non-Cumulative Preferred Stock, Series J",
+    "liquidation_preference_usd": "equivalent to $25 per depositary share",
+    "par_value_usd": "par value $1.00 per share",
+    "shares_offered": "30,000,000 depositary shares"
+  }
+}

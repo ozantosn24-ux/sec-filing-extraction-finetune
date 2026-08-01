@@ -1,0 +1,21 @@
+{
+  "series": "H",
+  "coupon_rate_pct": 8.75,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 12000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "8.75% Series H Fixed-Rate Cumulative Redeemable Preferred Stock",
+    "liquidation_preference_usd": "equivalent to a $25.00 liquidation preference per depositary share",
+    "par_value_usd": "par value $0.01",
+    "shares_offered": "AGNC Investment Corp. is offering 12,000,000 depositary shares"
+  }
+}

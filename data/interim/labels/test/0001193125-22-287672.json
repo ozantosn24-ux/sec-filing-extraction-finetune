@@ -1,0 +1,20 @@
+{
+  "series": "D",
+  "coupon_rate_pct": 9.0,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": 20000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "9.000% Non-Cumulative Preferred Stock, Series D",
+    "liquidation_preference_usd": "$25,000 liquidation preference per share (equivalent to $25.00 per Depositary Share)",
+    "shares_offered": "20,000,000 Depositary Shares, each representing a 1/1,000th Interest in a Share of 9.000% Non-cumulative Preferred Stock, Series D"
+  }
+}

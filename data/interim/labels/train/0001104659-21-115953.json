@@ -1,0 +1,20 @@
+{
+  "series": "O",
+  "coupon_rate_pct": 4.45,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 12000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "4.45% Series O Cumulative Redeemable Preferred Shares",
+    "liquidation_preference_usd": "(Liquidation Preference $25.00 Per Share)",
+    "shares_offered": "12,000,000 Shares"
+  }
+}

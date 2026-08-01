@@ -1,0 +1,20 @@
+{
+  "series": "B",
+  "coupon_rate_pct": 5.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 750000,
+  "dividend_frequency": "semi-annual",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "5.00% Fixed-Rate Reset Cumulative Perpetual Preferred Stock, Series B",
+    "liquidation_preference_usd": "($1,000 Liquidation Preference)",
+    "shares_offered": "We are offering 750,000 shares of our 5.00% Fixed-Rate Reset Cumulative Perpetual Preferred Stock, Series B"
+  }
+}

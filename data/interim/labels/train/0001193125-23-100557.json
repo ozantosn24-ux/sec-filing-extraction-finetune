@@ -1,0 +1,21 @@
+{
+  "series": "E",
+  "coupon_rate_pct": 5.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": null,
+  "shares_offered": 7922159,
+  "dividend_frequency": "monthly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "5.00% Series E Cumulative Redeemable Preferred Stock",
+    "liquidation_preference_usd": "at a public offering price of $25.00 per share",
+    "par_value_usd": "par value $0.001 per share",
+    "shares_offered": "a maximum of 7,922,159 shares of our 5.00% Series E Cumulative Redeemable Preferred Stock"
+  }
+}

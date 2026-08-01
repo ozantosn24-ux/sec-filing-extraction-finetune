@@ -1,0 +1,21 @@
+{
+  "series": "K",
+  "coupon_rate_pct": 5.0,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 100,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 0.01,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 750000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "5.000% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series K",
+    "liquidation_preference_usd": "with a liquidation preference of $100,000 per share (equivalent to $1,000 per depositary share)",
+    "par_value_usd": "Series K, $0.01 par value",
+    "shares_offered": "We are offering 750,000 depositary shares"
+  }
+}

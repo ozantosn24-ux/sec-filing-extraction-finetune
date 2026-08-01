@@ -1,0 +1,38 @@
+{
+  "0001493152-23-019278": [
+    "birim karisikligi: 240,000 x 15 = $3,600,000"
+  ],
+  "0001104659-25-110926": [
+    "kanit birebir degil (turetilmis): ['par_value_usd']"
+  ],
+  "0001104659-26-003110": [
+    "kanit birebir degil (turetilmis): ['liquidation_preference_usd']"
+  ],
+  "0001193125-22-021522": [
+    "kanit birebir degil (turetilmis): ['depositary_ratio']"
+  ],
+  "0001193125-22-314789": [
+    "kanit birebir degil (turetilmis): ['depositary_ratio']"
+  ],
+  "0001193125-24-037151": [
+    "kanit birebir degil (turetilmis): ['par_value_usd']"
+  ],
+  "0001193125-24-038474": [
+    "kanit birebir degil (turetilmis): ['par_value_usd']"
+  ],
+  "0001193125-24-188573": [
+    "kanit birebir degil (turetilmis): ['liquidation_preference_usd']"
+  ],
+  "0001193125-25-060309": [
+    "kanit birebir degil (turetilmis): ['shares_offered']"
+  ],
+  "0001373670-21-000047": [
+    "kanit birebir degil (turetilmis): ['coupon_rate_pct']"
+  ],
+  "0001193125-25-124554": [
+    "kanit birebir degil (turetilmis): ['coupon_rate_pct']"
+  ],
+  "0001213900-22-003164": [
+    "is_preliminary=true ama coupon dolu (kural D yorumu ajanlar arasi farkli)"
+  ]
+}

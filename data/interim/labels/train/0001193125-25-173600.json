@@ -1,0 +1,20 @@
+{
+  "series": "B",
+  "coupon_rate_pct": 6.875,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 40,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 16000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "6.875% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series B",
+    "liquidation_preference_usd": "equivalent to $25 per depositary share",
+    "shares_offered": "We are offering 16,000,000 depositary shares"
+  }
+}

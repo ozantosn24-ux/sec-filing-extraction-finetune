@@ -1,0 +1,22 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 5.75,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": 0.01,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 2000000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "Each Representing 1/1000th of a Share of 5.75% Series A Cumulative Perpetual Preferred Stock",
+    "depositary_ratio": "2,000,000 depositary shares, each representing a 1/1000th fractional interest in a share of 5.75% Series A Cumulative Perpetual Preferred Stock",
+    "liquidation_preference_usd": "The liquidation preference of each share of the Series A Preferred Stock is $25,000.00 (equivalent to $25.00 per depositary share)",
+    "par_value_usd": "par value $0.01 per share",
+    "shares_offered": "We are offering 2,000,000 depositary shares"
+  }
+}

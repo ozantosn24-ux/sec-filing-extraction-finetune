@@ -1,0 +1,20 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 10.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 10.0,
+  "par_value_usd": 0.001,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "preferential cumulative cash dividends at the rate of 10.0% per annum of the $10.00 liquidation preference per share",
+    "liquidation_preference_usd": "the $10.00 liquidation preference per share (equivalent to a fixed annual amount of $1.00 per share)",
+    "par_value_usd": "par value $0.001 per share"
+  }
+}

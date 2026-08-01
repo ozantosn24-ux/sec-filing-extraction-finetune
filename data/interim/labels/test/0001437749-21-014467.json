@@ -1,0 +1,20 @@
+{
+  "series": "B",
+  "coupon_rate_pct": 7.625,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 2800000,
+  "dividend_frequency": "quarterly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "2,800,000 Shares of 7.625% Series B Cumulative Perpetual Preferred Stock",
+    "liquidation_preference_usd": "(Liquidation Preference of $25.00 Per Share)",
+    "shares_offered": "We are offering for sale 2,800,000 shares of our 7.625% Series B Cumulative Perpetual Preferred Stock, no par value per share"
+  }
+}

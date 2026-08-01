@@ -1,0 +1,52 @@
+424B5
+ 1
+ d837249d424b5.htm
+ 424B5
+
+ 424B5 
+
+ Table of Contents 
+
+ Filed Pursuant to Rule 424(b)(5)
+Registration Statement No. 333-271955 
+
+ PROSPECTUS
+SUPPLEMENT 
+ (to prospectus dated May 16, 2023) 
+
+ Banco Santander, S.A. 
+
+ $1,500,000,000 8.000% Non-Step-Up Non-Cumulative Contingent Convertible Perpetual Preferred Tier 1 Securities 
+ The $1,500,000,000 8.000%
+ Non-Step-Up Non-Cumulative Contingent Convertible Perpetual Preferred Tier 1 Securities of $200,000 liquidation preference each
+(the “Notes”) are being issued by Banco Santander, S.A. (“Banco Santander”) on August 1, 2024 (the “Closing Date”). 
+
+ The Notes will accrue non-cumulative cash distributions (the “Distributions”) (i) in respect
+of the period from (and including) the Closing Date to (but excluding) August 1, 2034 (ten years after the Closing Date) (the “First Reset Date”) at the rate of 8.000% per annum, and (ii) in respect of each period from (and including)
+the First Reset Date and every fifth anniversary thereof (each, a “Reset Date”) to (but excluding) the next succeeding Reset Date (each such period, a “Reset Period”), at the rate per annum equal to the aggregate of 3.911% per
+annum (the “Initial Margin”) and the 5-year UST (as defined herein) for the relevant Reset Period, with such rate per annum converted to a quarterly rate in accordance with market convention. 
+
+ Such Distributions will be payable quarterly in arrears on February 1, May 1, August 1 and November 1 of each year (each, a “Distribution
+Payment Date”), commencing on November 1, 2024. Banco Santander may elect in its sole and absolute discretion to cancel the payment of any Distribution in whole or in part at any time that it deems necessary or desirable, and for any reason. No
+such election to cancel the payment of any Distribution (or part thereof) will constitute an Enforcement Event (as defined herein). There are no events of default under the Notes. In addition, under the terms of the Base Indenture, as amended and
+supplemented by the Second Supplemental Indenture (as defined herein), neither the Trigger Conversion (as defined herein) nor the exercise of the Bail-in Power by the Relevant Resolution Authority (both as
+defined herein) or any action in compliance therewith will be an Enforcement Event. 
+ The Notes are perpetual. The Notes may be redeemed, in
+whole but not in part, at the option of Banco Santander on (i) any calendar day during the six-month period commencing on (and including) February 1, 2034 to (and including) the First Reset Date and
+(ii) any Distribution Payment Date thereafter, in each case at the Redemption Price (as defined herein) in accordance with Articles 77 and 78 of the CRR (as defined herein), Article 29 of the Commission Delegated Regulation (EU)
+No. 241/2014 (including the prior consent of the Regulator as required) and/or any other Applicable Banking Regulations (as defined herein) then in force. The Notes are also redeemable on or after the Closing Date at the option of Banco
+Santander in whole but not in part, at any time, at the Redemption Price, if there is a Capital Event or a Tax Event (each as defined herein), in accordance with Articles 77 and 78 of the CRR, Article 29 of the Commission Delegated Regulation (EU)
+No. 241/2014 (including the prior consent of the Regulator as required) and/or any other Applicable Banking Regulations then in force. The Notes are also redeemable after the Closing Date at the option of Banco Santander in whole but not in
+part, on any date that is a Distribution Payment Date, at the Redemption Price, if 75% or more of the initial aggregate Liquidation Preference of Notes (which, for the avoidance of doubt, includes any additional issuances issued subsequently and
+constituting a single series of securities under the Base Indenture as described under “ Description of Contingent Convertible Capital Securities—Additional Issuances ” in the accompanying prospectus) have been redeemed or
+purchased by, or on behalf of, Banco Santander and cancelled, in accordance with Articles 77 and 78 of the CRR, Article 29 of the Commission Delegated Regulation (EU) No. 241/2014 (including the prior consent of the Regulator as required)
+and/or any other Applicable Banking Regulations then in force. 
+ In the event of the occurrence of the Trigger Event (as defined herein),
+the Notes are mandatorily and irrevocably convertible into newly issued ordinary shares in the capital of Banco Santander (“Common Shares”) at the Conversion Price (as defined herein). 
+
+ The Notes will be issued in minimum denominations of $200,000 and integral multiples of $200,000 in excess thereof. In the event of the
+liquidation of Banco Santander, prior to the occurrence of the Trigger Event, holders of the Notes will be entitled to receive (subject to the limitations described herein and in the accompanying prospectus) a liquidation preference of $200,000 per
+Note (the “Liquidation Preference”), plus any accrued and unpaid Distributions for the then current Distribution Period (as defined herein) to (but excluding) the date of payment of such liquidation distribution (a “Liquidation
+Distribution”). 
+ Unless previously converted into Common Shares as set forth under “ Description of Contingent Convertible
+Capital Securities—Conversion Upon Trigger Event ” in the accompanying prospectus, the payment obligations of Banco Santander under the Notes constitute direct, unconditional, u

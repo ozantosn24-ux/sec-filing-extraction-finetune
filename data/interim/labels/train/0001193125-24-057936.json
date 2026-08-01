@@ -1,0 +1,18 @@
+{
+  "series": "A",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 20,
+  "liquidation_preference_usd": 50.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": null,
+  "convertible": true,
+  "perpetual": null,
+  "shares_offered": 35000000,
+  "dividend_frequency": null,
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "Each share of our Mandatory Convertible Preferred Stock has a liquidation preference of $1,000 (and, correspondingly, each Depositary Share represents a liquidation preference of $50)"
+  }
+}

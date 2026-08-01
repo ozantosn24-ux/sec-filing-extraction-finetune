@@ -1,0 +1,20 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 13.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": true,
+  "perpetual": true,
+  "shares_offered": 280000,
+  "dividend_frequency": "monthly",
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "13.00% Series A Cumulative Redeemable Preferred Stock",
+    "liquidation_preference_usd": "$25.00 liquidation preference",
+    "shares_offered": "We are offering 280,000 shares"
+  }
+}

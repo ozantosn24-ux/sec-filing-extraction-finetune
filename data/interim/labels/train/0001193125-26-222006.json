@@ -1,0 +1,21 @@
+{
+  "series": "S",
+  "coupon_rate_pct": 6.25,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 25,
+  "liquidation_preference_usd": 1000.0,
+  "par_value_usd": 5.0,
+  "cumulative": false,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": 500000,
+  "dividend_frequency": null,
+  "is_preliminary": false,
+  "evidence": {
+    "coupon_rate_pct": "at a fixed rate per annum of 6.250% on the liquidation preference amount of $25,000 per share of Preferred Stock (equivalent to $1,000 per depositary share)",
+    "liquidation_preference_usd": "equivalent to $1,000 per depositary share",
+    "par_value_usd": "Series S Fixed Rate Reset Non-Cumulative Perpetual Preferred Stock, $5.00 par value per share",
+    "shares_offered": "Truist Financial Corporation is offering 500,000 depositary shares, each representing a 1/25th ownership interest in a share of 6.250% Series S Fixed Rate Reset Non-Cumulative Perpetual Preferred Stock"
+  }
+}

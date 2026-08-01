@@ -1,0 +1,18 @@
+{
+  "series": "C",
+  "coupon_rate_pct": null,
+  "offered_unit": "depositary_share",
+  "depositary_ratio": 1000,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": null,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": null,
+  "is_preliminary": true,
+  "evidence": {
+    "liquidation_preference_usd": "a redemption price in cash equal to $25,000 per share of Series C Preferred Stock (equivalent to $25.00 per depositary share)"
+  }
+}

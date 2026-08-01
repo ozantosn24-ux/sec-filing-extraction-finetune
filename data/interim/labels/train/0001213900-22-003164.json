@@ -1,0 +1,19 @@
+{
+  "series": "A",
+  "coupon_rate_pct": 9.0,
+  "offered_unit": "share",
+  "depositary_ratio": null,
+  "liquidation_preference_usd": 25.0,
+  "par_value_usd": null,
+  "cumulative": true,
+  "redeemable": true,
+  "convertible": null,
+  "perpetual": true,
+  "shares_offered": null,
+  "dividend_frequency": "monthly",
+  "is_preliminary": true,
+  "evidence": {
+    "coupon_rate_pct": "Shares of 9% Series A Cumulative Perpetual Preferred Stock",
+    "liquidation_preference_usd": "(Liquidation Preference $25.00 per Share)"
+  }
+}
