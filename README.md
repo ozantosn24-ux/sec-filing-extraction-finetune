@@ -24,8 +24,9 @@ recover them reliably. This repository builds the dataset and the measurement.
 | stage | state |
 |---|---|
 | 1. Dataset | **done** — 160 labelled records, 148 clean / 12 flagged; split train 99 / dev 25 / test 36 |
-| 2. LoRA fine-tune (PyTorch) | **done** — Qwen2.5-1.5B, LoRA r=16, 3 epochs on a free Colab T4 |
+| 2. LoRA fine-tune (PyTorch) | **done** — Qwen2.5-1.5B, LoRA r=16, 3 epochs on a free T4 |
 | 3. Evaluation | **done** — four contestants measured on test, once |
+| 4. Epoch search | **done** — 5 epochs tested on `dev`, did not improve; 3 stands, test untouched |
 
 ## Result
 
@@ -90,9 +91,18 @@ Selection ran on `dev` (25 records), never on test:
 | 26 (epoch 2) | 60.0% | 0.01551 |
 | **39 (epoch 3)** | **68.0%** | **0.01169** |
 
-Both signals agree, so there was nothing to adjudicate. Both were still improving at
-epoch 3, which means **3 epochs is probably not the optimum** — more epochs might do
-better, and that is a live thread, not a finished one.
+Both signals agree, so there was nothing to adjudicate. Both were still improving at epoch 3,
+which raised the obvious question: would more epochs do better?
+
+**That thread is now closed — it was tested, and the answer is no.** A 5-epoch run (same
+data, same seed, same hyperparameters, single T4) scores on `dev`: 52.0% → 56.0% → **76.0%**
+→ 68.0% → 68.0%. **Epochs 4 and 5 make it worse.** The decision rule was written and
+committed *before* the run (`schema/EPOCH_KARARI.md`) and the outcome is recorded there in
+full, including why the config was **not** changed despite the rule technically passing: the
+best checkpoint is still an epoch-3 checkpoint, and the `eval_loss` margin (0.00018) is
+smaller than this project's own measured run-to-run noise (0.00022). **The test set was not
+touched** for this experiment. Hyperparameter search proper — learning rate, rank — remains
+undone.
 
 ### Baseline detail (rule-based)
 
@@ -377,8 +387,9 @@ a security word but is not a coupon) and for depositary priority (Merchants Banc
   "same instruction, same harness, no scaffolding" — not the ceiling of prompting.
 - 36 test records is a small ruler. 61.1% vs 27.8% is a 12-record gap; the direction is
   not in doubt but the second decimal is meaningless.
-- Both dev signals were still improving at epoch 3, so **3 epochs is not shown to be
-  optimal** — only that it beats epochs 1 and 2. The hyperparameters were not searched.
+- Epoch count **was** searched on `dev` and 3 stands: a 5-epoch run peaks at epoch 3 (76.0%)
+  and degrades after (68.0%, 68.0%). The rest of the hyperparameters — learning rate, LoRA
+  rank — were **not** searched.
 - Latency was measured on a Colab T4 for the models and on a local CPU for the regex.
   The 0.001 s vs 8.93 s gap is real in magnitude but the two numbers come from different
   hardware and are not a controlled comparison.

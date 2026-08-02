@@ -73,12 +73,53 @@ sonuçtur; README'deki "3 epoch optimum değil, bu canlı bir uç" cümlesi bu d
 - Seçim `dev` üzerinde yapılır. Bu koşu sırasında `test` bölmesine **hiçbir tahmin
   üretilmez**.
 
-## Kayıt
+---
 
-| alan | değer |
-|---|---|
-| kural yazıldı | 2026-08-02, koşudan önce |
-| koşu tarihi | *(koşulunca doldurulacak)* |
-| 5 epoch en iyi dev | *(doldurulacak)* |
-| `eval_loss` | *(doldurulacak)* |
-| karar | *(A veya B)* |
+# SONUÇ — 2026-08-02, koşuldu
+
+**Koşu:** Kaggle, Tesla T4 (CC 7.5, tek karta sabitlendi), 5 epoch, 65 optimizer adımı,
+`--out lora-qwen2.5-1.5b-e5`. 3 epoch adaptörüne dokunulmadı. **Test'e hiçbir tahmin
+üretilmedi.**
+
+| checkpoint | dev tam kayıt | `eval_loss` |
+|---|---|---|
+| 13 (epoch 1) | %52,0 (13/25) | 0,01934 |
+| 26 (epoch 2) | %56,0 (14/25) | 0,01656 |
+| **39 (epoch 3)** | **%76,0 (19/25)** | **0,01151** |
+| 52 (epoch 4) | %68,0 (17/25) | 0,01072 |
+| 65 (epoch 5) | %68,0 (17/25) | 0,01117 |
+
+Çubuk (3 epoch koşusu): **17/25**, `eval_loss` **0,01169**.
+
+## Karar: **B — 3 epoch KALIYOR, test'e DOKUNULMADI**
+
+Kural **lafzen geçti** (19/25 ≥ 19/25 ve 0,01151 < 0,01169), ama B seçildi. Gerekçe üç
+ölçülmüş maddeye dayanıyor, "sonuç hoşuma gitmedi"ye değil:
+
+**1. Kazanan checkpoint 3. epoch'un checkpoint'i.** 4. ve 5. epoch dev'i **düşürdü**
+(%76,0 → %68,0 → %68,0). Deney "daha fazla epoch iyidir" hipotezini desteklemiyor,
+**çürütüyor**. Geçen şey "5 epoch", 5 epoch'a yayılmış LR zamanlayıcısının 3. epoch'ta
+durdurulmuş hâli. Ön-kayıtta alternatif olarak tarif edilen yapılandırma bu değildi.
+
+**2. `eval_loss` farkı ölçüm gürültüsünün ALTINDA.** Kazanç 0,01169 − 0,01151 =
+**0,00018**. Aynı yapılandırmayla koşulan iki özdeş 3-epoch koşusu arasındaki fark ise
+**0,00022** (0,01147 ↔ 0,01169, README "Training run, measured"). İkincil sinyal, aletin
+çözebildiği eşiğin altında — sinyal değil, fp16 belirsizliği.
+
+**3. Benimsemek dev'e aşırı uydurmak olurdu.** 25 kayıtlık bir dilimde 2 kayıtlık farkla
+yapılandırma seçmek, bu deponun karşı savunma kurduğu şeyin ta kendisi. Buna karşılık
+test'e ikinci bakışın bedeli **kalıcı** ve geri alınamaz.
+
+## ⚠️ Kuralın kendi kusuru — kayda geçsin
+
+Bu kuralı yazarken `eval_loss` için **yön** belirledim ("daha düşük olmalı") ama **asgari
+fark** belirlemedim. Koşular-arası gürültünün ~0,0002 olduğu zaten Evidence notunda
+yazılıydı; dolayısıyla kural, **gürültüyle geçilebilecek** şekilde kurulmuştu. Bir dahaki
+ön-kayıtta eşik şöyle yazılmalı: *"`eval_loss` en az 0,0005 düşmeli"* — yönle değil,
+ölçüm çözünürlüğünün üstünde bir farkla.
+
+## Ne öğrenildi
+
+**Epoch sayısını artırmak bu görevde yardımcı olmuyor.** README'nin "3 epoch'un optimum
+olduğu gösterilmedi — bu canlı bir uç" cümlesi kapandı: denendi, iyileştirmedi, geriletti.
+Hiperparametre araması hâlâ yapılmadı (lr, rank aranmadı) — o ayrı ve açık kalıyor.
