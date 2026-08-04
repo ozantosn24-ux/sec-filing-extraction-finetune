@@ -1,0 +1,56 @@
+name: tests
+
+# Actions are pinned to a FULL COMMIT SHA, not a tag. A tag is a moving target: if the
+# upstream account is compromised, `@v7` can be repointed at different code. When bumping,
+# update the version in the trailing comment too, or the pin becomes unreadable.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Narrowest useful permission: this job only reads the code.
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          # Matches the workstation the 117-green baseline was measured on.
+          python-version: '3.14'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # torch is deliberately absent from requirements-train.txt (the right wheel
+          # depends on the target machine's CUDA). CI installs the CPU wheel explicitly.
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-train.txt
+          # `requests` is used by src/edgar.py but declared in no manifest yet.
+          pip install pytest requests
+
+      - name: Build derived dataset
+        # data/processed/ is git-ignored: labels/ and spans/ are tracked, the SFT files
+        # are rebuilt from them. Skipping this step does NOT fail the suite -- it makes
+        # 13 tests skip silently and CI go green anyway. Measured 2026-08-05 on a clean
+        # export: 104 passed / 13 skipped without this step, 117 passed / 0 skipped with it.
+        run: python -B src/build_sft.py
+
+      - name: Run tests (a SKIP is a failure too)
+        # A green suite that quietly stopped measuring is worse than a red one, because
+        # nobody looks at it again. Any skip fails the job and prints why.
+        run: |
+          python -B -m pytest -q -p no:cacheprovider -rs | tee pytest.out
+          if grep -qi "skipped" pytest.out; then
+            echo "::error::Tests were SKIPPED. Green but not measuring -- see the SKIPPED lines above."
+            exit 1
+          fi
