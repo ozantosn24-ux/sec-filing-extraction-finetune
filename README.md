@@ -1,5 +1,7 @@
 # edgar-extract
 
+[![tests](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/tests.yml/badge.svg)](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/tests.yml)
+
 Structured field extraction from SEC 424B5 preferred-stock prospectuses, built to
 measure one question: **on schema-strict extraction, is a small fine-tuned model worth
 more than the alternatives — on accuracy, abstention, latency and format adherence?**
@@ -27,6 +29,10 @@ recover them reliably. This repository builds the dataset and the measurement.
 | 2. LoRA fine-tune (PyTorch) | **done** — Qwen2.5-1.5B, LoRA r=16, 3 epochs on a free T4 |
 | 3. Evaluation | **done** — four contestants measured on test, once |
 | 4. Epoch search | **done** — 5 epochs tested on `dev`, did not improve; 3 stands, test untouched |
+
+**117 tests** run on every push. CI rebuilds the derived dataset first — `data/processed/`
+is git-ignored, and without that step 13 tests skip while the badge stays green anyway. So a
+skipped test fails the build: a suite that quietly stopped measuring is worse than a red one.
 
 ## Result
 
