@@ -12,9 +12,11 @@ public olacak; kisisel e-posta commit edilmez).
 from __future__ import annotations
 
 import os
+import re
 import time
 from dataclasses import dataclass
 from typing import Iterator
+from urllib.parse import urljoin, urlparse
 
 import requests
 
@@ -24,11 +26,38 @@ ARCHIVES = "https://www.sec.gov/Archives/edgar/data"
 # SEC tavani 10 req/s; muhafazakar davraniyoruz.
 MIN_REQUEST_GAP_S = 0.25
 
+# EFTS yanitindan gelen degerler DOGRULANMADAN hem URL'e hem DOSYA YOLUNA giriyordu
+# (guvenlik denetimi 2026-08-05). `_id` "../../x:doc.htm" olsaydi span/raw yazimi
+# repo disina tasardi — `split.py` hedef dizini `mkdir(parents=True)` ile YARATIYOR,
+# yani var olmayan bir agaca da yazabilirdi. Linux'ta (Colab/Kaggle) mutlak yol da
+# geciyordu: "/etc/cron.d/x" iki nokta icermedigi icin partition(":")'dan saglam cikar.
+# Bicim kapisi, yanit butunlugu bozulmus bir EFTS'e karsi tek savunma.
+ACCESSION_RE = re.compile(r"\d{10}-\d{2}-\d{6}")
+CIK_RE = re.compile(r"\d{1,10}")
+DOC_NAME_RE = re.compile(r"[A-Za-z0-9._-]+")
+
+# Redirect yalniz SEC icinde kalabilir — gerekce `_get` docstring'inde.
+ALLOWED_HOST = "sec.gov"
+MAX_REDIRECTS = 5
+
 _last_request_at = 0.0
 
 
 class EdgarError(RuntimeError):
     pass
+
+
+def _host_allowed(url: str) -> bool:
+    """Yalniz sec.gov ve alt alan adlari. 'evil-sec.gov' ESLESMEZ (nokta sart)."""
+    host = (urlparse(url).hostname or "").lower()
+    return host == ALLOWED_HOST or host.endswith("." + ALLOWED_HOST)
+
+
+def _safe_doc_name(name: str) -> bool:
+    """`primary_doc` bir DOSYA ADI olmali: yol ayraci, ust-dizin, surucu harfi YOK."""
+    if not name or len(name) > 128 or ".." in name:
+        return False
+    return bool(DOC_NAME_RE.fullmatch(name))
 
 
 def user_agent() -> str:
@@ -49,15 +78,49 @@ def _throttle() -> None:
     _last_request_at = time.monotonic()
 
 
+def _get(url: str, params: dict | None, headers: dict) -> requests.Response:
+    """Redirect'leri ELDE takip et; her adimda hedefi ISTEKTEN ONCE dogrula.
+
+    🔴 Neden `allow_redirects=False`: requests cross-host redirect'te yalniz
+    `Authorization` header'ini siliyor, ozel header'lari TASIYOR — `User-Agent`
+    dahil. (requests 2.32.5 `Session.rebuild_auth` okundu VE loopback'te iki
+    sunucuyla olculdu, 2026-08-05: Authorization dusuruldu, UA hedefe ulasti.)
+
+    `SEC_EDGAR_UA`, SEC'in adil-erisim kurali geregi ad + e-posta tasir. sec.gov
+    disina cikan TEK bir redirect onu ucuncu tarafa gonderirdi. Yanit geldikten
+    sonra `r.url`'i kontrol etmek gec kalir: header zaten gitmis olur. Bu yuzden
+    dogrulama istekten ONCE yapilir.
+    """
+    current = url
+    for _ in range(MAX_REDIRECTS + 1):
+        if not _host_allowed(current):
+            raise EdgarError(
+                f"sec.gov disi host REDDEDILDI: {urlparse(current).hostname!r} "
+                f"— istek atilmadi, User-Agent gonderilmedi"
+            )
+        r = requests.get(current, params=params, headers=headers, timeout=30,
+                         allow_redirects=False)
+        if not r.is_redirect:
+            if 300 <= r.status_code < 400:
+                raise EdgarError(f"{current}: Location'siz {r.status_code} yaniti")
+            return r
+        current = urljoin(current, r.headers["Location"])
+        params = None  # sorgu dizesi artik Location'da tasinir
+        _throttle()
+    raise EdgarError(f"{url}: {MAX_REDIRECTS} redirect siniri asildi")
+
+
 def _request(url: str, params: dict | None = None, retries: int = 3) -> requests.Response:
     headers = {"User-Agent": user_agent(), "Accept-Encoding": "gzip, deflate"}
     last_exc: Exception | None = None
     for attempt in range(retries):
         _throttle()
         try:
-            r = requests.get(url, params=params, headers=headers, timeout=30)
+            r = _get(url, params, headers)
             r.raise_for_status()
             return r
+        except EdgarError:
+            raise  # host reddi/redirect ihlali GECICI DEGIL — tekrar denemek anlamsiz
         except Exception as exc:  # noqa: BLE001 — tek noktada raporlanir
             last_exc = exc
             if attempt < retries - 1:
@@ -113,6 +176,18 @@ def search(
         display = src.get("display_names") or []
         company = str(display[0]).split(" (CIK")[0].strip() if display else ""
         if not (accession and cik and primary_doc):
+            continue
+        # 🔴 BICIM KAPISI — bu uc deger hem URL'e hem DOSYA ADINA giriyor.
+        # Bosluk kontrolu yetmiyordu: "../../x" da, "/etc/cron.d/x" de doluydu.
+        if not (
+            ACCESSION_RE.fullmatch(accession)
+            and CIK_RE.fullmatch(cik)
+            and _safe_doc_name(primary_doc)
+        ):
+            # Sessizce dusurmek bu repoda kurala aykiri (bkz. collect.py kayip
+            # olcumu). Normalde sifir olmali; bir sey basiyorsa BAKILMALI.
+            # `!r` kontrol karakterlerini kacisla yazar — terminal escape enjeksiyonu yok.
+            print(f"  ATLANDI (gecersiz SEC kimligi): _id={raw_id[:80]!r}")
             continue
         yield FilingHit(
             accession=accession,
