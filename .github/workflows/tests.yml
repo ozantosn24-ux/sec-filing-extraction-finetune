@@ -27,6 +27,9 @@ jobs:
           # Matches the workstation the 117-green baseline was measured on.
           python-version: '3.14'
           cache: pip
+          # Required: the cache step only globs **/requirements.txt and
+          # **/pyproject.toml by default, and this repo has neither.
+          cache-dependency-path: requirements-train.txt
 
       - name: Install dependencies
         run: |
