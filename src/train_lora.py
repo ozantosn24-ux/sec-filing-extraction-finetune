@@ -57,16 +57,16 @@ SMOKE_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
 CPU_PARAM_LIMIT = 500_000_000
 
 
-def parametre_sayisi(model_id: str) -> int | None:
+def parametre_sayisi(model_id: str, revision: str | None = None) -> int | None:
     """Agirliklari INDIRMEDEN parametre sayisi. Bilemezse None."""
     try:
         from huggingface_hub import get_safetensors_metadata
-        return sum(get_safetensors_metadata(model_id).parameter_count.values())
+        return sum(get_safetensors_metadata(model_id, revision=revision).parameter_count.values())
     except Exception:
         return None
 
 
-def cpu_korumasi(model_id: str, force: bool, smoke: bool) -> None:
+def cpu_korumasi(model_id: str, force: bool, smoke: bool, revision: str | None = None) -> None:
     """CUDA yokken buyuk model egitimini ENGELLE.
 
     Neden koruma: bu depoda torch CPU-only kurulu ve makine 16 GB. 1,5B model
@@ -85,7 +85,7 @@ def cpu_korumasi(model_id: str, force: bool, smoke: bool) -> None:
     if torch.cuda.is_available() or smoke:
         return
 
-    n = parametre_sayisi(model_id)
+    n = parametre_sayisi(model_id, revision)
     if force:
         print(f"UYARI: --force-cpu: CUDA yok, yine de devam ediliyor"
               f"{f' ({n/1e9:.1f}B parametre)' if n else ''}. Makine yavaslar.")
@@ -180,7 +180,7 @@ def veri_yukle(split: str, n: int | None = None, rows: list[dict] | None = None)
     ])
 
 
-def en_uzun_once(rows: list[dict], model_id: str) -> list[dict]:
+def en_uzun_once(rows: list[dict], model_id: str, revision: str | None = None) -> list[dict]:
     """Kayitlari GERCEK token uzunluguna gore azalan sirala — VRAM probu icin.
 
     🔴 Neden karakter degil token: prob'un tek isi tepe VRAM'i gormek ve tepe,
@@ -191,7 +191,7 @@ def en_uzun_once(rows: list[dict], model_id: str) -> list[dict]:
     """
     from transformers import AutoTokenizer
 
-    tok = AutoTokenizer.from_pretrained(model_id)
+    tok = AutoTokenizer.from_pretrained(model_id, revision=revision)
     olculu = []
     for r in rows:
         n = len(tok(tok.apply_chat_template(r["messages"], tokenize=False),
@@ -206,6 +206,8 @@ def en_uzun_once(rows: list[dict], model_id: str) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="Qwen/Qwen2.5-1.5B-Instruct")
+    ap.add_argument("--revision", help="taban model icin HF commit SHA "
+                                       "(varsayilan: src/pins.py'deki sabit)")
     ap.add_argument("--out", type=Path, default=ROOT / "models" / "lora-qwen2.5-1.5b")
     ap.add_argument("--max-length", type=int, default=3072)
     ap.add_argument("--epochs", type=float, default=3.0)
@@ -235,7 +237,11 @@ def main() -> int:
     from trl import SFTConfig, SFTTrainer
 
     model_id = SMOKE_MODEL if args.smoke else args.model
-    cpu_korumasi(model_id, args.force_cpu, args.smoke)
+    # Revision SABITLENIR — gerekce src/pins.py. Pinsiz bir kosu "hangi agirliklar"
+    # sorusunu cevaplayamaz, yani sonucu tekrar uretilemez.
+    from pins import revision_for
+    rev = revision_for(model_id, args.revision)
+    cpu_korumasi(model_id, args.force_cpu, args.smoke, rev)
     olculen = olculen_max_length()
 
     # 🔴 Kesme sessiz bir veri kaybidir: once DURDUR, sonra egit.
@@ -258,13 +264,14 @@ def main() -> int:
 
     bf16, fp16, gerekce = hassasiyet_sec(args.precision)
     dtype = torch.bfloat16 if bf16 else (torch.float16 if fp16 else torch.float32)
-    print(f"model      : {model_id}{'   [SMOKE]' if args.smoke else ''}")
+    print(f"model      : {model_id}@{rev[:7] if rev else 'UNPINNED'}"
+          f"{'   [SMOKE]' if args.smoke else ''}")
     print(f"hassasiyet : {gerekce}")
     print(f"max_length : {args.max_length}" + (f"  (olculen taban {olculen})" if olculen else ""))
 
     egitim_satirlari = ham_satirlar("train")
     if args.probe:
-        egitim_satirlari = en_uzun_once(egitim_satirlari, model_id)
+        egitim_satirlari = en_uzun_once(egitim_satirlari, model_id, rev)
     train = veri_yukle("train", n=4 if args.smoke else None, rows=egitim_satirlari)
     print(f"egitim ornegi: {len(train)}")
 
@@ -318,7 +325,9 @@ def main() -> int:
         # bizim yigin 5.14.1 — yani o dal CALISMIYOR ve deger yukariya kalirdi.
         gradient_checkpointing_kwargs={"use_reentrant": False},
         # Model string olarak veriliyor -> dtype AKTARILMAZSA fp32 olur.
-        model_init_kwargs={"dtype": dtype},
+        # `revision` de BURADAN geciyor: TRL bu sozlugu create_model_from_path'e
+        # acarak `from_pretrained`'e veriyor (trl 1.9.2 kaynagindan dogrulandi).
+        model_init_kwargs={"dtype": dtype, "revision": rev},
         # prompt-completion veri setinde varsayilani zaten True; ACIKTAN yaziliyor
         # cunku bu, egitimin ne ogrendigini belirleyen tek satir: kayip yalniz
         # JSON hedefinde, 700 token'lik talimatta DEGIL.

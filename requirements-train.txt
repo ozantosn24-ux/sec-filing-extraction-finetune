@@ -22,7 +22,11 @@ datasets==5.0.1
 accelerate==1.14.0
 
 # QLoRA (--4bit) icin; yalnizca dar VRAM'de gerekir, CPU'da kurulmaz.
-# bitsandbytes>=0.43
+# Colab/Kaggle'da SABIT SURUMLE kuruluyor (not defteri 2. hucre, COLAB.md §2):
+#   bitsandbytes==0.50.0
+# Denetim 2026-08-05: bu paket tek pinsiz dogrudan bagimlilikti. Pin, o gunun
+# "en son"u ile AYNI surum — yani kurulani degistirmiyor, yalnizca donduruyor.
+# Burada yorumda kalmasinin sebebi degismedi: bu dosya CPU'da da kuruluyor.
 
 # ---------------------------------------------------------------------------
 # 🔴 TORCHAO — kurmak degil, KALDIRMAK gerekir (olculdu 2026-08-01, Colab T4)

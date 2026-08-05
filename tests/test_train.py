@@ -90,7 +90,7 @@ def test_CPU_buyuk_model_DURDURULUR(gpu, monkeypatch):
     """CUDA yok + 1,5B model = fp32'de ~6 GB agirlik, 16 GB makinede takas.
     Olculdu: 135M bu CPU'da 32 sn/adim; 1,5B gun mertebesi. Kosmamali."""
     gpu(None)
-    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 1_543_714_304)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m, r=None:1_543_714_304)
     with pytest.raises(SystemExit) as exc:
         train_lora.cpu_korumasi("Qwen/Qwen2.5-1.5B-Instruct", force=False, smoke=False)
     assert "DURDURULDU" in str(exc.value)
@@ -100,20 +100,20 @@ def test_CPU_buyuk_model_DURDURULUR(gpu, monkeypatch):
 def test_CPU_kucuk_model_GECER(gpu, monkeypatch):
     """Sinirin altindaki model CPU'da kosabilmeli; koruma her seyi engellemez."""
     gpu(None)
-    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 135_000_000)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m, r=None:135_000_000)
     train_lora.cpu_korumasi("kucuk", force=False, smoke=False)  # exception YOK
 
 
 def test_smoke_korumadan_MUAF(gpu, monkeypatch):
     """--smoke bilerek CPU'da kosar; boru hattini pod acmadan once kanitlar."""
     gpu(None)
-    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 7_000_000_000)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m, r=None:7_000_000_000)
     train_lora.cpu_korumasi("dev-model", force=False, smoke=True)
 
 
 def test_force_cpu_gecer_ama_UYARIR(gpu, monkeypatch, capsys):
     gpu(None)
-    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: 1_543_714_304)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m, r=None:1_543_714_304)
     train_lora.cpu_korumasi("buyuk", force=True, smoke=False)
     assert "yavaslar" in capsys.readouterr().out
 
@@ -121,14 +121,14 @@ def test_force_cpu_gecer_ama_UYARIR(gpu, monkeypatch, capsys):
 def test_GPU_varsa_koruma_KARISMAZ(gpu, monkeypatch):
     gpu((7, 5), "Tesla T4")
     monkeypatch.setattr(train_lora, "parametre_sayisi",
-                        lambda m: pytest.fail("GPU varken boyut sorulmamali"))
+                        lambda m, r=None:pytest.fail("GPU varken boyut sorulmamali"))
     train_lora.cpu_korumasi("Qwen/Qwen2.5-1.5B-Instruct", force=False, smoke=False)
 
 
 def test_boyut_DOGRULANAMAZSA_durur(gpu, monkeypatch):
     """Ag yoksa "bilmiyorum" sessizce "devam et"e cevrilmemeli."""
     gpu(None)
-    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m: None)
+    monkeypatch.setattr(train_lora, "parametre_sayisi", lambda m, r=None:None)
     with pytest.raises(SystemExit) as exc:
         train_lora.cpu_korumasi("bilinmeyen", force=False, smoke=False)
     assert "DOGRULANAMADI" in str(exc.value)

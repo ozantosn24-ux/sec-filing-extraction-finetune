@@ -36,6 +36,8 @@ MAX_NEW_TOKENS = 160
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="Qwen/Qwen2.5-1.5B-Instruct")
+    ap.add_argument("--revision", help="taban model icin HF commit SHA "
+                                       "(varsayilan: src/pins.py'deki sabit)")
     ap.add_argument("--adapter", type=Path, help="LoRA adaptor dizini (yoksa duz prompted)")
     # dev = MODEL SECIMI (epoch/lr/checkpoint). test BIR KEZ bakilir; secim
     # test'te yapilirsa dondurulmus baseline sayisi anlamini kaybeder.
@@ -68,11 +70,16 @@ def main() -> int:
     from train_lora import quant_config
     quant = quant_config(args.four_bit, dtype)
 
-    tok = AutoTokenizer.from_pretrained(args.model)
-    model = AutoModelForCausalLM.from_pretrained(args.model, dtype=dtype,
+    # Revision SABITLENIR: pinsiz `from_pretrained` "hangi Qwen2.5-1.5B" sorusunu
+    # cevapsiz birakir ve olcum tekrar uretilemez olur (bkz. src/pins.py).
+    from pins import revision_for
+    rev = revision_for(args.model, args.revision)
+
+    tok = AutoTokenizer.from_pretrained(args.model, revision=rev)
+    model = AutoModelForCausalLM.from_pretrained(args.model, revision=rev, dtype=dtype,
                                                  quantization_config=quant,
                                                  device_map="auto" if cuda else None)
-    etiket = args.model + ("[4bit]" if args.four_bit else "")
+    etiket = args.model + (f"@{rev[:7]}" if rev else "@UNPINNED") + ("[4bit]" if args.four_bit else "")
     if args.adapter:
         from peft import PeftModel
         model = PeftModel.from_pretrained(model, str(args.adapter))

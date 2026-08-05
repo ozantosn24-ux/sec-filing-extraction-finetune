@@ -35,7 +35,7 @@ yapmıyorsunuz. Ama rehberlerden kopyaladığınız başka bir script `bf16=True
 ## 2. Kurulum — sürümler SABİT
 
 ```python
-!pip install -q transformers==5.14.1 trl==1.9.2 peft==0.20.0 datasets==5.0.1 accelerate==1.14.0 bitsandbytes
+!pip install -q transformers==5.14.1 trl==1.9.2 peft==0.20.0 datasets==5.0.1 accelerate==1.14.0 bitsandbytes==0.50.0
 !pip uninstall -y -q torchao        # <- ATLAMAYIN, aşağıya bakın
 ```
 
