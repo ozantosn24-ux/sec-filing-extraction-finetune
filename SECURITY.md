@@ -46,6 +46,12 @@ Deliberate trade-offs, not oversights. Please don't file these as new findings:
   upstream Hugging Face repository could serve different weights.
 - **The Colab notebook clones mutable `main`** rather than a tagged commit.
 - **Commits are unsigned** and `main` requires no review. Single-maintainer repository.
+- **No required status check on `main`** — a deliberate decision, not an oversight. Deletion and
+  force-push are blocked, because those lose work irreversibly. A required check would only stop a
+  broken commit from sitting on `main` for a few minutes: CI runs on every push and fails within
+  about a minute, `main` is not deployed anywhere, and this repository has never used a pull
+  request (41 commits, one maintainer, zero forks). The accepted risk is a red commit on `main`
+  until the next push.
 - **The tracked dataset redistributes excerpts of public SEC filings.** These are corporate
   securities documents; no personal data was found in them. Redistribution terms of the
   underlying filings are a separate, non-security question.
