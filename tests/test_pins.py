@@ -87,6 +87,42 @@ def test_not_defteri_ne_kostugunu_KAYDA_geciriyor():
     assert "git rev-parse HEAD" in _notebook_source()
 
 
+def test_HICBIR_from_pretrained_pinsiz_KALMASIN():
+    """src/ genelinde hub'dan model/tokenizer ceken her cagri revision almali.
+
+    Bu test, 08-05'te `measure_tokens.py`'yi ATLADIGIM icin var: pinleri elle
+    tek tek gezmek bir dosyayi kacirmaya acik. Kapsami dosya listesine degil
+    KAYNAGIN KENDISINE bagla ki yeni bir cagri eklendiginde de yakalansin.
+    """
+    # Yerel dizinden yuklenen adaptor: revision kavrami YOK (HF deposu degil).
+    IZINLI = {("predict.py", "PeftModel.from_pretrained")}
+
+    ihlal = []
+    for py in sorted((ROOT / "src").glob("*.py")):
+        metin = py.read_text(encoding="utf-8")
+        for m in re.finditer(r"(\w+)\.from_pretrained\s*\(", metin):
+            # cagrinin kapanis parantezine kadar olan metni al
+            i = m.end() - 1
+            derinlik, j = 0, i
+            while j < len(metin):
+                if metin[j] == "(":
+                    derinlik += 1
+                elif metin[j] == ")":
+                    derinlik -= 1
+                    if derinlik == 0:
+                        break
+                j += 1
+            cagri = metin[m.start():j + 1]
+            anahtar = (py.name, f"{m.group(1)}.from_pretrained")
+            if anahtar in IZINLI:
+                continue
+            if "revision=" not in cagri:
+                satir = metin[:m.start()].count("\n") + 1
+                ihlal.append(f"{py.name}:{satir}  {m.group(1)}.from_pretrained(...)")
+
+    assert not ihlal, "revision'siz from_pretrained cagrisi:\n  " + "\n  ".join(ihlal)
+
+
 def test_bitsandbytes_HER_IKI_yerde_de_pinli():
     """Not defteri ve COLAB.md ayni komutu tasiyor; biri guncellenip digeri unutulur."""
     colab_md = (ROOT / "COLAB.md").read_text(encoding="utf-8")

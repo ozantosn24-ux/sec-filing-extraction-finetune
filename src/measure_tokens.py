@@ -39,12 +39,20 @@ def pct(sorted_vals: list[int], p: float) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="Qwen/Qwen2.5-1.5B-Instruct")
+    ap.add_argument("--revision", help="tokenizer icin HF commit SHA "
+                                       "(varsayilan: src/pins.py'deki sabit)")
     args = ap.parse_args()
 
     from transformers import AutoTokenizer
 
-    tok = AutoTokenizer.from_pretrained(args.model)
-    print(f"tokenizer: {args.model}  ({tok.__class__.__name__})\n")
+    # Revision SABITLENIR. Bu script'in urettigi token_report.json, egitimdeki
+    # KESME KORUMASININ tabanidir: tokenizer upstream'de degisirse olculen taban
+    # da degisir ve koruma sessizce baska bir sayiya gore calisir.
+    from pins import revision_for
+    rev = revision_for(args.model, args.revision)
+
+    tok = AutoTokenizer.from_pretrained(args.model, revision=rev)
+    print(f"tokenizer: {args.model}@{rev[:7] if rev else 'UNPINNED'}  ({tok.__class__.__name__})\n")
 
     from prompt import INSTRUCTION
 
