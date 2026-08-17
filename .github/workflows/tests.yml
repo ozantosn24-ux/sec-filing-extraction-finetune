@@ -44,8 +44,12 @@ jobs:
       - name: Build derived dataset
         # data/processed/ is git-ignored: labels/ and spans/ are tracked, the SFT files
         # are rebuilt from them. Skipping this step does NOT fail the suite -- it makes
-        # 13 tests skip silently and CI go green anyway. Measured 2026-08-05 on a clean
-        # export: 104 passed / 13 skipped without this step, 117 passed / 0 skipped with it.
+        # 13 tests skip silently and CI go green anyway.
+        # Measured 2026-08-05 on a clean export: 104 passed / 13 skipped without this step,
+        # 117 passed / 0 skipped with it.
+        # RE-MEASURED 2026-08-17 on a fresh clone: 116 passed / 13 skipped without,
+        # 129 passed / 0 skipped with. The suite grew by 12; the SKIP COUNT did not move.
+        # Keep the date on the numbers -- README carried the stale 117/89 for weeks.
         run: python -B src/build_sft.py
 
       - name: Run tests (a SKIP is a failure too)
