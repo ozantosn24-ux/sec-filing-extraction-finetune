@@ -55,10 +55,20 @@ Deliberate trade-offs, not oversights. Please don't file these as new findings:
   request (41 commits, one maintainer, zero forks). The accepted risk is a red commit on `main`
   until the next push.
 - **The `audit` workflow may go red for something this repository cannot fix.** Its second
-  `pip-audit` step covers `torch` and the runner's own bundled packages, none of which are
+  `pip-audit` step covers `torch` and the packages the runner brought along, none of which are
   pinned here. A red there means "the installed stack has a published advisory", which is
   worth knowing even when the answer is to wait for an upstream release. It is a separate
   workflow from `tests` so that this kind of red never gets confused with a broken pipeline.
+- **`torch` from the PyTorch CPU index cannot be audited under its installed name.** The wheel
+  is stamped `2.13.0+cpu`, a local version identifier PyPI has no release for, so pip-audit
+  skips it. The job strips the local segment before auditing. Worth stating plainly because
+  the failure mode without `--strict` is silent: the largest dependency in the project would
+  have been quietly excluded from a green audit.
+- **The runner ships a vulnerable `setuptools`.** Image 78.1.0 carries CVE-2025-47273 and
+  CVE-2026-59890. Neither is reachable from anything here — no `easy_install`, no sdist build —
+  and the `audit` job upgrades setuptools before installing rather than pinning the badge red
+  on something only GitHub can bump. No `--ignore-vuln` is used anywhere; the gate still covers
+  every package.
 - **`.gitleaks.toml` carries one allowlist entry**, for a documentation line that the
   `generic-api-key` rule matches because the word *accession* contains *access*. It is keyed
   to the matched text rather than to a `file:line` fingerprint, so it cannot drift onto a
@@ -78,14 +88,19 @@ Deliberate trade-offs, not oversights. Please don't file these as new findings:
 - Secrets live only in `.env` / environment variables, which are git-ignored.
 - GitHub secret scanning and push protection are enabled.
 - CI pins every GitHub Action to a full commit SHA and runs with `contents: read`.
-- **CodeQL** (`security-extended` query suite) analyses the Python on every push and weekly.
+- **CodeQL** (`security-extended`) analyses the Python on every push and weekly. Measured on
+  `2c8b675`: 50 rules, **0 results**, over all 25 Python files in the repository — the run log
+  names each one as `Extracted file`, so the empty result is not an empty database.
 - **pip-audit** runs twice per CI run: once over `requirements-train.txt` resolved to its
-  transitive tree, once over the environment that was actually installed. Both use
-  `--strict`, so a package that could not be audited fails the job instead of disappearing
-  into a "no known vulnerabilities found" line.
+  transitive tree (**57 packages**), once over the environment that was actually installed
+  (**76 packages**). Both use `--strict`, so a package that could not be audited fails the job
+  instead of disappearing into a "no known vulnerabilities found" line. That guard has already
+  paid for itself — see the `+cpu` note below.
 - **gitleaks** scans the entire commit history (`--log-opts=--all`, non-shallow checkout) on
-  every push and weekly. It runs `--redact`: this repository is public and so are its Actions
-  logs, so an unredacted finding would publish the secret the job exists to catch.
+  every push and weekly, and uploads SARIF to the Security tab. It runs `--redact`: this
+  repository is public and so are its Actions logs, so an unredacted finding would publish the
+  secret the job exists to catch. Verified against planted credentials: the redacted SARIF
+  contains none of the three fabricated values, only `REDACTED`.
 - `tests/test_workflows.py` guards the controls above against silent decay — an action
   re-pinned to a movable tag, a dropped checksum verification, a dropped `--redact`, a
   shallow checkout, a removed schedule. Each of those eleven mutations was applied and
