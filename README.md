@@ -136,6 +136,39 @@ do. The distance between 22/36 and 0/36 is a reading-and-completeness gap, not a
 No JSON-repair pass was added. It would have been tuned on the test set, and its measured ceiling
 is one record.
 
+### The strongest objection, actually run: grammar-constrained decoding
+
+Output-side accounting cannot answer the real question, because constrained *generation* changes
+which tokens a model emits and therefore which values it reads. So it was run — on a free Colab
+T4, the same card as the original measurement. The decision rule was written and committed
+**before** the run ([`schema/CONSTRAINED_DECODING_KARARI.md`](schema/CONSTRAINED_DECODING_KARARI.md)),
+and this is a **third look at the test set**, labelled as one.
+
+Every arm gets a JSON Schema that forces all 13 fields. The schema is not hand-written: it is
+derived from the scorer's own constants (`src/schema_json.py`), so the constraint and the
+measurement cannot silently disagree.
+
+| arm | schema validity | whole record | correct abstention | hallucination | `par`↔`liq` slice |
+|---|---|---|---|---|---|
+| base 1.5B + constrained | 36/36 (100.0%) | **0/36 (0.0%)** | 62.6% | 37.4% | 18/38 (47.4%) |
+| prompted 3B + constrained | 36/36 (100.0%) | **0/36 (0.0%)** | 68.3% | 31.7% | 24/38 (63.2%) |
+| **fine-tuned + constrained** *(control)* | 36/36 (100.0%) | **21/36 (58.3%)** | 93.5% | 6.5% | 38/38 (100.0%) |
+
+**Schema validity going to 100% is the mechanism, not a finding** — the grammar forces 13 keys by
+construction. The finding is what did *not* move: **whole record stayed at 0/36 for both prompted
+arms.** Forcing the shape does not produce the value. Their failure is reading, not formatting.
+
+**The control arm earned its place.** The fine-tuned model went **22/36 → 21/36** under the same
+constraint. So the constraint is *not free*: it costs a record even on a model that was already
+100% schema-valid. That is why the prompted arms' constrained numbers are never quoted alone here.
+
+The constraint also moved the values, not just the shape — the 3B's hard-case slice went **73.7%
+→ 63.2%** while the base 1.5B's went 39.5% → 47.4%. This is a different generation regime, not a
+formatting fix.
+
+No new superiority claim is built on this run. It closes one objection: **the gap is not a JSON
+formatting artefact.** `n=36`, 22 companies — the direction, not the decimal.
+
 **Latency is the honest cost.** The regex extractor is ~7,500× faster and runs on a CPU.
 The fine-tune buys accuracy with a GPU and ~9 s/document. Which is worth more depends on
 whether being wrong on 72% of records is acceptable. The 3B is both slower *and*

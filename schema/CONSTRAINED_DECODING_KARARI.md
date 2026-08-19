@@ -89,12 +89,50 @@ bölmesinden 2 kayıt (test'e dokunulmadı):
 `--constrained` bu ortamlarda **kurulamaz**; Colab/Kaggle içindir. `bitsandbytes` ile aynı
 sınıf bir bağımlılık ve aynı şekilde belgelenmiştir.
 
-## Kayıt (koşu bitince doldurulacak)
+## Kayıt — KOŞULDU 2026-08-19, Colab T4, tek koşu
 
-| kol | şema geçerliliği | tam kayıt | abstention | uydurma | zor vaka |
-|---|---|---|---|---|---|
-| base 1.5B + constrained | | | | | |
-| prompted 3B + constrained | | | | | |
-| fine-tuned + constrained (kontrol) | | | | | |
+Etiket `v1.2-constrained`, klonda `HEAD = d238d9a`. Tesla T4 (15360 MiB, CC 7.5) —
+yayınlanmış ölçümle **aynı kart**. Python 3.12.13, `transformers 5.14.1`, `outlines`.
 
-**Sonuç:** _(kural 1 mi 2 mi 3 mü uygulandı — koşudan sonra yazılacak)_
+| kol | şema geçerliliği | tam kayıt | abstention | uydurma | kaçırma | zor vaka |
+|---|---|---|---|---|---|---|
+| base 1.5B + constrained | 36/36 (100,0%) | **0/36 (0,0%)** | 77/123 (62,6%) | 46/123 (37,4%) | 100/345 (29,0%) | 18/38 (47,4%) |
+| prompted 3B + constrained | 36/36 (100,0%) | **0/36 (0,0%)** | 84/123 (68,3%) | 39/123 (31,7%) | 32/345 (9,3%) | 24/38 (63,2%) |
+| fine-tuned + constrained *(kontrol)* | 36/36 (100,0%) | **21/36 (58,3%)** | 115/123 (93,5%) | 8/123 (6,5%) | 12/345 (3,5%) | 38/38 (100,0%) |
+
+Ham (kısıtsız) karşılıkları, yayınlanmış tablodan: base 1.5B **0/36**, prompted 3B **0/36**,
+fine-tuned **22/36**.
+
+## Sonuç: KURAL 2 uygulandı — ve KURAL 3 de tetiklendi
+
+**Kural 1 uygulanmadı.** Constrained 3B tam kayıtta **0/36**, çubuk 22/36. Yaklaşmadı bile.
+
+**Kural 2 uygulandı.** Manşet iddia, en güçlü scaffolding itirazına karşı ayakta. Yeni bir
+üstünlük iddiası **kurulmadı**; README'ye yalnızca "bu itiraz denendi ve farkı kapatmadı"
+yazıldı.
+
+🔴 **Kural 3 de tetiklendi ve kontrol kolu böylece bedelini ödedi.** Fine-tuned kol kısıt
+altında **22/36 → 21/36**'ya düştü. Yani **kısıt ücretsiz değil**: çıktıyı şemaya zorlamak
+zaten uyumlu olan bir modelden bir kayıt götürüyor. Bu yüzden prompted kolların constrained
+skorları **tek başına alıntılanmaz**; üçü birlikte verilir.
+
+## Koşudan çıkan asıl bulgu
+
+Kısıt, prompted kolların **şema geçerliliğini %100'e çıkardı** — ama bu, ön-kayıtta yazıldığı
+gibi mekanizmanın kendisi, bulgu değil. Bulgu şu:
+
+⭐ **Şema %0/%25'ten %100'e çıktı, tam kayıt 0/36'da KALDI.** İki kolda da. Yani prompted
+kolların arızası biçim değil, **okuma ve değer** arızası. Zorla 13 alan ürettirmek, doğru
+değeri üretmiyor.
+
+⭐ **Kısıt, okunan DEĞERLERİ de değiştiriyor** — Codex'in şerhi ölçümle doğrulandı. Prompted
+3B'nin zor vaka skoru **73,7% → 63,2%'ye DÜŞTÜ**; base 1.5B'ninki 39,5% → 47,4%'e çıktı.
+Yani bu bir "biçim düzeltmesi" değil, farklı bir üretim rejimi.
+
+⚠️ **Tahmin dosyaları indirilmedi**, Colab oturumunda kaldı. Skorlar aynı oturumda aynı
+harness'la üretildi (`src/evaluate.py`, `--split test`). Tekrar üretmek için: etiket
+`v1.2-constrained` + `colab/constrained_decoding.ipynb`.
+
+⚠️ **Kontrol kolu iki kez koştu** (yanlış hücre tetiklendi). Üretim greedy + kısıtlı, yani
+deterministik; ikinci koşu aynı dosyanın üzerine aynı içeriği yazdı. Skorlanan, ikinci koşunun
+çıktısı.
