@@ -104,7 +104,8 @@ set.** The failure modes it reacts to were learned from these same 36 records, s
 analysis beforehand would not have restored independence. It is also **not** a counterfactual for
 grammar-constrained decoding: constrained generation changes the tokens a model emits and
 therefore the values it reads, so output-side accounting cannot tell you what a constrained run
-would have scored. That experiment needs a GPU and has not been run.
+would have scored. That experiment was run separately — see [The strongest objection, actually
+run](#the-strongest-objection-actually-run-grammar-constrained-decoding) below.
 
 Two facts, read out of the harness rather than assumed:
 
@@ -150,24 +151,44 @@ measurement cannot silently disagree.
 
 | arm | schema validity | whole record | correct abstention | hallucination | `par`↔`liq` slice |
 |---|---|---|---|---|---|
-| base 1.5B + constrained | 36/36 (100.0%) | **0/36 (0.0%)** | 62.6% | 37.4% | 18/38 (47.4%) |
-| prompted 3B + constrained | 36/36 (100.0%) | **0/36 (0.0%)** | 68.3% | 31.7% | 24/38 (63.2%) |
-| **fine-tuned + constrained** *(control)* | 36/36 (100.0%) | **21/36 (58.3%)** | 93.5% | 6.5% | 38/38 (100.0%) |
+| base 1.5B + constrained | 36/36 (100.0%) | **0/36 (0.0%)** | 77/123 (62.6%) | 46/123 (37.4%) | 18/38 (47.4%) |
+| prompted 3B + constrained | 36/36 (100.0%) | **0/36 (0.0%)** | 84/123 (68.3%) | 39/123 (31.7%) | 24/38 (63.2%) |
+| **fine-tuned + constrained** *(control)* | 36/36 (100.0%) | **21/36 (58.3%)** | 115/123 (93.5%) | 8/123 (6.5%) | 38/38 (100.0%) |
+
+The hard-case denominator is 38 because 19 of the 36 records have **both** `par_value` and
+`liquidation_preference` in gold. It is derived from gold alone, so it is identical across runs
+even when an arm emits unparseable output — verified, because otherwise these deltas would be an
+accounting artefact rather than a decoding effect.
 
 **Schema validity going to 100% is the mechanism, not a finding** — the grammar forces 13 keys by
 construction. The finding is what did *not* move: **whole record stayed at 0/36 for both prompted
 arms.** Forcing the shape does not produce the value. Their failure is reading, not formatting.
 
-**The control arm earned its place.** The fine-tuned model went **22/36 → 21/36** under the same
-constraint. So the constraint is *not free*: it costs a record even on a model that was already
-100% schema-valid. That is why the prompted arms' constrained numbers are never quoted alone here.
+**What this run actually buys** is an ablation: given *guaranteed* well-formed JSON, the 3B still
+scores 0/36. The obvious objection to the headline — "the 3B was only tripping over format" — is
+now closed by measurement rather than by argument.
 
-The constraint also moved the values, not just the shape — the 3B's hard-case slice went **73.7%
-→ 63.2%** while the base 1.5B's went 39.5% → 47.4%. This is a different generation regime, not a
-formatting fix.
+**The control arm changed one record, and one record is a case, not an effect.** The fine-tuned
+model went 22/36 → 21/36. The flip is exact and inspectable: accession `0001140361-23-001288`,
+field `perpetual`, gold `true`, constrained output `false`; nothing flipped the other way
+(**b=1, c=0**, McNemar exact **p=1.0**). Because the comparison is paired, deterministic and
+greedy, this is a *real* perturbation on this test set rather than measurement noise — but a
+single discordant pair carries no statistical weight, so it does **not** support a claim that
+constrained decoding is generally costly. It is one concrete instance of the constraint changing
+a **value**, not just a shape. That instance is the reason the prompted arms' constrained numbers
+are not quoted alone here.
 
-No new superiority claim is built on this run. It closes one objection: **the gap is not a JSON
-formatting artefact.** `n=36`, 22 companies — the direction, not the decimal.
+The hard-case slice also moved in both arms (3B 73.7% → 63.2%, base 1.5B 39.5% → 47.4%). Read
+that as further evidence that constrained decoding perturbs content, **not** as a directional
+rule: at these counts, and with the 38 examples drawn from only 19 documents, neither movement is
+individually meaningful.
+
+No new superiority claim is built on this run. `n=36`, 22 companies — the direction, not the decimal.
+
+⚠️ **This test set has now been looked at three times** (2026-08-01 four contestants → 2026-08-19
+format accounting → 2026-08-19 constrained decoding). The second look added no inference and the
+third was pre-registered, but the "measure once" rule has been spent. **Any further comparison on
+this task needs a fresh, company-disjoint split** — not another pass over these 36 records.
 
 **Latency is the honest cost.** The regex extractor is ~7,500× faster and runs on a CPU.
 The fine-tune buys accuracy with a GPU and ~9 s/document. Which is worth more depends on

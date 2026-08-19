@@ -111,10 +111,18 @@ fine-tuned **22/36**.
 üstünlük iddiası **kurulmadı**; README'ye yalnızca "bu itiraz denendi ve farkı kapatmadı"
 yazıldı.
 
-🔴 **Kural 3 de tetiklendi ve kontrol kolu böylece bedelini ödedi.** Fine-tuned kol kısıt
-altında **22/36 → 21/36**'ya düştü. Yani **kısıt ücretsiz değil**: çıktıyı şemaya zorlamak
-zaten uyumlu olan bir modelden bir kayıt götürüyor. Bu yüzden prompted kolların constrained
-skorları **tek başına alıntılanmaz**; üçü birlikte verilir.
+🔴 **Kural 3 tetiklendi — ama tek kayıt bir VAKA'dır, ETKİ değildir.** Fine-tuned kol
+22/36 → 21/36. Fark **birebir izlendi**: accession `0001140361-23-001288`, alan `perpetual`,
+gold `true`, kısıtlı çıktı `false`; ters yönde dönen kayıt **yok** (**b=1, c=0**, McNemar tam
+**p=1,0**).
+
+Karşılaştırma eşleştirilmiş, deterministik ve greedy olduğu için bu, ölçüm gürültüsü değil
+— bu test setinde kısıtın **gerçek** bir yan etkisi. Ama tek uyumsuz çift istatistiksel ağırlık
+taşımaz: **"kısıt maliyetlidir" diye GENELLENEMEZ.** Reponun kendi epoch kararı da 1 kayıtlık
+farkı genelleme için gürültü saymıştı; aynı standart burada da geçerli.
+
+Bu yüzden prompted kolların constrained skorları **tek başına alıntılanmaz**; üçü birlikte
+verilir — gerekçe "kanıtlanmış maliyet" değil, kısıtın çıktıyı değiştirebildiğinin somut örneği.
 
 ## Koşudan çıkan asıl bulgu
 
@@ -125,9 +133,18 @@ gibi mekanizmanın kendisi, bulgu değil. Bulgu şu:
 kolların arızası biçim değil, **okuma ve değer** arızası. Zorla 13 alan ürettirmek, doğru
 değeri üretmiyor.
 
-⭐ **Kısıt, okunan DEĞERLERİ de değiştiriyor** — Codex'in şerhi ölçümle doğrulandı. Prompted
-3B'nin zor vaka skoru **73,7% → 63,2%'ye DÜŞTÜ**; base 1.5B'ninki 39,5% → 47,4%'e çıktı.
-Yani bu bir "biçim düzeltmesi" değil, farklı bir üretim rejimi.
+⭐ **Kısıt, okunan DEĞERLERİ de değiştiriyor** — Codex'in şerhi doğrulandı. En temiz kanıt
+yukarıdaki `perpetual` dönüşü: biçim zaten geçerliydi, değişen **değerin kendisi**. Zor vaka
+dilimi de iki kolda oynadı (3B 73,7% → 63,2%, base 39,5% → 47,4%) — bunu **varlık** kanıtı
+olarak oku, **yön kuralı** olarak DEĞİL: 38 örnek yalnız 19 belgeden geliyor, hiçbir hareket tek
+başına anlamlı değil.
+
+✅ **Payda kontrolü yapıldı:** zor vaka paydası (38 = 19 kayıt × 2 alan) yalnız **gold**'dan
+türetiliyor; tamamen ayrışamayan bir kol bile aynı paydayı alıyor (ölçüldü). Yani ham↔kısıtlı
+farkları bir muhasebe artefaktı değil.
+
+⚠️ **Test seti artık ÜÇ kez görüldü.** "Ölçüm test'te BİR KEZ" kuralı harcandı. Bundan
+sonraki her karşılaştırma **taze, şirket-ayrık** bir bölme ister.
 
 ⚠️ **Tahmin dosyaları indirilmedi**, Colab oturumunda kaldı. Skorlar aynı oturumda aynı
 harness'la üretildi (`src/evaluate.py`, `--split test`). Tekrar üretmek için: etiket
