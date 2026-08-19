@@ -58,7 +58,18 @@ jobs:
         # the resolver takes the newest release; here it comes from the PyTorch CPU index,
         # which can serve a different (older) build. requests and pytest are installed by
         # name because no manifest in this repo declares them.
+        #
+        # setuptools is upgraded first, and that line is a finding rather than housekeeping.
+        # Measured in run 32199956878: the runner image ships setuptools 78.1.0, which
+        # carries CVE-2025-47273 (path traversal in PackageIndex, fixed in 78.1.1) and
+        # CVE-2026-59890 (MANIFEST.in exclude directives applied too broadly, fixed in
+        # 83.0.0). Neither is reachable from anything this repo runs -- nothing here uses
+        # easy_install or builds an sdist -- but leaving a known-vulnerable package in the
+        # environment and gating on it would paint this badge permanently red for something
+        # only GitHub can bump. Upgrading is the actual remediation; the IDs stay written
+        # here so removing the line reads as a decision instead of a cleanup.
         run: |
+          python -m pip install --upgrade setuptools
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
           python -m pip install -r requirements-train.txt
           python -m pip install pytest requests
