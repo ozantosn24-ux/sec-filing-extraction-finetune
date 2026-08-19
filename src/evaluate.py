@@ -83,7 +83,12 @@ def parse_prediction(raw: str) -> tuple[dict | None, list[str]]:
     try:
         obj = json.loads(text)
     except json.JSONDecodeError as exc:
-        return None, [f"JSON ayrisamadi: {exc.msg}"]
+        # Birikmis ihlalleri ATMA. Once atiyordu ve sayac yalan soyluyordu:
+        # base 1.5B'nin 36 ciktisinin 36'si da fence'liydi (olculdu), ama
+        # ayrisamayan tek kayitta "markdown citesi" dusuruldugu icin histogram
+        # 35 diyordu. Sema-gecerli sayisini etkilemiyordu (ayrisamayan kayit
+        # zaten gecersiz), ama TESHIS sayaci hatalidir ve arizayi kucuk gosterir.
+        return None, ihlal + [f"JSON ayrisamadi: {exc.msg}"]
     if not isinstance(obj, dict):
         return None, ["JSON bir nesne degil"]
 

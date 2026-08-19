@@ -47,6 +47,21 @@ def test_markdown_citesi_TOLERE_ama_KAYDEDILIR():
     assert any("cite" in i for i in ihlal)
 
 
+def test_ayrisamayan_cikti_ONCEKI_ihlalleri_de_TASIR():
+    """Cite VE ayrisamama ayni kayitta olabilir; sayac ikisini de gormeli.
+
+    Olculdu 2026-08-19: base 1.5B'nin 36 ciktisinin 36'si da fence'liydi, ama
+    ihlal histogrami 'markdown citesi: 35' diyordu. Fark, ayrisamayan tek
+    kayitta birikmis ihlallerin ATILMASIYDI. Sema-gecerli sayisini etkilemez
+    (ayrisamayan kayit zaten gecersiz) ama TESHIS yalan soyler: bicimlendirme
+    arizasi oldugundan kucuk gorunur, ve bu depoda teshis sayaci karar veriyor.
+    """
+    obj, ihlal = parse_prediction("```json\n{series: B,}\n```")
+    assert obj is None
+    assert any("cite" in i for i in ihlal), "fence ihlali ayrisama hatasinda dusuruldu"
+    assert any("ayrisamadi" in i for i in ihlal)
+
+
 def test_eksik_alan_ihlal():
     d = tam()
     d.pop("series")
