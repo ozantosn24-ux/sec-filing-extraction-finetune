@@ -32,9 +32,9 @@ recover them reliably. This repository builds the dataset and the measurement.
 | 3. Evaluation | **done** — four contestants measured on test, once |
 | 4. Epoch search | **done** — 5 epochs tested on `dev`, did not improve; 3 stands, test untouched |
 
-**145 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
+**156 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
 the derived dataset first — `data/processed/` is git-ignored, and without that step **13 tests
-skip** (measured without derived data: 132 passed / 13 skipped) while the badge stays green anyway.
+skip** (measured without derived data: 143 passed / 13 skipped) while the badge stays green anyway.
 So a skipped test fails the build: a suite that quietly stopped measuring is worse than a red one.
 
 Three more checks run beside the suite, added 2026-08-19 to close the last open finding of the
@@ -238,7 +238,7 @@ reported separately in the evaluation.
 clone can rebuild the training set, retrain and re-measure **without contacting EDGAR at all**:
 
 ```bash
-pytest -q                            # 132 pass, 13 skip on a fresh clone; no data fetch needed
+pytest -q                            # 143 pass, 13 skip on a fresh clone; no data fetch needed
 python src/build_sft.py              # labels + spans -> data/processed/sft_{train,dev,test}.jsonl
 python src/extract_rules.py --split test
 python src/evaluate.py data/processed/preds_regex_test.jsonl
@@ -364,7 +364,7 @@ text. Re-run `python src/measure_tokens.py` to reproduce these counts.
 ## Tests
 
 ```
-pytest -q     # 145 tests with data/processed/ present; 132 pass + 13 skip on a fresh clone
+pytest -q     # 156 tests with data/processed/ present; 143 pass + 13 skip on a fresh clone
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -372,6 +372,17 @@ accession number and source URL. No invented examples: every bug this project fo
 from real documents, not from imagined ones. The tests were mutation-checked — reverting
 the whitespace normaliser, the coupon range validation or the search bound each turns a
 test red.
+
+One group is deliberately synthetic and stays out of `tests/fixtures/` for that reason:
+adversarial inputs to `locate_span`, built inline in `tests/test_locate.py`. Their sizes are
+not invented either — they come from the corpus (172 documents: longest **994,748**
+characters, deepest anchor at offset **19,711**, which is 289 characters short of the search
+limit, and **126 of 172** anchors sitting inside the first `SPAN_BEFORE` characters). Each
+pins a failure that would be *silent* rather than loud: dropping the `text[:SEARCH_LIMIT]`
+slice, dropping the `max(0, …)` clamp — which turns the window into a negative slice taken
+from the **end** of the document — dropping the `SPAN_AFTER` bound, or returning an empty
+span where the contract says `None`. All four were applied and measured to turn the suite
+red.
 
 The mutation audit is not decorative: it deleted code. An ADR/ADS pre-strip in
 `normalize_labels.py` survived every mutation, which exposed it as unreachable on real data —
@@ -455,7 +466,7 @@ src/train_lora.py       LoRA SFT — API verified against current docs, CPU smok
 src/predict.py          generation -> raw model output for the harness
 COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
-tests/                  145 tests over real filing excerpts and the CI workflows (2026-08-19)
+tests/                  156 tests over real filing excerpts and the CI workflows (2026-08-19)
 data/interim/labels/    160 gold records — hand-produced, the one thing code cannot regenerate
 data/interim/spans/     the cover-page excerpt each record was labelled from (~6 KB each)
 data/interim/manifest.json    accession -> company/CIK/URL; the company-wise split rests on it
