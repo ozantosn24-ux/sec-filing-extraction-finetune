@@ -131,6 +131,7 @@ across splits are not comparable.)
 | | |
 |---|---|
 | model | Qwen2.5-1.5B-Instruct, LoRA r=16 (q,k,v,o,gate,up,down) |
+| loss masking | **response-only** — `completion_only_loss=True` in `src/train_lora.py`, so the ~700-token instruction is `-100` and loss lands on the JSON target alone. Not assumed: every run prints the masked fraction before training and warns if loss covers more than half the tokens. The CPU smoke reports **108 of 2,294 tokens (4.7%)** |
 | hardware | free Colab **Tesla T4** — Turing, so **fp16**, chosen by the script from compute capability |
 | precision | `Tesla T4 CC 7.5 (Turing) — bf16 YOK, fp16'ya dusuldu` |
 | peak VRAM | **4.82 GB / 14.6 GB (33%)** with gradient checkpointing |
