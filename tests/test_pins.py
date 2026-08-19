@@ -25,6 +25,10 @@ from pins import PINNED_REVISIONS, revision_for  # noqa: E402
 
 SHA_RE = re.compile(r"[0-9a-f]{40}")
 NOTEBOOK = ROOT / "colab" / "edgar_finetune.ipynb"
+# Kapsami TEK dosyaya degil DIZINE bagla: 2026-08-19'da ikinci bir defter eklendi
+# (constrained_decoding.ipynb) ve tek-dosyaya bagli testler onu HIC gormezdi —
+# pinsiz klonlayan yeni bir defter sessizce girebilirdi.
+NOTEBOOKS = sorted((ROOT / "colab").glob("*.ipynb"))
 
 
 def _notebook_source() -> str:
@@ -141,3 +145,33 @@ def test_pip_satirlari_IKI_dosyada_AYNI():
     assert nb.group(0).strip() == md.group(0).strip(), (
         f"pip satirlari ayrismis:\n  nb: {nb.group(0)}\n  md: {md.group(0)}"
     )
+
+
+# --- TUM defterler ayni pin kuralina tabi ------------------------------------
+
+
+def _defter_kaynagi(nb) -> str:
+    hucreler = json.loads(nb.read_text(encoding="utf-8"))["cells"]
+    return chr(10).join("".join(c.get("source", [])) for c in hucreler)
+
+
+@pytest.mark.parametrize("nb", NOTEBOOKS, ids=[p.name for p in NOTEBOOKS])
+def test_HER_defter_pinli_etiketten_klonluyor(nb):
+    """Yeni bir defter eklenince de gecerli: kod DEGISEBILIR main'den gelmez."""
+    src = _defter_kaynagi(nb)
+    if "git clone" not in src:
+        pytest.skip(f"{nb.name} depoyu klonlamiyor")
+    assert "--branch {PIN}" in src, f"{nb.name}: klon bir etikete baglanmali"
+    # Tirnak tipi ve bosluk serbest: egitim defteri `PIN    = 'v1.0-measured'`,
+    # yeni defter `PIN = "v1.2-constrained"` yaziyor. Onemli olan bir SURUM
+    # etiketine baglanmis olmasi, yazim bicimi degil.
+    assert re.search(r"""PIN\s*=\s*['"]v[\d.]""", src), f"{nb.name}: PIN bir surum etiketi olmali"
+    assert not re.search(r"git clone -q https://github\.com/\S+\.git", src), f"{nb.name}: pinsiz klon"
+
+
+@pytest.mark.parametrize("nb", NOTEBOOKS, ids=[p.name for p in NOTEBOOKS])
+def test_HER_defter_ne_kostugunu_KAYDA_geciriyor(nb):
+    src = _defter_kaynagi(nb)
+    if "git clone" not in src:
+        pytest.skip(f"{nb.name} depoyu klonlamiyor")
+    assert "git rev-parse HEAD" in src, f"{nb.name}: kunye yok"
