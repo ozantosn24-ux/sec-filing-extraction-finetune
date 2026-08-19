@@ -31,6 +31,14 @@ recover them reliably. This repository builds the dataset and the measurement.
 | 2. LoRA fine-tune (PyTorch) | **done** — Qwen2.5-1.5B, LoRA r=16, 3 epochs on a free T4 |
 | 3. Evaluation | **done** — four contestants measured on test, once |
 | 4. Epoch search | **done** — 5 epochs tested on `dev`, did not improve; 3 stands, test untouched |
+| 5. Robustness | **done** — grammar-constrained decoding run on all arms; prompted arms still 0/36 |
+| — | **FROZEN 2026-08-19** — see below |
+
+**This repository is frozen for measurement work.** The test set has been looked at three times
+and the "measure once" rule is spent, so further contestants, ablations or metrics on these 36
+records would buy nothing and cost the discipline the project is built on. Bug fixes, security
+updates and reproducibility work continue; **new comparisons need a fresh, company-disjoint
+split.**
 
 **177 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
 the derived dataset first — `data/processed/` is git-ignored, and without that step **13 tests
