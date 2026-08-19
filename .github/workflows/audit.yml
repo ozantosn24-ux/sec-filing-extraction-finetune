@@ -66,10 +66,21 @@ jobs:
       - name: Audit the installed environment
         # The step above answers "would a fresh resolve of the declared stack be clean?".
         # This one answers "is what actually got installed clean?" -- the CPU-index torch
-        # build, the packages no manifest declares, and the interpreter's own bundled
-        # setuptools/pip included. It is allowed to go red for something this repo does
-        # not pin; that is the signal, not a defect in the job.
-        run: python -m pip_audit --strict --progress-spinner off
+        # build, the packages no manifest declares, and whatever the runner brought along
+        # (setuptools, for one). It is allowed to go red for something this repo does not
+        # pin; that is the signal, not a defect in the job.
+        #
+        # The freeze-and-strip dance is not decoration. Measured in run 32199647105:
+        # a plain `pip_audit --strict` on this environment fails with
+        #   "torch: Dependency not found on PyPI and could not be audited (2.13.0+cpu)"
+        # because the PyTorch CPU index stamps a LOCAL version identifier onto the wheel
+        # and PyPI has no such release. Without --strict that turns into a silent skip of
+        # the single largest dependency in the project -- a green job that never looked at
+        # torch. Stripping the `+cpu` segment audits the upstream version that build is.
+        run: |
+          python -m pip freeze --local | sed 's/+[A-Za-z0-9.]*$//' > installed.txt
+          echo "--- auditing $(wc -l < installed.txt) installed packages ---"
+          python -m pip_audit -r installed.txt --no-deps --strict --progress-spinner off
 
   secrets:
     name: gitleaks
