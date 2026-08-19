@@ -67,6 +67,14 @@ HARD_CASE_FIELDS = ("par_value_usd", "liquidation_preference_usd")
 
 _FENCE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.I)
 
+# TALIMAT ihlali mi, YAPI ihlali mi? Fence, JSON'un yapisina hic dokunmaz —
+# `parse_prediction` onu zaten soyup parse ediyor. Ayrimi acikca yaziyoruz cunku
+# "sema gecerliligi" iki farkli soruya ayni ada cevap veriyordu:
+#   ham           = "hem talimatı izledi hem gecerli JSON uretti"
+#   bicim-haric   = "yapi olarak gecerli JSON uretti" (talimat uyumu sayilmaz)
+# Ikisi de raporlanir. Yalniz birini raporlamak taraf tutmaktir.
+BICIMSEL_IHLAL = frozenset({"markdown citesi"})
+
 
 def parse_prediction(raw: str) -> tuple[dict | None, list[str]]:
     """(nesne, ihlaller). Ayrisamazsa (None, [...]).
@@ -159,6 +167,7 @@ def load_gold(split: str = "test") -> dict[str, dict]:
 
 def score(preds: list[dict], gold: dict[str, dict]) -> dict:
     gecerli = 0
+    gecerli_bicim_haric = 0
     ihlal_sayaci: dict[str, int] = {}
     alan_dogru: dict[str, int] = {f: 0 for f in FIELD_ORDER}
     alan_toplam: dict[str, int] = {f: 0 for f in FIELD_ORDER}
@@ -183,6 +192,9 @@ def score(preds: list[dict], gold: dict[str, dict]) -> dict:
             ihlal_sayaci[anahtar] = ihlal_sayaci.get(anahtar, 0) + 1
         if obj is not None and not ihlal:
             gecerli += 1
+        if obj is not None and not [i for i in ihlal
+                                    if i.split(":")[0] not in BICIMSEL_IHLAL]:
+            gecerli_bicim_haric += 1
         if row.get("latency_s") is not None:
             gecikme.append(float(row["latency_s"]))
 
@@ -218,6 +230,9 @@ def score(preds: list[dict], gold: dict[str, dict]) -> dict:
         "kayit": degerlendirilen,
         "sema_gecerli": gecerli,
         "sema_gecerli_pct": 100 * gecerli / degerlendirilen if degerlendirilen else 0,
+        "sema_gecerli_bicim_haric": gecerli_bicim_haric,
+        "sema_gecerli_bicim_haric_pct": (100 * gecerli_bicim_haric / degerlendirilen
+                                        if degerlendirilen else 0),
         "ihlaller": ihlal_sayaci,
         "tam_kayit": tam_kayit,
         "tam_kayit_pct": 100 * tam_kayit / degerlendirilen if degerlendirilen else 0,
@@ -241,6 +256,9 @@ def rapor(ad: str, s: dict) -> None:
     if s["ihlaller"]:
         for k, v in sorted(s["ihlaller"].items(), key=lambda x: -x[1]):
             print(f"      ihlal: {k:<28} {v}")
+    if s["sema_gecerli_bicim_haric"] != s["sema_gecerli"]:
+        print(f"  |- bicim haric        {s['sema_gecerli_bicim_haric']}/{s['kayit']} "
+              f"({s['sema_gecerli_bicim_haric_pct']:.1f}%)   <- markdown citesi ihlal SAYILMAZSA")
     print(f"  TAM kayit (13/13)     {s['tam_kayit']}/{s['kayit']} ({s['tam_kayit_pct']:.1f}%)")
     print(f"  dogru abstention      {oran(s['abstention'])}   <- altin null iken null")
     print(f"  UYDURMA               {oran(s['uydurma'])}   <- altin null iken deger uretti")

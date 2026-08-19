@@ -32,9 +32,9 @@ recover them reliably. This repository builds the dataset and the measurement.
 | 3. Evaluation | **done** — four contestants measured on test, once |
 | 4. Epoch search | **done** — 5 epochs tested on `dev`, did not improve; 3 stands, test untouched |
 
-**156 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
+**162 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
 the derived dataset first — `data/processed/` is git-ignored, and without that step **13 tests
-skip** (measured without derived data: 143 passed / 13 skipped) while the badge stays green anyway.
+skip** (measured without derived data: 149 passed / 13 skipped) while the badge stays green anyway.
 So a skipped test fails the build: a suite that quietly stopped measuring is worse than a red one.
 
 Three more checks run beside the suite, added 2026-08-19 to close the last open finding of the
@@ -79,7 +79,10 @@ escape hatches:
   validity**: it wrapped all 36 outputs in a markdown fence (an explicit instruction
   violation), emitted `is_preliminary: null` 10 times where the schema forbids null, put
   free text in enum fields, and produced one output that is not parseable JSON at all
-  (`"shares_offered": 2,774,108`). The adapter is doing the work.
+  (`"shares_offered": 2,774,108`). The adapter is doing the work. How much of that 0.0% is the
+  fence alone is measured below, in [Was the prompted arms' failure just JSON
+  formatting?](#was-the-prompted-arms-failure-just-json-formatting) — but its whole-record 0.0%
+  is not a formatting artefact.
 - *"It just needs a bigger model."* Qwen2.5-3B, twice the parameters, also scores **0.0%**
   whole-record. Scale helped it *read* (73.7% on the hard slice vs 39.5%) but not *comply*.
 
@@ -89,6 +92,49 @@ anything.
 The rule-based contestant is not a strawman: it is 100% schema-valid *by construction* and
 81.6% on the hard slice. It loses on whole-record because keyword matching cannot resolve
 which of two dollar figures in the same sentence is the liquidation preference.
+
+### Was the prompted arms' failure just JSON formatting?
+
+A fair objection to the table above: those arms were scored by a strict harness, so "0.0% schema
+validity" might be measuring markdown fences rather than reading ability. Here is the answer,
+with its limits stated before its numbers.
+
+**This is a post-hoc diagnostic, not a fifth contestant, and it is a second look at the test
+set.** The failure modes it reacts to were learned from these same 36 records, so freezing the
+analysis beforehand would not have restored independence. It is also **not** a counterfactual for
+grammar-constrained decoding: constrained generation changes the tokens a model emits and
+therefore the values it reads, so output-side accounting cannot tell you what a constrained run
+would have scored. That experiment needs a GPU and has not been run.
+
+Two facts, read out of the harness rather than assumed:
+
+1. **The fence was never a parsing problem.** `parse_prediction` strips a markdown fence *before*
+   `json.loads` and records it as an instruction violation. Structurally it has always been tolerated.
+2. **Whole-record accuracy is computed from the parsed object**, independent of violations.
+
+So the split below can only move schema validity — and it does:
+
+| arm | schema validity, raw | schema validity, fence not counted | whole record |
+|---|---|---|---|
+| rule-based regex | 36/36 (100.0%) | 36/36 (100.0%) | 10/36 (27.8%) |
+| base 1.5B, no adapter | 0/36 (0.0%) | **21/36 (58.3%)** | 0/36 (0.0%) |
+| prompted 3B (4-bit) | 9/36 (25.0%) | 9/36 (25.0%) | 0/36 (0.0%) |
+| **fine-tuned LoRA 1.5B** | 36/36 (100.0%) | 36/36 (100.0%) | **22/36 (61.1%)** |
+
+The second definition is applied to **every** arm, and on the two already-valid ones it is the
+identity — that is the check that it is not quietly loosening the metric rather than sharpening it.
+
+**The base model's 0.0% was indeed mostly the fence** (36 of 36 outputs were fenced). Saying so is
+more honest than letting the number imply it could not emit JSON at all.
+
+**The headline survives without needing this experiment at all.** Whole record stays 0/36 for both
+prompted arms and *cannot* move: 35 of the base model's 36 outputs already parse, and **all 36** of
+the 3B's do. What sinks the 3B is 27 records missing a required field — no deterministic repair can
+invent a value that was never emitted, and inventing one is precisely what this project refuses to
+do. The distance between 22/36 and 0/36 is a reading-and-completeness gap, not a formatting one.
+
+No JSON-repair pass was added. It would have been tuned on the test set, and its measured ceiling
+is one record.
 
 **Latency is the honest cost.** The regex extractor is ~7,500× faster and runs on a CPU.
 The fine-tune buys accuracy with a GPU and ~9 s/document. Which is worth more depends on
@@ -238,7 +284,7 @@ reported separately in the evaluation.
 clone can rebuild the training set, retrain and re-measure **without contacting EDGAR at all**:
 
 ```bash
-pytest -q                            # 143 pass, 13 skip on a fresh clone; no data fetch needed
+pytest -q                            # 149 pass, 13 skip on a fresh clone; no data fetch needed
 python src/build_sft.py              # labels + spans -> data/processed/sft_{train,dev,test}.jsonl
 python src/extract_rules.py --split test
 python src/evaluate.py data/processed/preds_regex_test.jsonl
@@ -364,7 +410,7 @@ text. Re-run `python src/measure_tokens.py` to reproduce these counts.
 ## Tests
 
 ```
-pytest -q     # 156 tests with data/processed/ present; 143 pass + 13 skip on a fresh clone
+pytest -q     # 162 tests with data/processed/ present; 149 pass + 13 skip on a fresh clone
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -466,7 +512,7 @@ src/train_lora.py       LoRA SFT — API verified against current docs, CPU smok
 src/predict.py          generation -> raw model output for the harness
 COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
-tests/                  156 tests over real filing excerpts and the CI workflows (2026-08-19)
+tests/                  162 tests over real filing excerpts and the CI workflows (2026-08-19)
 data/interim/labels/    160 gold records — hand-produced, the one thing code cannot regenerate
 data/interim/spans/     the cover-page excerpt each record was labelled from (~6 KB each)
 data/interim/manifest.json    accession -> company/CIK/URL; the company-wise split rests on it

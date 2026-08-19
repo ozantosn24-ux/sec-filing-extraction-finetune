@@ -13,7 +13,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
-from evaluate import FIELD_ORDER, esit, parse_prediction, score  # noqa: E402
+from evaluate import (  # noqa: E402
+    BICIMSEL_IHLAL,
+    FIELD_ORDER,
+    esit,
+    parse_prediction,
+    score,
+)
 from extract_rules import extract  # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
@@ -88,6 +94,60 @@ def test_is_preliminary_null_olamaz():
 def test_temiz_cikti_ihlalsiz():
     obj, ihlal = parse_prediction(json.dumps(tam(series="B")))
     assert obj is not None and ihlal == []
+
+
+# --- ham vs bicim-haric sema gecerliligi --------------------------------------
+#
+# Ayni ada iki soru sakliydi: "talimati izledi mi" ve "yapisi gecerli mi".
+# Ikisi de raporlaniyor; asagidakiler ayrimin ANLAMLI ve DAR kalmasini pinliyor.
+
+
+def test_bicimsel_ihlal_kumesi_DAR_kalir():
+    """Kumeye yapisal bir ihlal sizarsa metrik sessizce serbestlesir.
+
+    'eksik alan', 'enum disi', 'null olamaz', 'ayrisamadi' — hicbiri bicimsel
+    degil; hepsi cikti SOZLESMESINI bozar. Kume yalniz talimat-uyumu ihlallerini
+    tutmali, bugun tek uye markdown citesi.
+    """
+    assert BICIMSEL_IHLAL == {"markdown citesi"}
+
+
+def _fenceli(obj: dict) -> str:
+    """Modelin fiilen urettigi bicim: JSON'u markdown citesine sarmak."""
+    return "```json\n" + json.dumps(obj) + "\n```"
+
+
+def test_yalniz_FENCE_varsa_ham_gecersiz_bicim_haric_GECERLI():
+    gold = {"a": tam(series="B")}
+    s = score([{"accession": "a", "raw": _fenceli(tam(series="B"))}], gold)
+    assert s["sema_gecerli"] == 0, "fence bir talimat ihlali, ham skorda sayilmali"
+    assert s["sema_gecerli_bicim_haric"] == 1, "fence yapiyi bozmuyor"
+
+
+def test_YAPISAL_ihlal_IKI_tanimda_da_gecersiz():
+    """Fence'i affetmek enum ihlalini de affetmeye DONUSMEMELI."""
+    gold = {"a": tam(series="B")}
+    bozuk = tam(series="B", offered_unit="preferred stock")  # enum disi
+    s = score([{"accession": "a", "raw": _fenceli(bozuk)}], gold)
+    assert s["sema_gecerli"] == 0
+    assert s["sema_gecerli_bicim_haric"] == 0
+
+
+def test_TEMIZ_ciktida_iki_tanim_AYNI_sonucu_verir():
+    """Simetri kontrolu: zaten gecerli kollarda (regex, fine-tuned) bicim-haric
+    tanimi hicbir sey degistirmemeli. Degistiriyorsa tanim genis demektir."""
+    gold = {"a": tam(series="B")}
+    s = score([{"accession": "a", "raw": json.dumps(tam(series="B"))}], gold)
+    assert s["sema_gecerli"] == s["sema_gecerli_bicim_haric"] == 1
+
+
+def test_bicim_haric_TAM_KAYDI_degistirmez():
+    """Manseti tasiyan metrik bu isten ETKILENMEZ: fence zaten parse oncesi
+    soyuluyor ve tam kayit ayrisan NESNEDEN hesaplaniyor."""
+    gold = {"a": tam(series="B")}
+    duz = score([{"accession": "a", "raw": json.dumps(tam(series="B"))}], gold)
+    fenceli = score([{"accession": "a", "raw": _fenceli(tam(series="B"))}], gold)
+    assert duz["tam_kayit"] == fenceli["tam_kayit"] == 1
 
 
 # --- esit: deger karsilastirmasi ----------------------------------------------
