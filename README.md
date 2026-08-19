@@ -423,12 +423,15 @@ a security word but is not a coupon) and for depositary priority (Merchants Banc
   extracted; pip-audit found 0 advisories across the 57 packages the declared stack resolves
   to and the 76 the CI environment installed; gitleaks found 0 secrets across 47 commits.
   What that does *not* establish: the path-traversal finding this project fixed by hand
-  (`C-01`, commit `37bc129`) is a class of bug these queries would **not** have raised.
-  `py/path-injection` takes its sources from `ActiveThreatModelSource`, and CodeQL's
-  `Requests.qll` models the `requests` library only as an *outgoing* client call — a value
-  read out of an HTTP **response** is never tainted. Checked in the query source, not by
-  re-running CodeQL against the vulnerable commit. The tools narrow the blind spot; they do
-  not close it. Nothing here scans the notebook, the Colab base image, or the model weights.
+  (`C-01`, commit `37bc129`) is a class of bug these queries would **not** have raised — and
+  that was measured, not assumed. The same CodeQL CLI (2.26.3) and the same 50-rule suite were
+  run locally against two databases: a deliberately vulnerable file (Flask `request.args` →
+  `open()`) produced **2 `py/path-injection` findings**, and this repository at the pre-fix
+  commit `6e26931`, with `C-01` still live, produced **0**. The query works; the gap is source
+  modelling. `py/path-injection` draws from `ActiveThreatModelSource`, and CodeQL's
+  `Requests.qll` models `requests` only as an *outgoing* client call, so a value read out of an
+  HTTP **response** is never tainted. The tools narrow the blind spot; they do not close it.
+  Nothing here scans the notebook, the Colab base image, or the model weights.
 - Design documents under `schema/` are written in Turkish.
 
 ## Layout

@@ -64,6 +64,14 @@ Deliberate trade-offs, not oversights. Please don't file these as new findings:
   skips it. The job strips the local segment before auditing. Worth stating plainly because
   the failure mode without `--strict` is silent: the largest dependency in the project would
   have been quietly excluded from a green audit.
+- **CodeQL would not have caught `C-01`, and that is measured.** The same CLI and suite were
+  run against this repository at `6e26931` — the commit before the input-validation fix, with
+  the unvalidated SEC `_id` still reaching a filesystem path — and reported **0** findings,
+  while the positive-control file above reported 2 from the same query. `py/path-injection`
+  sources come from `ActiveThreatModelSource`, and `Requests.qll` models `requests` purely as
+  an outgoing client call, so nothing read out of an HTTP response is treated as tainted.
+  Static analysis narrows the blind spot here; it does not cover the trust boundary this
+  repository actually depends on.
 - **The runner ships a vulnerable `setuptools`.** Image 78.1.0 carries CVE-2025-47273 and
   CVE-2026-59890. Neither is reachable from anything here — no `easy_install`, no sdist build —
   and the `audit` job upgrades setuptools before installing rather than pinning the badge red
@@ -90,7 +98,11 @@ Deliberate trade-offs, not oversights. Please don't file these as new findings:
 - CI pins every GitHub Action to a full commit SHA and runs with `contents: read`.
 - **CodeQL** (`security-extended`) analyses the Python on every push and weekly. Measured on
   `2c8b675`: 50 rules, **0 results**, over all 25 Python files in the repository — the run log
-  names each one as `Extracted file`, so the empty result is not an empty database.
+  names each one as `Extracted file`, so the empty result is not an empty database. The empty
+  result was also positive-controlled off-CI: the same CLI (2.26.3) and suite, run against a
+  file where a Flask `request.args` value reaches `open()`, reports 2 `py/path-injection`
+  findings. See the `C-01` note under limitations for what the same run says about this
+  repository's own history.
 - **pip-audit** runs twice per CI run: once over `requirements-train.txt` resolved to its
   transitive tree (**57 packages**), once over the environment that was actually installed
   (**76 packages**). Both use `--strict`, so a package that could not be audited fails the job
