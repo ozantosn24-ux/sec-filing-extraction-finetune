@@ -1,6 +1,8 @@
 # edgar-extract
 
 [![tests](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/tests.yml/badge.svg)](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/tests.yml)
+[![codeql](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/codeql.yml/badge.svg)](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/codeql.yml)
+[![audit](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/audit.yml/badge.svg)](https://github.com/ozantosn24-ux/sec-filing-extraction-finetune/actions/workflows/audit.yml)
 
 Structured field extraction from SEC 424B5 preferred-stock prospectuses, built to
 measure one question: **on schema-strict extraction, is a small fine-tuned model worth
@@ -30,10 +32,15 @@ recover them reliably. This repository builds the dataset and the measurement.
 | 3. Evaluation | **done** — four contestants measured on test, once |
 | 4. Epoch search | **done** — 5 epochs tested on `dev`, did not improve; 3 stands, test untouched |
 
-**129 tests** run on every push (measured 2026-08-17; re-measure with `pytest -q`). CI rebuilds
+**145 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
 the derived dataset first — `data/processed/` is git-ignored, and without that step **13 tests
-skip** (measured on a fresh clone: 116 passed / 13 skipped) while the badge stays green anyway.
+skip** (measured without derived data: 132 passed / 13 skipped) while the badge stays green anyway.
 So a skipped test fails the build: a suite that quietly stopped measuring is worse than a red one.
+
+Three more checks run beside the suite, added 2026-08-19 to close the last open finding of the
+[security review](SECURITY.md): **CodeQL** (`security-extended`), **pip-audit** on both the
+declared stack and the environment CI actually installs, and **gitleaks** over the whole
+history. What the badges do *not* tell you is in [Known limitations](#known-limitations).
 
 ## Result
 
@@ -229,7 +236,7 @@ reported separately in the evaluation.
 clone can rebuild the training set, retrain and re-measure **without contacting EDGAR at all**:
 
 ```bash
-pytest -q                            # 116 pass, 13 skip on a fresh clone; no data fetch needed
+pytest -q                            # 132 pass, 13 skip on a fresh clone; no data fetch needed
 python src/build_sft.py              # labels + spans -> data/processed/sft_{train,dev,test}.jsonl
 python src/extract_rules.py --split test
 python src/evaluate.py data/processed/preds_regex_test.jsonl
@@ -355,7 +362,7 @@ text. Re-run `python src/measure_tokens.py` to reproduce these counts.
 ## Tests
 
 ```
-pytest -q     # 129 tests with data/processed/ present; 116 pass + 13 skip on a fresh clone
+pytest -q     # 145 tests with data/processed/ present; 132 pass + 13 skip on a fresh clone
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -432,7 +439,7 @@ src/train_lora.py       LoRA SFT — API verified against current docs, CPU smok
 src/predict.py          generation -> raw model output for the harness
 COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
-tests/                  129 tests over real filing excerpts (2026-08-17)
+tests/                  145 tests over real filing excerpts and the CI workflows (2026-08-19)
 data/interim/labels/    160 gold records — hand-produced, the one thing code cannot regenerate
 data/interim/spans/     the cover-page excerpt each record was labelled from (~6 KB each)
 data/interim/manifest.json    accession -> company/CIK/URL; the company-wise split rests on it

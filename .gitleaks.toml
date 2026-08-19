@@ -1,0 +1,25 @@
+# gitleaks configuration for edgar-extract.
+#
+# `useDefault = true` keeps every upstream rule. This file only ADDS allowlist
+# entries, and every entry has to answer two questions: why is this not a secret,
+# and why is the allowlist narrow enough that it cannot hide a real one.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = """
+False positive, measured 2026-08-19 with gitleaks 8.30.1.
+The generic-api-key rule keys off the substring 'access' -- which appears inside the
+word 'accession' -- and then treats the next slash-separated token as the secret.
+Both hits are the same documentation line describing what data/interim/manifest.json
+maps ('accession -> company/CIK/URL'). An SEC accession number is a public filing
+identifier printed on the filing itself; there is no credential on that line.
+
+Allowlisted by MATCH TEXT rather than by a file:line fingerprint on purpose. A
+fingerprint is anchored to a line number, so any edit above README.md:438 would either
+resurrect this false positive or -- the failure that actually matters -- silence a real
+finding that later lands on that line number.
+"""
+regexTarget = "match"
+regexes = ['''accession -> (company|sirket)/CIK/URL''']

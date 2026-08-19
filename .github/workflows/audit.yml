@@ -1,0 +1,122 @@
+name: audit
+
+# Dependency scanning and secret scanning -- the half of security finding C-04
+# ("dependency + static analysis blind spot") that the visibility checkpoint left open.
+#
+# Deliberately NOT a job inside tests.yml. Both checks here can go red without a single
+# line of this repository changing: a new advisory lands, or gitleaks ships a new rule.
+# A red that means "the world changed" must stay distinguishable from a red that means
+# "you broke the extractor", or the first kind trains you to ignore the second.
+#
+# Actions are pinned to a FULL COMMIT SHA, not a tag -- same rule as tests.yml.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # The entire point of the schedule: a dependency does not have to change in order to
+    # become vulnerable. torch 2.12.0 -- the build on the maintainer's workstation --
+    # carries GHSA-rrmf-rvhw-rf47, fixed only in 2.13.0. Nothing in this repository had
+    # to change for that to become true, so push-triggered scanning would never ask.
+    - cron: '23 4 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  dependencies:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14'
+
+      - name: Install pip-audit
+        # Pinned, like everything else that gets to execute in this repo. An auditing
+        # tool that installs "whatever is latest" is a supply-chain hole wearing a
+        # security-tool badge.
+        run: python -m pip install pip-audit==2.10.1
+
+      - name: Audit the declared training stack
+        # -r resolves the transitive tree from the five pins in requirements-train.txt
+        # without installing anything. Measured 2026-08-19 on the workstation:
+        # 57 packages resolved, 0 advisories.
+        # --strict fails the step if pip-audit had to SKIP a package, so "no known
+        # vulnerabilities found" cannot quietly mean "almost nothing was checked".
+        run: python -m pip_audit -r requirements-train.txt --strict --progress-spinner off
+
+      - name: Install what CI actually runs on
+        # Same three lines as tests.yml, and they resolve differently from the step above.
+        # torch reaches the audit above only as a transitive dependency from PyPI, where
+        # the resolver takes the newest release; here it comes from the PyTorch CPU index,
+        # which can serve a different (older) build. requests and pytest are installed by
+        # name because no manifest in this repo declares them.
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-train.txt
+          python -m pip install pytest requests
+
+      - name: Audit the installed environment
+        # The step above answers "would a fresh resolve of the declared stack be clean?".
+        # This one answers "is what actually got installed clean?" -- the CPU-index torch
+        # build, the packages no manifest declares, and the interpreter's own bundled
+        # setuptools/pip included. It is allowed to go red for something this repo does
+        # not pin; that is the signal, not a defect in the job.
+        run: python -m pip_audit --strict --progress-spinner off
+
+  secrets:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Required, and the easiest thing to get silently wrong here. The default
+          # shallow clone hands gitleaks a single commit; it then reports "no leaks
+          # found" and the job goes green having scanned ~1/44th of the history.
+          fetch-depth: 0
+
+      - name: Install gitleaks (release binary, checksum-verified)
+        # Deliberately not gitleaks/gitleaks-action. An action is one more third-party
+        # program running inside this repository's job context; a release tarball whose
+        # sha256 is written here is a smaller trust surface, because the checksum covers
+        # the exact bytes that execute rather than a commit that could be re-tagged.
+        env:
+          GITLEAKS_VERSION: 8.30.1
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+        run: |
+          curl -fsSL -o gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+          ./gitleaks version
+
+      - name: Scan every commit, not just this one
+        # --redact is not cosmetic. This repository is public and so are its Actions
+        # logs: an unredacted finding would publish the very secret the job exists to
+        # catch. The detail is recoverable by re-running the same command locally.
+        # Rules and allowlist come from .gitleaks.toml at the repo root.
+        run: |
+          ./gitleaks git --log-opts="--all" --redact \
+            --report-format sarif --report-path gitleaks.sarif
+
+      - name: Upload findings to the Security tab
+        # if: always() -- the upload matters most on the run where the previous step
+        # failed, and a failed step would otherwise skip this one.
+        if: always()
+        uses: github/codeql-action/upload-sarif@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v4.37.7
+        with:
+          sarif_file: gitleaks.sarif
+          category: gitleaks

@@ -1,0 +1,49 @@
+name: codeql
+
+# Static analysis. The pytest workflow answers "does it still do what it did?";
+# this one asks a question no test in this repo asks: "is there a class of bug in
+# here that nobody went looking for?"
+#
+# Actions are pinned to a FULL COMMIT SHA, not a tag -- same rule, same reason as
+# tests.yml. When bumping, update the version in the trailing comment too.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, deliberately. CodeQL ships new queries; code that was clean under last
+    # month's query pack is not clean forever, and this repo can go weeks without a
+    # push. A push-only trigger would quietly stop asking the question.
+    - cron: '17 4 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+      # This is why CodeQL lives in its own workflow rather than as a job in tests.yml:
+      # writing to the Security tab needs a scope the pytest job has no business holding.
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: github/codeql-action/init@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v4.37.7
+        with:
+          languages: python
+          # security-extended, not the default suite. The default pack is tuned to keep
+          # false positives low on large codebases with a triage budget. This repo is
+          # ~3k lines of Python with one maintainer -- a handful of extra findings to
+          # read through is cheaper than a missed one.
+          queries: security-extended
+
+      - uses: github/codeql-action/analyze@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v4.37.7
+        with:
+          category: "/language:python"
