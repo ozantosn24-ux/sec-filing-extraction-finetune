@@ -310,3 +310,73 @@ def test_kural_depositary_birim_basi_tercihi_alir():
 def test_kural_cikti_semasi_TAM():
     got = extract(fixture("depositary_structure"))
     assert list(got.keys()) == FIELD_ORDER
+
+
+# --- schema_json: KISITLAMA semasi ile SKORLAMA semasi ayrisirsa ---------------
+#
+# Constrained decoding modeli bir semayla sinirlar, olcum baska bir kodla skorlar.
+# Bu ikisi elle ayri yazilsaydi sessizce ayrisabilirlerdi ve "kisitli uretim sema
+# gecerliligini %100 yapmadi" sonucu modelin degil IKI SEMANIN farkindan gelirdi.
+# Asagidakiler o ayrismayi kapiya baglar.
+
+from schema_json import cikti_semasi  # noqa: E402
+from evaluate import BOOLEAN, ENUMS, INTEGER, NUMERIC  # noqa: E402
+
+
+def test_sema_ALANLARI_skorlayiciyla_AYNI():
+    s = cikti_semasi()
+    assert list(s["properties"]) == FIELD_ORDER
+    assert s["required"] == FIELD_ORDER
+    assert s["additionalProperties"] is False, "fazla alan skorlayicida ihlal; semada da yasak olmali"
+
+
+def test_is_preliminary_semada_da_NULL_KABUL_ETMEZ():
+    """Skorlayici bunu aciktan yasakliyor; sema gevsek kalirsa kisitli uretim
+    skorlayicinin reddedecegi bir cikti uretmekte SERBEST olurdu."""
+    alan = cikti_semasi()["properties"]["is_preliminary"]
+    assert alan == {"type": "boolean"}
+
+
+def test_DIGER_alanlar_null_KABUL_EDER():
+    """'Metinde yoksa null' bu projenin can damari. Semadan null'i cikarmak
+    kisitli uretimi UYDURMAYA zorlardi — olcmek istedigimizin tam tersi."""
+    s = cikti_semasi()["properties"]
+    for alan in FIELD_ORDER:
+        if alan == "is_preliminary":
+            continue
+        tanim = s[alan]
+        # Iki gosterim: enum alaninda gercek None, tip alaninda "null" DIZGISI.
+        kabul = (None in tanim["enum"]) if "enum" in tanim else ("null" in tanim["type"])
+        assert kabul, f"{alan}: sema null kabul etmiyor"
+
+
+def test_enum_UYELERI_skorlayiciyla_AYNI():
+    s = cikti_semasi()["properties"]
+    for alan, uyeler in ENUMS.items():
+        semadaki = {u for u in s[alan]["enum"] if u is not None}
+        assert semadaki == uyeler, f"{alan}: enum uyeleri ayrismis"
+
+
+def test_TIP_esleme_skorlayiciyla_AYNI():
+    s = cikti_semasi()["properties"]
+    for alan in FIELD_ORDER:
+        tanim = s[alan]
+        if "enum" in tanim:
+            assert alan in ENUMS
+            continue
+        tipler = tanim["type"] if isinstance(tanim["type"], list) else [tanim["type"]]
+        gercek = [t for t in tipler if t != "null"][0]
+        beklenen = ("boolean" if alan in BOOLEAN else
+                    "integer" if alan in INTEGER else
+                    "number" if alan in NUMERIC else "string")
+        assert gercek == beklenen, f"{alan}: {gercek} != {beklenen}"
+
+
+def test_semanin_izin_verdigi_MINIMUM_belge_skorlayicidan_IHLALSIZ_gecer():
+    """Uctan uca baglama: semaya gore gecerli en yalin belge (hepsi null,
+    is_preliminary False) skorlayicida SIFIR ihlal almali. Almazsa iki sozlesme
+    ayrismistir ve kisitli uretim kolu bastan kaybeder."""
+    belge = {f: None for f in FIELD_ORDER}
+    belge["is_preliminary"] = False
+    obj, ihlal = parse_prediction(json.dumps(belge))
+    assert obj is not None and ihlal == [], f"ayrisma: {ihlal}"

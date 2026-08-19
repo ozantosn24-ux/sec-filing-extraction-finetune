@@ -48,6 +48,12 @@ def main() -> int:
     ap.add_argument("--4bit", dest="four_bit", action="store_true",
                     help="taban modeli NF4 4-bit yukle. 7B sinifi 'prompted buyuk model' "
                          "yarismacisini 16 GB'lik T4'te kosturmak icin gerekir.")
+    ap.add_argument("--constrained", action="store_true",
+                    help="grammar-constrained decoding (outlines): uretim, cikti semasinin "
+                         "IZIN VERDIGI token'larla sinirlanir. Sema elle yazilmaz, "
+                         "src/schema_json.py ile SKORLAYICIDAN turetilir. "
+                         "outlines python<3.14 istiyor: bu bayrak Colab/Kaggle icindir, "
+                         "reponun 3.14'luk yerel ve CI ortaminda KURULAMAZ.")
     args = ap.parse_args()
 
     import torch
@@ -85,6 +91,20 @@ def main() -> int:
         model = PeftModel.from_pretrained(model, str(args.adapter))
         etiket = f"{etiket}+{args.adapter.name}"
     model.eval()
+
+    uretici = None
+    if args.constrained:
+        # Lazy import: outlines yalniz bu bayrakla gerekir. Reponun yerel/CI
+        # ortami python 3.14 ve outlines python<3.14 istiyor — ustte import
+        # edilseydi kisitsiz yol da bu makinede kirilirdi.
+        import outlines
+
+        from schema_json import cikti_semasi
+        uretici = outlines.Generator(
+            outlines.from_transformers(model, tok),
+            outlines.json_schema(json.dumps(cikti_semasi())),
+        )
+        etiket += "[constrained]"
     print(f"model: {etiket}  | dtype {dtype} | {'cuda' if cuda else 'cpu'} | {len(rows)} kayit")
 
     out = (args.out or PROCESSED /
@@ -96,14 +116,23 @@ def main() -> int:
             # Egitimdeki ile AYNI sablon: sadece kullanici mesaji + uretim capasi.
             text = tok.apply_chat_template([r["messages"][0]], tokenize=False,
                                            add_generation_prompt=True)
-            enc = tok(text, return_tensors="pt").to(model.device)
-            t0 = time.perf_counter()
-            with torch.no_grad():
-                gen = model.generate(**enc, max_new_tokens=args.max_new_tokens,
-                                     do_sample=False, pad_token_id=tok.pad_token_id or tok.eos_token_id)
-            dt = time.perf_counter() - t0
-            # YALNIZ yeni token'lar; prompt'u geri yazmak ciktiyi kirletirdi.
-            raw = tok.decode(gen[0][enc["input_ids"].shape[1]:], skip_special_tokens=True)
+            if uretici is not None:
+                # Kisitli uretim. GREEDY kalmali (do_sample=False): kisit,
+                # olcumu tekrar-uretilemez yapmak icin degil, cikti SEKLINI
+                # zorlamak icin var. Ornekleme eklemek iki degiskeni birden
+                # oynatirdi ve fark hangisinden geldigi bilinemezdi.
+                t0 = time.perf_counter()
+                raw = uretici(text, max_new_tokens=args.max_new_tokens, do_sample=False)
+                dt = time.perf_counter() - t0
+            else:
+                enc = tok(text, return_tensors="pt").to(model.device)
+                t0 = time.perf_counter()
+                with torch.no_grad():
+                    gen = model.generate(**enc, max_new_tokens=args.max_new_tokens,
+                                         do_sample=False, pad_token_id=tok.pad_token_id or tok.eos_token_id)
+                dt = time.perf_counter() - t0
+                # YALNIZ yeni token'lar; prompt'u geri yazmak ciktiyi kirletirdi.
+                raw = tok.decode(gen[0][enc["input_ids"].shape[1]:], skip_special_tokens=True)
             fh.write(json.dumps({"accession": r["accession"], "raw": raw,
                                  "latency_s": round(dt, 3), "model": etiket},
                                 ensure_ascii=False) + "\n")

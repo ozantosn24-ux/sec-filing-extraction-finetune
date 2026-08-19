@@ -260,3 +260,67 @@ def test_rapor_yoksa_kesme_korumasi_SESSIZ_KALMAZ(tmp_path, monkeypatch, capsys)
     """
     monkeypatch.setattr(train_lora, "TOKEN_REPORT", tmp_path / "yok.json")
     assert train_lora.olculen_max_length() is None
+
+
+# --- constrained decoding: kisit ile SKORLAMA ayrisirsa -----------------------
+#
+# `--constrained` yalniz Colab/Kaggle'da kosar (outlines python<3.14 istiyor,
+# bu depo 3.14). Yani calisma zamani DAVRANISI burada test EDILEMEZ. Test
+# edilebilen ve asil onemli olan sey, kolun DOGRU sozlesmeye baglanmis olmasi:
+# semayi skorlayicidan turetmek ve greedy kalmak. Kapsam kaynaga bagli.
+
+
+KOK = Path(__file__).resolve().parent.parent
+
+
+def _predict_kaynagi() -> str:
+    return (KOK / "src" / "predict.py").read_text(encoding="utf-8")
+
+
+def test_kisit_semasi_SKORLAYICIDAN_turetiliyor():
+    """Sema predict.py icinde ELLE yazilirsa, evaluate.py'nin sozlesmesiyle
+    sessizce ayrisir ve 'kisitli uretim sema gecerliligini %100 yapmadi' sonucu
+    modelin degil IKI SEMANIN farkindan gelir."""
+    src = _predict_kaynagi()
+    assert "from schema_json import cikti_semasi" in src
+    assert "cikti_semasi()" in src
+
+
+def test_kisitli_yol_GREEDY_kalir():
+    """Kisit, cikti SEKLINI zorlamak icin var; ornekleme eklemek ikinci bir
+    degiskeni oynatirdi ve fark hangisinden geldigi bilinemezdi.
+
+    ⭐ YORUMLAR ATILIYOR. Ilk surum atmiyordu ve `do_sample=False` -> `True`
+    mutasyonu YESIL kaldi: ayni ifade hemen ustundeki aciklama yorumunda da
+    geciyordu. Ayni tuzak bugun tests/test_workflows.py'de de olculdu.
+    Aciklamayi degil KOMUTU olc.
+    """
+    src = _predict_kaynagi()
+    kisitli = src[src.index("if uretici is not None:"):]
+    govde = kisitli[:kisitli.index("else:")]
+    kod = "\n".join(ln for ln in govde.splitlines() if not ln.strip().startswith("#"))
+    assert "do_sample=False" in kod, "kisitli uretim greedy DEGIL"
+    assert "do_sample=True" not in kod
+
+
+def test_outlines_TEPEDE_import_EDILMIYOR():
+    """Tepede import edilseydi kisitsiz yol da python 3.14'te kirilirdi —
+    yani reponun yerel ve CI kosusu, kullanmadigi bir bagimliliga takilirdi."""
+    src = _predict_kaynagi()
+    tepe = src[:src.index("def main()")]
+    assert "import outlines" not in tepe
+
+
+def test_constrained_kolu_ETIKETINDE_gorunur():
+    """Tahmin dosyasindaki `model` alani kolu tanimlayan tek sey; kisitli ve
+    kisitsiz kosu ayni etiketi tasisaydi iki kol karisirdi."""
+    assert '"[constrained]"' in _predict_kaynagi() or "[constrained]" in _predict_kaynagi()
+
+
+def test_KARAR_KURALI_kosudan_ONCE_yazilmis():
+    """Esik sonradan gevsetilemesin diye kural ayri bir dosyada ve commit'li."""
+    karar = KOK / "schema" / "CONSTRAINED_DECODING_KARARI.md"
+    assert karar.exists(), "karar kurali dosyasi yok"
+    metin = karar.read_text(encoding="utf-8")
+    assert "22/36" in metin, "cubuk (fine-tuned tam kayit) kuralda yazili degil"
+    assert "BIR KEZ" in metin or "BİR KEZ" in metin
