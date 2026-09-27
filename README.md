@@ -11,7 +11,7 @@ more than the alternatives — on accuracy, abstention, latency and format adher
 Answer, on a company-disjoint held-out set: **yes against all three alternatives it was
 measured against.** 61.1% whole-record versus 27.8% for a hand-tuned rule-based extractor,
 0.0% for the same base model without the adapter, and 0.0% for a **twice-as-large prompted
-model** (Qwen2.5-3B). The frontier-model comparison was *not* run (see
+model** (Qwen2.5-3B, run in 4-bit). The frontier-model comparison was *not* run (see
 [Known limitations](#known-limitations)), so this is not evidence about GPT/Claude-class
 models.
 
@@ -218,7 +218,10 @@ which raised the obvious question: would more epochs do better?
 
 **That thread is now closed — it was tested, and the answer is no.** A 5-epoch run (same
 data, same seed, same hyperparameters, single T4) scores on `dev`: 52.0% → 56.0% → **76.0%**
-→ 68.0% → 68.0%. **Epochs 4 and 5 make it worse.** The decision rule was written and
+→ 68.0% → 68.0%. **Epochs 4 and 5 do not help.** They sit two records (of 25) below this
+run's epoch-3 peak — and two records is also how far the *same* epoch-3 position moved
+between the 3-epoch and the 5-epoch run (68.0% vs 76.0%; the linear-decay schedule depends on
+total steps). So this dev set supports "no better", not "worse". The decision rule was written and
 committed *before* the run (`schema/EPOCH_KARARI.md`) and the outcome is recorded there in
 full, including why the config was **not** changed despite the rule technically passing: the
 best checkpoint is still an epoch-3 checkpoint, and the `eval_loss` margin (0.00018) is
@@ -523,8 +526,13 @@ a security word but is not a coupon) and for depositary priority (Merchants Banc
 - 36 test records is a small ruler. 61.1% vs 27.8% is a 12-record gap; the direction is
   not in doubt but the second decimal is meaningless.
 - Epoch count **was** searched on `dev` and 3 stands: a 5-epoch run peaks at epoch 3 (76.0%)
-  and degrades after (68.0%, 68.0%). The rest of the hyperparameters — learning rate, LoRA
-  rank — were **not** searched.
+  and does not improve after (68.0%, 68.0% — a 2-of-25 gap, the same size as the epoch-3
+  swing between the two runs, so "no better" rather than "worse"). The rest of the
+  hyperparameters — learning rate, LoRA rank — were **not** searched.
+- **Precision differs between arms.** The prompted 3B ran in 4-bit (`--4bit`); the 1.5B arms
+  (base and fine-tuned) did not. Quantisation's effect on the 3B score was not separated, so a
+  full-precision 3B might score higher. Re-running it is new measurement, which the freeze
+  rules out on this split.
 - Latency was measured on a Colab T4 for the models and on a local CPU for the regex.
   The 0.001 s vs 8.93 s gap is real in magnitude but the two numbers come from different
   hardware and are not a controlled comparison.
