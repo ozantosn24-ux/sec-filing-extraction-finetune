@@ -298,6 +298,12 @@ then 0.01938/0.01551/0.01169 — which is fp16 nondeterminism, not drift.
 
 - **Base model and tokenizer revisions** are fixed in [`src/pins.py`](src/pins.py) (one commit SHA
   per model); both `train_lora.py` and `predict.py` resolve them from there.
+- **Training stack** is pinned in [`requirements-train.txt`](requirements-train.txt). ⚠️ **The frozen
+  results on this page were produced with `accelerate==1.14.0`.** On 2026-10-27 the pin moved to
+  `1.15.0` because 1.14.0 is affected by PYSEC-2026-3804 (CVE-2026-69112: path traversal and denial of
+  service through sharded-checkpoint `weight_map` entries in `load_checkpoint_in_model`). Nothing was
+  re-run on GPU with 1.15.0, so no number here was produced with the new pin; the notebooks and
+  `COLAB.md` install 1.15.0 from now on.
 - **Run manifest** — `results/run_manifest.json` (link will exist after the first run), written at the end
   of `train_lora.py` (real runs only) and `predict.py` by [`src/run_manifest.py`](src/run_manifest.py):
   base and tokenizer revision, dtype, bitsandbytes config, generation config, SHA-256 of the
