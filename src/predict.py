@@ -140,6 +140,23 @@ def main() -> int:
                 print(f"  {i}/{len(rows)}  son gecikme {dt:.2f}s")
 
     print(f"-> {out}")
+
+    # Kosunun girdileri KOSUNUN KENDISINDEN yazilir (elle not degil). Anahtar cikti
+    # dosyasinin adi: ayni makinede base/3B/ft kosulari birbirinin ustune yazmaz.
+    from run_manifest import (DATA_MANIFEST, build_run_manifest, file_sha256,
+                              write_run_manifest)
+    entry = build_run_manifest(
+        kind="predict", model_id=args.model, base_revision=rev, tokenizer_revision=rev,
+        dtype=dtype, bnb_config=quant.to_dict() if quant is not None else None,
+        generation_config={"do_sample": False, "max_new_tokens": args.max_new_tokens,
+                           "constrained": bool(args.constrained)},
+        peft_config=None, data_manifest_sha256=file_sha256(DATA_MANIFEST),
+        extra={"split": args.split, "n_records": len(rows), "label": etiket,
+               "adapter": args.adapter.name if args.adapter else None,
+               "adapter_safetensors_sha256": (file_sha256(args.adapter / "adapter_model.safetensors")
+                                              if args.adapter else None),
+               "sft_file_sha256": file_sha256(f)})
+    print(f"manifest -> {write_run_manifest(entry, out.name)}")
     return 0
 
 

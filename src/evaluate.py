@@ -165,6 +165,28 @@ def load_gold(split: str = "test") -> dict[str, dict]:
     return gold
 
 
+def wilson(k: int, n: int, z: float = 1.959964) -> tuple[float, float] | None:
+    """Wilson skor araligi (iki yanli, varsayilan %95), yuzde olarak (alt, ust).
+
+    Neden Wilson: n=36'da ve oranlar %0 / %100'e dayandiginda Wald araligi (p +- z*se)
+    sifir genislige coker ("0/36 kesin 0") — Wilson sinira dayanan oranda da gecerli.
+    n=0 -> None (aralik uydurulmaz).
+
+    ⚠️ Bagimsizlik varsayar. Kayit-duzeyi metrikler (n=36) 22 sirketten gelir ve
+    ayni ihraccinin cifti (on/son) ayni bolmede durur; alan-duzeyi metrikler
+    (abstention/uydurma, n=123) ayni belgenin alanlaridir, birbirinden bagimsiz DEGILDIR.
+    Gercek belirsizlik buradaki araliktan GENIS; aralik bir TABANDIR.
+    """
+    if not n:
+        return None
+    p = k / n
+    z2 = z * z
+    payda = 1 + z2 / n
+    merkez = (p + z2 / (2 * n)) / payda
+    yari = z * ((p * (1 - p) / n + z2 / (4 * n * n)) ** 0.5) / payda
+    return (100 * max(0.0, merkez - yari), 100 * min(1.0, merkez + yari))
+
+
 def score(preds: list[dict], gold: dict[str, dict]) -> dict:
     gecerli = 0
     gecerli_bicim_haric = 0
@@ -243,6 +265,13 @@ def score(preds: list[dict], gold: dict[str, dict]) -> dict:
         "zor_vaka": (zor_dogru, zor_toplam),
         "unit_vakasi": unit_vakasi or "test setinde yok",
         "gecikme_med": sorted(gecikme)[len(gecikme) // 2] if gecikme else None,
+        # Wilson %95; (alt, ust) yuzde. Paydalar: kayit-duzeyi n=kayit, alan-duzeyi n=ilgili alan sayisi.
+        "ci95": {
+            "sema_gecerli": wilson(gecerli, degerlendirilen),
+            "tam_kayit": wilson(tam_kayit, degerlendirilen),
+            "abstention": wilson(abst_dogru, abst_toplam),
+            "uydurma": wilson(uydurma, abst_toplam),
+        },
     }
 
 
@@ -273,6 +302,13 @@ def rapor(ad: str, s: dict) -> None:
               f"null sayildi.\n"
               f"         Abstention'i bu haliyle basari diye okumayin: yukaridaki "
               f"kacirma oranina bakin.")
+    def ara(ad):
+        c = s["ci95"][ad]
+        return f"[{c[0]:.1f}, {c[1]:.1f}]" if c else "-"
+    print(f"  Wilson %95 araligi    sema {ara('sema_gecerli')}  tam {ara('tam_kayit')}  "
+          f"abstention {ara('abstention')}  uydurma {ara('uydurma')}")
+    print("      (kayit-duzeyi n=kayit, alan-duzeyi n=alan sayisi; bagimsizlik varsayar -> "
+          "gercek belirsizlik daha genis)")
     print(f"  ZOR VAKA (par<->liq)  {oran(s['zor_vaka'])}")
     print(f"  tek-ornek 'unit'      {s['unit_vakasi']}")
     if s["gecikme_med"] is not None:

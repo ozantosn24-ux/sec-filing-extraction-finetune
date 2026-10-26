@@ -1,0 +1,77 @@
+{
+  "abstention": [
+    111,
+    123
+  ],
+  "alan": {
+    "convertible": [
+      33,
+      36
+    ],
+    "coupon_rate_pct": [
+      33,
+      36
+    ],
+    "cumulative": [
+      33,
+      36
+    ],
+    "depositary_ratio": [
+      31,
+      36
+    ],
+    "dividend_frequency": [
+      30,
+      36
+    ],
+    "is_preliminary": [
+      32,
+      36
+    ],
+    "liquidation_preference_usd": [
+      28,
+      36
+    ],
+    "offered_unit": [
+      35,
+      36
+    ],
+    "par_value_usd": [
+      31,
+      36
+    ],
+    "perpetual": [
+      36,
+      36
+    ],
+    "redeemable": [
+      36,
+      36
+    ],
+    "series": [
+      36,
+      36
+    ],
+    "shares_offered": [
+      29,
+      36
+    ]
+  },
+  "kacirma": [
+    14,
+    345
+  ],
+  "kayit": 36,
+  "sema_gecerli": 36,
+  "split": "test",
+  "tam_kayit": 10,
+  "unit_vakasi": "ISABET",
+  "uydurma": [
+    12,
+    123
+  ],
+  "zor_vaka": [
+    31,
+    38
+  ]
+}

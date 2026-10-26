@@ -386,6 +386,22 @@ def main() -> int:
     if not (args.smoke or args.probe):
         trainer.save_model(str(args.out))
         print(f"\nadaptor -> {args.out}")
+        # Yalniz GERCEK kosu manifest yazar: smoke/probe adaptor uretmez ve onlarin
+        # kaydi results/ altinda gercek kosunun yerini tutmamali.
+        from run_manifest import (DATA_MANIFEST, build_run_manifest, file_sha256,
+                                  write_run_manifest)
+        entry = build_run_manifest(
+            kind="train", model_id=model_id, base_revision=rev, tokenizer_revision=rev,
+            dtype=dtype, bnb_config=quant.to_dict() if quant is not None else None,
+            generation_config=None, peft_config=peft_cfg.to_dict(),
+            data_manifest_sha256=file_sha256(DATA_MANIFEST),
+            extra={"training": {"epochs": args.epochs, "lr": args.lr, "rank": args.rank,
+                                "max_length": args.max_length, "batch": args.batch,
+                                "grad_accum": args.grad_accum, "seed": 42,
+                                "precision": gerekce, "n_train": len(train)},
+                   "sft_train_sha256": file_sha256(PROCESSED / "sft_train.jsonl"),
+                   "adapter_safetensors_sha256": file_sha256(args.out / "adapter_model.safetensors")})
+        print(f"manifest -> {write_run_manifest(entry, 'train')}")
     if torch.cuda.is_available():
         tepe = torch.cuda.max_memory_allocated() / 2**30
         toplam = torch.cuda.get_device_properties(0).total_memory / 2**30

@@ -44,8 +44,15 @@ Deliberate trade-offs, not oversights. Please don't file these as new findings:
   wheel depends on the target machine's CUDA version. `pip-audit` in CI narrows this — it
   resolves the five pins to 57 packages and audits all of them — but auditing a tree is not
   the same as freezing it: two runs a week apart can install different versions.
-- **Model, tokenizer and adapter revisions are not pinned** to commit SHAs. A compromised
-  upstream Hugging Face repository could serve different weights.
+- **Base model and tokenizer revisions are pinned** to commit SHAs in `src/pins.py` (the three
+  models the code loads; an unpinned model prints a warning and still loads). The **trained
+  adapter is not pinned or signed**: it is a local artefact, and nothing verifies it at load
+  time. `src/predict.py` and `src/train_lora.py` now write `results/run_manifest.json` at the end
+  of a run (revisions, dtype, bitsandbytes and generation config, `peft_config` and data-manifest
+  SHA-256, adapter SHA-256), which makes a run auditable after the fact but does not prevent a
+  swapped file. **No run has produced a manifest yet**: the published results (2026-08) predate
+  it, so they have no manifest, and none is reconstructed. A compromised upstream Hugging Face
+  repository can still serve different weights under an unpinned model id.
 - **The Colab notebook clones mutable `main`** rather than a tagged commit.
 - **Commits are unsigned** and `main` requires no review. Single-maintainer repository.
 - **No required status check on `main`** — a deliberate decision, not an oversight. Deletion and

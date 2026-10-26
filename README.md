@@ -40,9 +40,12 @@ records would buy nothing and cost the discipline the project is built on. Bug f
 updates and reproducibility work continue; **new comparisons need a fresh, company-disjoint
 split.**
 
-**177 tests** run on every push (measured 2026-08-19; re-measure with `pytest -q`). CI rebuilds
+**196 tests** run on every push (collected 2026-10-27; re-measure with `pytest -q`). CI rebuilds
 the derived dataset first — `data/processed/` is git-ignored, and without that step **13 tests
-skip** (measured without derived data: 164 passed / 13 skipped) while the badge stays green anyway.
+skip** (2026-10-27, in an environment without `torch`: 168 passed / 13 skipped, plus 15 `test_train.py`
+tests that need `torch`/`transformers` and were not run there; so a full fresh clone should read 183
+passed / 13 skipped, which that run did not itself observe) while the badge stays green anyway.
+The 19 added since 2026-08-19 are the confidence-interval, baseline-regression and run-manifest tests.
 So a skipped test fails the build: a suite that quietly stopped measuring is worse than a red one.
 
 Three more checks run beside the suite, added 2026-08-19 to close the last open finding of the
@@ -66,6 +69,41 @@ after the checkpoint was chosen on `dev`. Every contestant gets the **same instr
 | `par_value` ↔ `liquidation_preference` slice | 81.6% | 39.5% | 73.7% | **100.0%** (38/38) |
 | single-instance `unit` generalization | hit | miss | miss | hit |
 | median latency | 0.001 s | 6.81 s | 10.83 s | 8.93 s |
+
+#### How wide is that ruler? 95% intervals on the same predictions
+
+Computed 2026-10-27 from the **existing** test prediction files with `src/evaluate.py`
+(`wilson()`; printed as the "Wilson %95" line, also in `--json-out`). No model was re-run and
+nothing new was scored: the point estimates are the table above, unchanged. Method: **Wilson score
+interval, 95%, two-sided**, not Wald, because Wald collapses to a zero-width interval at 0/36 and
+36/36. `n` differs by metric, which matters for reading it:
+
+| metric (n) | rule-based regex | base 1.5B, no adapter | prompted 3B (4-bit) | **fine-tuned LoRA 1.5B** |
+|---|---|---|---|---|
+| schema validity (n=36 records) | 100.0% [90.4, 100.0] | 0.0% [0.0, 9.6] | 25.0% [13.8, 41.1] | **100.0% [90.4, 100.0]** |
+| whole record exact (n=36 records) | 27.8% [15.8, 44.0] | 0.0% [0.0, 9.6] | 0.0% [0.0, 9.6] | **61.1% [44.9, 75.2]** |
+| correct abstention (n=123 null-gold fields) | 90.2% [83.7, 94.3] | 61.0% [52.1, 69.1] | 59.3% [50.5, 67.6] | **92.7% [86.7, 96.1]** |
+| hallucination (same n=123) | 9.8% [5.7, 16.3] | 39.0% [30.9, 47.9] | 40.7% [32.4, 49.5] | **7.3% [3.9, 13.3]** |
+
+Read it as a **floor on the uncertainty, not the uncertainty**: the method assumes independent
+trials, and they are not. The 36 records come from 22 companies (preliminary/final pairs of one
+offering sit together), and the 123 abstention trials are fields of the same 36 documents. So
+the true intervals are wider than printed.
+
+What the intervals do and do not change: fine-tuned vs rule-based on whole record
+(61.1% [44.9, 75.2] vs 27.8% [15.8, 44.0]) is **just separated**: the intervals do not
+overlap (44.9 > 44.0), by under one point, and non-overlap of two marginal intervals is not a paired test.
+On **abstention and hallucination the fine-tune and the rule-based extractor are not
+distinguishable** (92.7% [86.7, 96.1] vs 90.2% [83.7, 94.3]); the README's "hallucination went
+*down*" (7.3% vs 9.8%) is a difference well inside the intervals and should not be read as an
+effect. The 0% and 25% arms are clearly below the other two on whole record and on
+abstention. These intervals come from prediction files that live in the gitignored
+`data/processed/` (they are not committed), so re-deriving them needs the Colab outputs or a re-run.
+
+**Calibration (ECE / Brier) was not measured.** `src/predict.py` stores only the raw generated
+text and latency per record (`accession`, `raw`, `latency_s`, `model`); no token log-probabilities or
+confidence were saved, so a null-versus-value calibration curve cannot be computed from any
+existing run, and producing one needs a new GPU run, which the freeze rules out on this split.
 
 **A model twice the size, prompted, scores 0.0% whole-record.** Qwen2.5-3B in 4-bit is
 better than the 1.5B base at reading the document — 73.7% on the hard slice versus 39.5% —
@@ -256,6 +294,23 @@ The run was executed twice (the first session died before the artifacts were sav
 `eval_loss` reproduced to three decimal places across both runs — 0.01919/0.01552/0.01147
 then 0.01938/0.01551/0.01169 — which is fp16 nondeterminism, not drift.
 
+### What pins these numbers, and what does not yet
+
+- **Base model and tokenizer revisions** are fixed in [`src/pins.py`](src/pins.py) (one commit SHA
+  per model); both `train_lora.py` and `predict.py` resolve them from there.
+- **Run manifest** — `results/run_manifest.json` (link will exist after the first run), written at the end
+  of `train_lora.py` (real runs only) and `predict.py` by [`src/run_manifest.py`](src/run_manifest.py):
+  base and tokenizer revision, dtype, bitsandbytes config, generation config, SHA-256 of the
+  `peft_config` and of `data/interim/manifest.json`, plus the adapter's SHA-256.
+  ⚠️ **No run has produced a manifest yet.** Every number on this page was measured in 2026-08,
+  before the manifest existed, and nothing is reconstructed after the fact, so `results/run_manifest.json`
+  does not exist in the repository until the next GPU run writes it. The builder is tested on CPU
+  with fake inputs (`tests/test_run_manifest.py`); a real run's file has not been inspected.
+- **Rule-based regression** — `tests/test_baseline_metrics.py` re-runs the deterministic rule-based
+  extractor over the test spans on every push and requires its counts to equal the committed
+  `tests/baseline_metrics.json` exactly (and the README's 10/36, 111/123, 31/38). It is a CPU check of
+  the scoring pipeline, not a new measurement; it says nothing about the fine-tuned model.
+
 ## Dataset
 
 | split | documents | companies | preliminary (abstention) | par↔liq hard case |
@@ -349,7 +404,7 @@ reported separately in the evaluation.
 clone can rebuild the training set, retrain and re-measure **without contacting EDGAR at all**:
 
 ```bash
-pytest -q                            # 164 pass, 13 skip on a fresh clone; no data fetch needed
+pytest -q                            # fresh clone: 13 skip; 183 pass inferred, not observed (2026-10-27, see Status); no data fetch needed
 python src/build_sft.py              # labels + spans -> data/processed/sft_{train,dev,test}.jsonl
 python src/extract_rules.py --split test
 python src/evaluate.py data/processed/preds_regex_test.jsonl
@@ -475,7 +530,7 @@ text. Re-run `python src/measure_tokens.py` to reproduce these counts.
 ## Tests
 
 ```
-pytest -q     # 177 tests with data/processed/ present; 164 pass + 13 skip on a fresh clone
+pytest -q     # 196 tests with data/processed/ present; fresh clone 13 skip (183 pass inferred, see Status)
 ```
 
 Fixtures under `tests/fixtures/` are **real excerpts from real filings**, each carrying its
@@ -584,9 +639,10 @@ src/extract_rules.py    rule-based contestant, developed on train only
 src/evaluate.py         the measurement harness — written before any model ran
 src/train_lora.py       LoRA SFT — API verified against current docs, CPU smoke-tested
 src/predict.py          generation -> raw model output for the harness
+src/run_manifest.py     builds/writes results/run_manifest.json (revisions, dtype, configs, hashes)
 COLAB.md                free-tier T4 runbook: fine-tune and measure at zero cost
 schema/                 extraction schema and labelling spec
-tests/                  177 tests over real filing excerpts and the CI workflows (2026-08-19)
+tests/                  196 tests over real filing excerpts and the CI workflows (2026-10-27)
 data/interim/labels/    160 gold records — hand-produced, the one thing code cannot regenerate
 data/interim/spans/     the cover-page excerpt each record was labelled from (~6 KB each)
 data/interim/manifest.json    accession -> company/CIK/URL; the company-wise split rests on it

@@ -19,6 +19,7 @@ from evaluate import (  # noqa: E402
     esit,
     parse_prediction,
     score,
+    wilson,
 )
 from extract_rules import extract  # noqa: E402
 
@@ -380,3 +381,44 @@ def test_semanin_izin_verdigi_MINIMUM_belge_skorlayicidan_IHLALSIZ_gecer():
     belge["is_preliminary"] = False
     obj, ihlal = parse_prediction(json.dumps(belge))
     assert obj is not None and ihlal == [], f"ayrisma: {ihlal}"
+
+
+# --- wilson: guven araligi ----------------------------------------------------
+
+
+def test_wilson_bilinen_degerler():
+    """Dis referans: README'de yayinlanan araliklar (Wilson %95, n=36)."""
+    lo, hi = wilson(22, 36)
+    assert (round(lo, 1), round(hi, 1)) == (44.9, 75.2)
+    lo, hi = wilson(0, 36)
+    assert lo == 0.0 and round(hi, 1) == 9.6
+    lo, hi = wilson(36, 36)
+    assert round(lo, 1) == 90.4 and hi == 100.0
+
+
+def test_wilson_sinirda_sifir_genislige_COKMEZ():
+    """Wald araligi 0/36'da [0,0] verirdi ('kesin sifir'); Wilson vermemeli."""
+    lo, hi = wilson(0, 36)
+    assert hi > 5.0
+
+
+def test_wilson_nokta_tahmini_icerir_ve_n_buyudukce_daralir():
+    for k in range(0, 37):
+        lo, hi = wilson(k, 36)
+        assert 0.0 <= lo <= 100 * k / 36 <= hi <= 100.0
+    kucuk = wilson(11, 36)
+    buyuk = wilson(110, 360)
+    assert (buyuk[1] - buyuk[0]) < (kucuk[1] - kucuk[0])
+
+
+def test_wilson_n_sifirsa_aralik_UYDURULMAZ():
+    assert wilson(0, 0) is None
+
+
+def test_score_ci95_dort_metrik_icin_dolu():
+    g = {"A": {f: None for f in FIELD_ORDER}}
+    g["A"]["is_preliminary"] = False
+    s = score([{"accession": "A", "raw": json.dumps(g["A"])}], g)
+    assert set(s["ci95"]) == {"sema_gecerli", "tam_kayit", "abstention", "uydurma"}
+    assert s["ci95"]["tam_kayit"] == wilson(1, 1)
+    assert s["ci95"]["abstention"] == wilson(12, 12)
