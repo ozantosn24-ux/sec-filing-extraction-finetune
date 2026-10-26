@@ -536,6 +536,10 @@ a security word but is not a coupon) and for depositary priority (Merchants Banc
 - Latency was measured on a Colab T4 for the models and on a local CPU for the regex.
   The 0.001 s vs 8.93 s gap is real in magnitude but the two numbers come from different
   hardware and are not a controlled comparison.
+- **Base-capability regression was not measured.** Nothing here checks whether the adapter
+  hurt the model's general instruction following, safety behaviour or over-refusal. It could be
+  measured on a small separate set run with and without the adapter, leaving the frozen
+  36-record split untouched; that is GPU work and has not been done.
 - 160 records is modest. Enough for a narrow LoRA fine-tune, not enough for broad claims.
 - Some issuers appear as preliminary/final pairs of the same offering (Allstate, Bank of
   Hawaii, Boeing, Strategy). Not leakage — both sides of a pair sit in the same split — but
